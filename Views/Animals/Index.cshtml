@@ -1,0 +1,177 @@
+﻿@model IEnumerable<AgroManagement.Models.Animal>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Animal List";
+}
+
+<div class="container my-4">
+    <h1 class="fw-bold text-success mb-4">Animal Management</h1>
+    <br />
+    <br />
+    <br />
+    
+
+    <!-- TABLE CARD -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div id="animaltable"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Right Drawer (Offcanvas) -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="animalDrawer" aria-labelledby="animalDrawerLabel" style="width: 540px;">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="animalDrawerLabel">Create New Animal</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" id="drawerBody">
+        <!-- Partial content will be loaded here -->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        //-------------------------------------------------------
+        // Tabulator Columns (Based on Animal Model)
+        //-------------------------------------------------------
+        var columns = [
+            { title: "Tag Number", field: "tagNumber", minWidth: 120, headerFilter: "input" },
+            { title: "Breed", field: "breed", minWidth: 150, headerFilter: "input" },
+            {
+                title: "Date of Birth",
+                field: "dateOfBirth",
+                headerFilter: "input",
+                formatter: function (cell) {
+                    let raw = cell.getValue();
+                    if (!raw) return "";
+                    return raw.split("T")[0];
+                }
+            },
+            { title: "Weight (KG)", field: "weight", minWidth: 120, headerFilter: "input" },
+            { title: "Purchase Price", field: "purchasePrice", minWidth: 150, headerFilter: "input" },
+            {
+                title: "Actions",
+                field: "id",
+                hozAlign: "center",
+                frozen: true,
+                formatter: function (cell) {
+                    let id = cell.getRow().getData().id;
+                    let html = "";
+                    html += '<button class="btn btn-sm btn-primary view-btn me-1" data-id="' + id + '">View</button>';
+                    html += '<button class="btn btn-sm btn-warning edit-btn me-1" data-id="' + id + '">Edit</button>';
+                    html += '<button class="btn btn-sm btn-danger delete-btn" data-id="' + id + '">Delete</button>';
+                    return html;
+                },
+                cellClick: function (e, cell) {
+                    var id = cell.getRow().getData().id;
+                    if (e.target.classList.contains("view-btn"))  { viewAnimal(id); }
+                    if (e.target.classList.contains("edit-btn"))  { editAnimal(id); }
+                    if (e.target.classList.contains("delete-btn")){ deleteAnimal(id); }
+                }
+            }
+        ];
+
+        //-------------------------------------------------------
+        // Tabulator Table Setup
+        //-------------------------------------------------------
+        var table = new Tabulator("#animaltable", {
+            minHeight: 300,
+            rowHeight: 40,
+            selectableRows: 1,
+            pagination: true,
+            paginationMode: "remote",
+            filterMode: "remote",
+            layout: "fitColumns",
+            paginationSize: 10,
+            paginationInitialPage: 1,
+            paginationSizeSelector: [5, 10, 25, 50, 100],
+            paginationCounter: "rows",
+
+            ajaxURL: '@Url.Action("GetAnimalList", "Animals")' + '?IsGeneral=1',
+            ajaxConfig: "get",
+            ajaxContentType: "json",
+            ajaxResponse: function (url, params, response) {
+                // Map server response to Tabulator shape
+                return {
+                    data: response.data,
+                    last_page: response.last_page,
+                    page: response.current_page,
+                    totalRecords: response.recordsTotal
+                };
+            },
+
+            columns: columns,
+
+            ajaxURLGenerator: function (url, config, params) {
+                // send Tabulator params as searchquery
+                let param = encodeURIComponent(JSON.stringify(params));
+                return url + "&searchquery=" + param;
+            },
+        });
+
+        function reloadTable(){
+            if (table && table.setData) { table.setData(); }
+        }
+
+        //-------------------------------------------------------
+        // Drawer helpers + Actions  (NO modals anymore)
+        //-------------------------------------------------------
+                function openDrawer(url, title){
+            $("#animalDrawerLabel").text(title || "Details");
+            $("#drawerBody").load(url, function(){
+                if (window.jQuery && $.validator && $.validator.unobtrusive) {
+                    $.validator.unobtrusive.parse("#drawerBody");
+                }
+                var drawer = new bootstrap.Offcanvas(document.getElementById('animalDrawer'));
+                drawer.show();
+            });
+        }
+
+
+        function viewAnimal(id)   { openDrawer(`/Animals/DetailsModal/${id}`, "Animal Details"); }
+        function editAnimal(id)   { openDrawer(`/Animals/EditModal/${id}`,    "Edit Animal"); }
+        function deleteAnimal(id) { openDrawer(`/Animals/DeleteModal/${id}`,  "Delete Animal"); }
+
+
+        // Handle any form submit inside the drawer via AJAX
+        $(document).on("submit", "#drawerBody form", function (e) {
+            e.preventDefault();
+            var $form = $(this);
+            var $btn = $form.find("#submitBtn");
+            var $spinner = $btn.find(".spinner-border");
+
+            if ($btn.length){ $btn.prop("disabled", true); $spinner.removeClass("d-none"); }
+
+            $.ajax({
+                url: $form.attr("action"),
+                type: $form.attr("method"),
+                data: $form.serialize()
+            }).done(function (res) {
+                if (typeof res === "object" && res.ok) {
+                    reloadTable();
+                    bootstrap.Offcanvas.getInstance(document.getElementById('animalDrawer')).hide();
+                } else {
+                    $("#drawerBody").html(res);
+                    if (window.jQuery && $.validator && $.validator.unobtrusive) {
+                        $.validator.unobtrusive.parse("#drawerBody");
+                    }
+                }
+            }).always(function(){
+                if ($btn.length){ $btn.prop("disabled", false); $spinner.addClass("d-none"); }
+            });
+        });
+
+        // Auto-open Create drawer when URL has ?open=create  (used by sidebar "Add New Animal")
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            if (params.get("open") === "create") {
+                openDrawer('/Animals/CreateModal', 'Create New Animal');
+                params.delete("open");
+                const newUrl = window.location.pathname + (params.toString() ? ("?" + params.toString()) : "");
+                window.history.replaceState({}, "", newUrl);
+            }
+        })();
+    </script>
+}

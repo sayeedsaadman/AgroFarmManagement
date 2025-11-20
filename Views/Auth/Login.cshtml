@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url("https://t4.ftcdn.net/jpg/02/21/34/43/360_F_221344370_divU4PPEj49VhfthdlnAxA3rD3TAzuZT.jpg") no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(2px);
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: -1;
+        }
+
+    .login-wrapper {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .login-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 35px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    }
+
+    .login-title {
+        font-weight: 700;
+        color: #198754;
+        text-align: center;
+    }
+
+    /* ----- LOGIN BUTTON STYLES ----- */
+
+    .login-option {
+        background-color: #6c757d !important; /* Gray default */
+        color: white !important;
+        border-radius: 10px;
+        transition: 0.25s ease;
+        border: none;
+    }
+
+        .login-option:hover {
+            background-color: gray !important; /* Green hover */
+        }
+
+        .login-option.active {
+            background-color: #198754 !important; /* Green selected */
+        }
+
+</style>
+
+
+<div class="login-wrapper">
+
+    <div class="login-card">
+        <h3 class="text-center login-title mb-4">Welcome Back</h3>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success text-center fw-semibold">
+                @TempData["Success"]
+            </div>
+        }
+
+        <form method="post" asp-action="Login">
+
+            <!-- Hidden login type -->
+            <input type="hidden" id="loginType" name="loginType" value="user" />
+
+            <!-- ADMIN / USER BUTTONS -->
+            <div class="d-flex gap-3 mb-4">
+
+                <button type="button"
+                        id="adminBtn"
+                        class="btn w-100 py-3 fw-semibold login-option"
+                        onclick="setLoginType('admin')">
+                    Login as Admin
+                </button>
+
+                <button type="button"
+                        id="userBtn"
+                        class="btn w-100 py-3 fw-semibold login-option active"
+                        onclick="setLoginType('user')">
+                    Login as User
+                </button>
+
+            </div>
+
+            <!-- TOGGLE SCRIPT -->
+            <script>
+                function setLoginType(type) {
+                    document.getElementById("loginType").value = type;
+
+                    // Remove active class
+                    document.getElementById("adminBtn").classList.remove("active");
+                    document.getElementById("userBtn").classList.remove("active");
+
+                    // Add active to selected
+                    if (type === "admin") {
+                        document.getElementById("adminBtn").classList.add("active");
+                    } else {
+                        document.getElementById("userBtn").classList.add("active");
+                    }
+                }
+            </script>
+
+
+            <!-- Username -->
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control form-control-lg" required />
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control form-control-lg" required />
+            </div>
+
+            <button class="btn btn-success btn-lg w-100 mt-2" type="submit">
+                Login
+            </button>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger text-center fw-semibold mt-3">
+                    @ViewBag.Error
+                </div>
+            }
+        </form>
+    </div>
+
+</div>

@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "_AdminLayout";
+
+}
+
+<h2 class="fw-bold mb-4">Admin Dashboard</h2>
+
+<div class="row">
+
+    <!-- Total Animals -->
+    <div class="col-md-6 mb-4">
+        <div class="p-4 shadow rounded-3 text-center" style="background:#e8f5e9;">
+            <h3 class="fw-bold text-success">Total Animals</h3>
+            <p class="display-5 fw-bold">@ViewBag.TotalAnimals</p>
+        </div>
+    </div>
+
+    <!-- Total Users -->
+    <div class="col-md-6 mb-4">
+        <div class="p-4 shadow rounded-3 text-center" style="background:#e8f5e9;">
+            <h3 class="fw-bold text-success">Total Users</h3>
+            <p class="display-5 fw-bold">@ViewBag.TotalUsers</p>
+        </div>
+    </div>
+
+</div>

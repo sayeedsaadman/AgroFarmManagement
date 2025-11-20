@@ -1,0 +1,121 @@
+﻿@model AgroManagement.Models.Animal
+
+@{
+    ViewData["Title"] = "Animal Details";
+
+}
+
+<style>
+    .page-title {
+        font-weight: 700;
+        font-size: 28px;
+        color: #198754;
+        text-align: center;
+        margin-bottom: 25px;
+        text-shadow: 0px 1px 2px rgba(0,0,0,0.15);
+    }
+
+    .details-card {
+        border-radius: 18px;
+        background: #ffffff;
+        border: none;
+        box-shadow: 0px 10px 35px rgba(0,0,0,0.12);
+        padding: 30px;
+    }
+
+    .details-label {
+        font-weight: 600;
+        color: #6c757d;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+    }
+
+    .details-value {
+        font-size: 17px;
+        font-weight: 600;
+        color: #212529;
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        box-shadow: inset 0px 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .btn-modern {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 22px;
+        font-size: 16px;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+
+    <h2 class="page-title">Animal Details</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <div class="details-card">
+
+                <!-- TAG NUMBER -->
+                <div>
+                    <label class="details-label">
+                        <i class="bi bi-hash me-2 text-success"></i> Tag Number
+                    </label>
+                    <div class="details-value">@Model.TagNumber</div>
+                </div>
+
+                <!-- BREED -->
+                <div>
+                    <label class="details-label">
+                        <i class="bi bi-droplet-fill me-2 text-success"></i> Breed
+                    </label>
+                    <div class="details-value">@Model.Breed</div>
+                </div>
+
+                <!-- DOB -->
+                <div>
+                    <label class="details-label">
+                        <i class="bi bi-calendar-date-fill me-2 text-success"></i> Date of Birth
+                    </label>
+                    <div class="details-value">
+                        @Model.DateOfBirth.ToString("yyyy-MM-dd")
+                    </div>
+                </div>
+
+                <!-- WEIGHT -->
+                <div>
+                    <label class="details-label">
+                        <i class="bi bi-speedometer2 me-2 text-success"></i> Weight (KG)
+                    </label>
+                    <div class="details-value">@Model.Weight</div>
+                </div>
+
+                <!-- PRICE -->
+                <div>
+                    <label class="details-label">
+                        <i class="bi bi-currency-dollar me-2 text-success"></i> Purchase Price
+                    </label>
+                    <div class="details-value">@Model.PurchasePrice</div>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-modern">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </a>
+
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success btn-modern">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

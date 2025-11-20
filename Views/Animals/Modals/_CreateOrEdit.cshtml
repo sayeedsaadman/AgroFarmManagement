@@ -1,0 +1,98 @@
+﻿@model AgroManagement.Models.Animal
+@using System
+
+@{
+    Layout = null;
+    var isEdit = Model != null && Model.Id > 0;
+    var action = isEdit ? "EditModal" : "CreateModal";
+    string dobValue = (Model?.DateOfBirth.Year > 1900) ? Model.DateOfBirth.ToString("yyyy-MM-dd") : "";
+}
+
+<form asp-action="@action" method="post" id="animalForm">
+    @Html.AntiForgeryToken()
+    @if (isEdit)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+
+    @* Removed the internal title block to avoid duplicate headings.
+       The drawer header (set from Index.js) will be the only title. *@
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 d-none" id="valSummary"></div>
+
+    <div class="p-3 border rounded-3 bg-light-subtle">
+        <div class="row g-3">
+            <!-- Tag Number -->
+            <div class="col-12">
+                <label asp-for="TagNumber" class="form-label fw-medium">Tag Number</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                    <input asp-for="TagNumber" class="form-control" placeholder="e.g., B123" autofocus />
+                </div>
+                <span asp-validation-for="TagNumber" class="text-danger small"></span>
+            </div>
+
+            <!-- Breed -->
+            <div class="col-12">
+                <label asp-for="Breed" class="form-label fw-medium">Breed</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-droplet"></i></span>
+                    <input asp-for="Breed" class="form-control" placeholder="e.g., Sahiwal" />
+                </div>
+                <span asp-validation-for="Breed" class="text-danger small"></span>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="col-12">
+                <label asp-for="DateOfBirth" class="form-label fw-medium">Date of Birth</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                    <input class="form-control" type="date" name="DateOfBirth" value="@dobValue" />
+                </div>
+                <span asp-validation-for="DateOfBirth" class="text-danger small"></span>
+            </div>
+
+            <!-- Weight -->
+            <div class="col-12">
+                <label asp-for="Weight" class="form-label fw-medium">Weight (KG)</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-speedometer2"></i></span>
+                    <input asp-for="Weight" class="form-control" type="number" min="0" step="0.01" placeholder="e.g., 250" />
+                </div>
+                <span asp-validation-for="Weight" class="text-danger small"></span>
+            </div>
+
+            <!-- Purchase Price -->
+            <div class="col-12">
+                <label asp-for="PurchasePrice" class="form-label fw-medium">Purchase Price</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+                    <input asp-for="PurchasePrice" class="form-control" type="number" min="0" step="0.01" placeholder="e.g., 50000" />
+                </div>
+                <span asp-validation-for="PurchasePrice" class="text-danger small"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
+            <i class="bi bi-x-lg"></i> Cancel
+        </button>
+
+        <button type="submit" class="btn btn-success px-4" id="submitBtn">
+            <span class="btn-text">@((isEdit) ? "Save" : "Create")</span>
+            <span class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+        </button>
+    </div>
+</form>
+
+<script>
+    (function () {
+        const hasErrors = document.querySelectorAll(".text-danger:not(:empty)").length > 0;
+        const sum = document.getElementById("valSummary");
+        if (sum && hasErrors) {
+            sum.classList.remove("d-none");
+            sum.innerHTML = "<strong>Please fix the errors below.</strong>";
+        }
+    })();
+</script>

@@ -1,0 +1,155 @@
+﻿@{
+    var appName = "SPESH AGRO";
+    var userType = Context.Session.GetString("UserType");
+    var userName = Context.Session.GetString("UserName");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - @appName</title>
+
+    <!-- Bootstrap(CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- Tabulator -->
+    <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
+
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- AOS Animation Library -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</head>
+<!-- AOS Animation Script -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
+                <img src="https://static.vecteezy.com/system/resources/previews/047/163/007/original/logo-hand-drawn-head-cow-farm-illustration-vector.jpg"
+                     alt="Logo" width="36" height="36" class="me-2">
+                <strong>@appName</strong>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div id="mainNav" class=" collapse navbar-collapse justify-content-center">
+                <ul class="navbar-nav fs-5">
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Home")">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Review</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Best Animal</a></li>
+                </ul>
+            </div>
+
+            <!-- USER / ADMIN NAVBAR SECTION -->
+            <div class="ms-auto d-flex align-items-center">
+
+                @if (userType == null)
+                {
+                    <!-- NOT LOGGED IN -->
+                    <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-success me-2">Login</a>
+                    <a asp-controller="Auth" asp-action="Register" class="btn btn-success">Sign Up</a>
+                }
+                else
+                {
+                    <!-- LOGGED IN USER OR ADMIN -->
+                    <div class="d-flex align-items-center me-3">
+                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                             width="35" height="35" class="rounded-circle me-2" alt="User" />
+
+                        <span class="fw-bold">@userName (@userType)</span>
+                    </div>
+
+                    <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger">Logout</a>
+                }
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow-1">
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-success text-white text-center py-3 mt-5">
+        <div class="container">
+            © @DateTime.Now.Year SPESH AGRO Farm Management System. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Tabulator -->
+    <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+
+    <!-- XLSX Support -->
+    <script src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script>
+        // Initialize AOS
+        AOS.init();
+
+        // Function to animate the numbers
+        const countUp = (element, target) => {
+            let start = 0;
+            const duration = 2000; // Duration of animation in ms
+            const stepTime = Math.abs(Math.floor(duration / target));
+            const interval = setInterval(() => {
+                start += 1;
+                element.innerText = start + "+";
+                if (start === target) clearInterval(interval);
+            }, stepTime);
+        };
+
+        // Trigger number animation on scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            const animals = document.getElementById('animals');
+            const milk = document.getElementById('milk');
+            const experience = document.getElementById('experience');
+            const customers = document.getElementById('customers');
+
+            // When the statistics section comes into view, animate the numbers
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        countUp(animals, 50); // 50+ Healthy Animals
+                        countUp(milk, 150); // 150L+ Milk Produced Daily
+                        countUp(experience, 20); // 20+ Years of Farming Experience
+                        countUp(customers, 300); // 300+ Satisfied Customers
+                        observer.disconnect(); // Stop watching after animation
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            observer.observe(document.querySelector('#stats'));
+        });
+    </script>
+
+</body>
+</html>

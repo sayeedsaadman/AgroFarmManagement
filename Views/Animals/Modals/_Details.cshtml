@@ -1,0 +1,64 @@
+﻿@model AgroManagement.Models.Animal
+@using System.Globalization
+@{
+    Layout = null;
+
+    string dob = Model.DateOfBirth.Year > 1900
+        ? Model.DateOfBirth.ToString("yyyy-MM-dd")
+        : "";
+
+    string weight = string.Format(CultureInfo.InvariantCulture, "{0:0.##}", Model.Weight);
+    string price = string.Format(CultureInfo.InvariantCulture, "{0:0.##}", Model.PurchasePrice);
+}
+
+<!-- Read-only, table-like view matching the edit form style -->
+<div class="p-3 border rounded-3 bg-light-subtle">
+    <div class="row g-3">
+
+        <!-- Tag Number -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Tag Number</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                <input class="form-control" value="@Model.TagNumber" disabled />
+            </div>
+        </div>
+
+        <!-- Breed -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Breed</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-droplet"></i></span>
+                <input class="form-control" value="@Model.Breed" disabled />
+            </div>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Date of Birth</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                <input class="form-control" value="@dob" disabled />
+            </div>
+        </div>
+
+        <!-- Weight -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Weight (KG)</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-speedometer2"></i></span>
+                <input class="form-control" value="@weight" disabled />
+            </div>
+        </div>
+
+        <!-- Purchase Price -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Purchase Price</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+                <input class="form-control" value="@price" disabled />
+            </div>
+        </div>
+
+    </div>
+</div>

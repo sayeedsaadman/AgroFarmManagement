@@ -1,0 +1,55 @@
+﻿@model AgroManagement.Models.Animal
+@using System.Globalization
+@{
+    Layout = null;
+    string price = string.Format(CultureInfo.InvariantCulture, "{0:0.##}", Model.PurchasePrice);
+    string weight = string.Format(CultureInfo.InvariantCulture, "{0:0.##}", Model.Weight);
+}
+
+<div class="alert alert-danger d-flex align-items-start gap-2" role="alert">
+    <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+    <div>
+        <strong>Danger!</strong> This action cannot be undone. Deleting this animal will permanently remove it from your records.
+    </div>
+</div>
+
+<div class="p-3 border rounded-3 bg-light-subtle mb-3">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="small text-muted">Tag Number</div>
+            <div class="fw-semibold">@Model.TagNumber</div>
+        </div>
+        <div class="col-md-6">
+            <div class="small text-muted">Breed</div>
+            <div class="fw-semibold">@Model.Breed</div>
+        </div>
+        <div class="col-md-6">
+            <div class="small text-muted">Date of Birth</div>
+            <div class="fw-semibold">@Model.DateOfBirth.ToString("yyyy-MM-dd")</div>
+        </div>
+        <div class="col-md-6">
+            <div class="small text-muted">Weight</div>
+            <div class="fw-semibold">@weight <span class="text-muted">kg</span></div>
+        </div>
+        <div class="col-md-6">
+            <div class="small text-muted">Purchase Price</div>
+            <div class="fw-semibold">$@price</div>
+        </div>
+    </div>
+</div>
+
+<form asp-action="DeleteModalConfirmed" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
+            <i class="bi bi-x-lg"></i> Cancel
+        </button>
+
+        <button type="submit" class="btn btn-danger px-4" id="submitBtn">
+            <span class="btn-text"><i class="bi bi-trash3 me-1"></i> Delete</span>
+            <span class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+        </button>
+    </div>
+</form>

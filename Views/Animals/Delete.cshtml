@@ -1,0 +1,107 @@
+﻿@model AgroManagement.Models.Animal
+
+@{
+    ViewData["Title"] = "Delete Animal";
+
+}
+
+<!-- CUSTOM STYLING -->
+<style>
+    .delete-title {
+        font-weight: 700;
+        font-size: 28px;
+        text-align: center;
+        color: #dc3545;
+        text-shadow: 0px 1px 2px rgba(0,0,0,0.1);
+        margin-bottom: 25px;
+    }
+
+    .delete-card {
+        border-radius: 18px;
+        background: #ffffff;
+        border: none;
+        box-shadow: 0px 10px 30px rgba(0,0,0,0.12);
+        padding: 30px;
+    }
+
+    .danger-alert {
+        background: #ffe6e6;
+        border-left: 6px solid #dc3545;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .btn-modern {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 22px;
+        font-size: 16px;
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: #6c757d;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+
+    <!-- PAGE TITLE -->
+    <h2 class="delete-title">
+        <i class="bi bi-exclamation-triangle-fill"></i> Delete Animal
+    </h2>
+
+    <!-- DELETE CARD -->
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <div class="delete-card">
+
+                <!-- Danger Alert Box -->
+                <div class="danger-alert">
+                    <h5 class="text-danger fw-bold mb-1">
+                        <i class="bi bi-x-circle-fill"></i> Are you sure you want to delete this animal?
+                    </h5>
+                    <p class="text-muted mb-0">This action cannot be undone.</p>
+                </div>
+
+                <!-- DETAILS LIST -->
+                <dl class="row mt-3">
+
+                    <dt class="col-sm-4 info-label">Tag Number</dt>
+                    <dd class="col-sm-8">@Model.TagNumber</dd>
+
+                    <dt class="col-sm-4 info-label">Breed</dt>
+                    <dd class="col-sm-8">@Model.Breed</dd>
+
+                    <dt class="col-sm-4 info-label">Date of Birth</dt>
+                    <dd class="col-sm-8">@Model.DateOfBirth.ToString("yyyy-MM-dd")</dd>
+
+                    <dt class="col-sm-4 info-label">Weight (KG)</dt>
+                    <dd class="col-sm-8">@Model.Weight</dd>
+
+                    <dt class="col-sm-4 info-label">Purchase Price</dt>
+                    <dd class="col-sm-8">@Model.PurchasePrice</dd>
+
+                </dl>
+
+                <!-- BUTTONS -->
+                <form asp-action="Delete" class="d-flex justify-content-between mt-4">
+                    <input type="hidden" asp-for="Id" />
+
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-modern">
+                        <i class="bi bi-arrow-left"></i> Cancel
+                    </a>
+
+                    <button type="submit" class="btn btn-danger btn-modern">
+                        <i class="bi bi-trash-fill"></i> Delete Permanently
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
