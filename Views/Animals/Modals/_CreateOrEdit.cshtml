@@ -33,14 +33,28 @@
             </div>
 
             <!-- Breed -->
-            <div class="col-12">
-                <label asp-for="Breed" class="form-label fw-medium">Breed</label>
+            <div class="mb-3">
+                <label asp-for="Breed" class="form-label">Breed</label>
+
                 <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-droplet"></i></span>
-                    <input asp-for="Breed" class="form-control" placeholder="e.g., Sahiwal" />
+                    <!-- Left icon -->
+                    <span class="input-group-text lh-1 fs-7" id="breedIcon" title="Breed">
+                        <i class="bi bi-droplet-fill text-danger"></i>
+                    </span>
+
+
+                    <select asp-for="Breed"
+                            class="form-select"
+                            asp-items="(IEnumerable<SelectListItem>)ViewBag.Breeds"
+                            aria-describedby="breedIcon">
+                        <option value="">-- Select Breed --</option>
+                    </select>
                 </div>
-                <span asp-validation-for="Breed" class="text-danger small"></span>
+
+                <span asp-validation-for="Breed" class="text-danger"></span>
             </div>
+
+
 
             <!-- Date of Birth -->
             <div class="col-12">
@@ -64,7 +78,7 @@
 
             <!-- Purchase Price -->
             <div class="col-12">
-                <label asp-for="PurchasePrice" class="form-label fw-medium">Purchase Price</label>
+                <label asp-for="PurchasePrice" class="form-label fw-medium">Purchase Price (৳)</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
                     <input asp-for="PurchasePrice" class="form-control" type="number" min="0" step="0.01" placeholder="e.g., 50000" />

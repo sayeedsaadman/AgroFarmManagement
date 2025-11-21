@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using AgroManagement.Data;
 using AgroManagement.Models;
@@ -22,6 +23,37 @@ namespace AgroManagement.Controllers
             _work = work;
         }
 
+        // ======================================================
+        //                 FIXED BREED SUPPORT
+        // ======================================================
+        private static readonly string[] AllowedBreeds =
+        {
+            "Angus",
+            "Brahman",
+            "Holstein Friesian (HF)",
+            "Jersey",
+            "Sahiwal",
+            "Sindhi",
+            "Crossbred"
+        };
+
+        private static readonly HashSet<string> AllowedBreedsSet =
+            new HashSet<string>(AllowedBreeds, StringComparer.OrdinalIgnoreCase);
+
+        private static bool IsValidBreed(string? value) =>
+            !string.IsNullOrWhiteSpace(value) && AllowedBreedsSet.Contains(value.Trim());
+
+        private static IEnumerable<SelectListItem> GetBreedSelectList(string? selected = null)
+        {
+            foreach (var b in AllowedBreeds)
+                yield return new SelectListItem
+                {
+                    Text = b,
+                    Value = b,
+                    Selected = string.Equals(b, selected, StringComparison.OrdinalIgnoreCase)
+                };
+        }
+
         // ================================
         //          FULL PAGE VIEWS
         // ================================
@@ -29,7 +61,7 @@ namespace AgroManagement.Controllers
         // GET: Animals
         public async Task<IActionResult> Index()
         {
-            // View uses Tabulator remote ajax; returning list is fine/harmless.
+            // View uses Tabulator remote ajax; returning list is fine.
             return View(await _context.Animals.ToListAsync());
         }
 
@@ -44,31 +76,36 @@ namespace AgroManagement.Controllers
             return View(animal);
         }
 
-        // GET: Animals/Create
+        // GET: Animals/Create (full page)
         public IActionResult Create()
         {
+            ViewBag.Breeds = GetBreedSelectList();
             return View();
         }
 
-        // POST: Animals/Create
+        // POST: Animals/Create (full page)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TagNumber,Breed,DateOfBirth,Weight,PurchasePrice")] Animal animal)
         {
+            if (!IsValidBreed(animal.Breed))
+                ModelState.AddModelError(nameof(Animal.Breed), "Please select a valid breed.");
+
             if (_context.Animals.Any(a => a.TagNumber == animal.TagNumber))
-            {
                 ModelState.AddModelError(nameof(Animal.TagNumber), "Tag Number already exists!");
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Breeds = GetBreedSelectList(animal.Breed);
                 return View(animal);
             }
-
-            if (!ModelState.IsValid) return View(animal);
 
             _context.Add(animal);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Animals/Edit/5
+        // GET: Animals/Edit/5 (full page)
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -76,16 +113,25 @@ namespace AgroManagement.Controllers
             var animal = await _context.Animals.FindAsync(id);
             if (animal == null) return NotFound();
 
+            ViewBag.Breeds = GetBreedSelectList(animal.Breed);
             return View(animal);
         }
 
-        // POST: Animals/Edit/5
+        // POST: Animals/Edit/5 (full page)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,TagNumber,Breed,DateOfBirth,Weight,PurchasePrice")] Animal animal)
         {
             if (id != animal.Id) return NotFound();
-            if (!ModelState.IsValid) return View(animal);
+
+            if (!IsValidBreed(animal.Breed))
+                ModelState.AddModelError(nameof(Animal.Breed), "Please select a valid breed.");
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Breeds = GetBreedSelectList(animal.Breed);
+                return View(animal);
+            }
 
             try
             {
@@ -101,7 +147,7 @@ namespace AgroManagement.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Animals/Delete/5
+        // GET: Animals/Delete/5 (full page)
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -112,7 +158,7 @@ namespace AgroManagement.Controllers
             return View(animal);
         }
 
-        // POST: Animals/Delete/5
+        // POST: Animals/Delete/5 (full page)
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -181,7 +227,7 @@ namespace AgroManagement.Controllers
         }
 
         // ============================================
-        //               DRAWER/MODAL ENDPOINTS
+        //               MODAL ENDPOINTS
         //  (GET -> Partial; POST -> JSON { ok: true })
         // ============================================
 
@@ -194,11 +240,11 @@ namespace AgroManagement.Controllers
             return PartialView("Modals/_Details", animal);
         }
 
-        // ----- CREATE -----
+        // ----- CREATE (MODAL) -----
         [HttpGet]
         public IActionResult CreateModal()
         {
-            // Default DOB so the field isn't blank/0001
+            ViewBag.Breeds = GetBreedSelectList();
             return PartialView("Modals/_CreateOrEdit", new Animal
             {
                 DateOfBirth = DateTime.Today
@@ -209,23 +255,31 @@ namespace AgroManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateModal([Bind("Id,TagNumber,Breed,DateOfBirth,Weight,PurchasePrice")] Animal model)
         {
+            if (!IsValidBreed(model.Breed))
+                ModelState.AddModelError(nameof(Animal.Breed), "Please select a valid breed.");
+
             if (_context.Animals.Any(a => a.TagNumber == model.TagNumber))
                 ModelState.AddModelError(nameof(Animal.TagNumber), "Tag Number already exists!");
 
             if (!ModelState.IsValid)
+            {
+                ViewBag.Breeds = GetBreedSelectList(model.Breed);
                 return PartialView("Modals/_CreateOrEdit", model);
+            }
 
             await _work.Animal.AddAsync(model);
             await _work.CompleteAsync();
             return Json(new { ok = true });
         }
 
-        // ----- EDIT -----
+        // ----- EDIT (MODAL) -----
         [HttpGet]
         public async Task<IActionResult> EditModal(int id)
         {
             var animal = await _work.Animal.GetByIdAsync(id);
             if (animal == null) return NotFound();
+
+            ViewBag.Breeds = GetBreedSelectList(animal.Breed);
             return PartialView("Modals/_CreateOrEdit", animal);
         }
 
@@ -233,15 +287,21 @@ namespace AgroManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditModal([Bind("Id,TagNumber,Breed,DateOfBirth,Weight,PurchasePrice")] Animal model)
         {
+            if (!IsValidBreed(model.Breed))
+                ModelState.AddModelError(nameof(Animal.Breed), "Please select a valid breed.");
+
             if (!ModelState.IsValid)
+            {
+                ViewBag.Breeds = GetBreedSelectList(model.Breed);
                 return PartialView("Modals/_CreateOrEdit", model);
+            }
 
             _work.Animal.Update(model);
             await _work.CompleteAsync();
             return Json(new { ok = true });
         }
 
-        // ----- DELETE -----
+        // ----- DELETE (MODAL) -----
         [HttpGet]
         public async Task<IActionResult> DeleteModal(int id)
         {
