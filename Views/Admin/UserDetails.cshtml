@@ -1,0 +1,57 @@
+﻿@model AgroManagement.Models.User
+
+@{
+    Layout = null;
+}
+
+<div class="p-3 border rounded-3 bg-light-subtle">
+    <div class="row g-3">
+
+        <!-- Name -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Name</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input class="form-control" value="@Model.Name" disabled />
+            </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Phone</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                <input class="form-control" value="@Model.Phone" disabled />
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Email</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                <input class="form-control" value="@Model.Email" disabled />
+            </div>
+        </div>
+
+        <!-- Username -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Username</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                <input class="form-control" value="@Model.Username" disabled />
+            </div>
+        </div>
+
+        <!-- Password Hash -->
+        <div class="col-12">
+            <label class="form-label fw-medium">Password (Hashed)</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+                <input class="form-control" value="@Model.PasswordHash" disabled />
+            </div>
+            <small class="text-muted">Stored as hash for security.</small>
+        </div>
+
+    </div>
+</div>

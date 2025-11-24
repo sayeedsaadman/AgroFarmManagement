@@ -1,0 +1,171 @@
+﻿@model IEnumerable<AgroManagement.Models.User>
+@using System.Text.Json
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Manage Users";
+
+    var userJson = JsonSerializer.Serialize(Model, new JsonSerializerOptions
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    });
+
+    var passwordUrl = Url.Action("GetUserPassword", "Admin");
+}
+
+<div class="container my-4">
+    <h1 class="fw-bold text-success mb-4">User Management</h1>
+    <br /><br /><br />
+
+    <!-- TABLE CARD -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div id="usertable"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Right Drawer (Offcanvas) SAME AS ANIMALS -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="userDrawer"
+     aria-labelledby="userDrawerLabel" style="width: 540px;">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="userDrawerLabel">Details</h5>
+        <button type="button" class="btn-close text-reset"
+                data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" id="userDrawerBody">
+        <!-- Partial content loads here -->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const userData = @Html.Raw(userJson);
+        const PASSWORD_URL = "@passwordUrl";
+
+        // -----------------------------
+        // TABULATOR TABLE (same feel)
+        // -----------------------------
+        var table = new Tabulator("#usertable", {
+            data: userData,
+            layout: "fitColumns",
+            pagination: "local",
+            paginationSize: 10,
+            paginationSizeSelector: [5, 10, 25, 50, 100],
+            paginationCounter: "rows",
+
+            columns: [
+                { title: "Name", field: "name", headerFilter: "input" },
+                { title: "Phone", field: "phone", headerFilter: "input" },
+                { title: "Email", field: "email", headerFilter: "input" },
+                { title: "Username", field: "username", headerFilter: "input" },
+
+                // password masked + show fetch
+                {
+                    title: "Password",
+                    field: "id",
+                    headerSort: false,
+                    formatter: function(cell){
+                        let id = cell.getValue();
+                        return `
+                            <span id="pw-${id}">*****</span>
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-secondary ms-2"
+                                    onclick="togglePassword(${id}, this)">
+                                Show
+                            </button>
+                        `;
+                    }
+                },
+
+                // ✅ Actions: View + Delete ONLY (Edit removed)
+                {
+                    title: "Actions",
+                    field: "id",
+                    hozAlign: "center",
+                    frozen: true,
+                    formatter: function (cell) {
+                        let id = cell.getRow().getData().id;
+                        return `
+                            <button class="btn btn-sm btn-primary me-1" onclick="viewUser(${id})">View</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteUser(${id})">Delete</button>
+                        `;
+                    }
+                }
+            ]
+        });
+
+        // -----------------------------
+        // RIGHT DRAWER LOGIC (same as animals)
+        // -----------------------------
+        function openDrawer(url, title){
+            $("#userDrawerLabel").text(title || "Details");
+            $("#userDrawerBody").load(url, function(){
+                if (window.jQuery && $.validator && $.validator.unobtrusive) {
+                    $.validator.unobtrusive.parse("#userDrawerBody");
+                }
+                var drawer = new bootstrap.Offcanvas(document.getElementById('userDrawer'));
+                drawer.show();
+            });
+        }
+
+        window.viewUser = function(id){
+            openDrawer(`/Admin/UserDetails/${id}`, "User Details");
+        }
+
+        window.deleteUser = function(id){
+            openDrawer(`/Admin/DeleteUser/${id}`, "Delete User");
+        }
+
+        // Handle any form submit inside the drawer via AJAX (delete)
+        $(document).on("submit", "#userDrawerBody form", function(e){
+            e.preventDefault();
+            var $form = $(this);
+            var $btn = $form.find("#submitBtn");
+            var $spinner = $btn.find(".spinner-border");
+
+            if ($btn.length){ $btn.prop("disabled", true); $spinner.removeClass("d-none"); }
+
+            $.ajax({
+                url: $form.attr("action"),
+                type: $form.attr("method"),
+                data: $form.serialize()
+            }).done(function(res){
+                if(res && res.ok){
+                    bootstrap.Offcanvas.getInstance(document.getElementById('userDrawer')).hide();
+                    location.reload(); // simplest refresh like animals reloadTable()
+                }else{
+                    $("#userDrawerBody").html(res);
+                    if (window.jQuery && $.validator && $.validator.unobtrusive) {
+                        $.validator.unobtrusive.parse("#userDrawerBody");
+                    }
+                }
+            }).always(function(){
+                if ($btn.length){ $btn.prop("disabled", false); $spinner.addClass("d-none"); }
+            });
+        });
+
+        // -----------------------------
+        // PASSWORD SHOW/HIDE (fetch DB)
+        // -----------------------------
+        window.togglePassword = function(id, btn){
+            const span = document.getElementById(`pw-${id}`);
+
+            if(span.textContent === "*****"){
+                fetch(`${PASSWORD_URL}?id=${id}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.success){
+                            span.textContent = data.password;
+                            btn.textContent = "Hide";
+                        } else {
+                            span.textContent = "N/A";
+                        }
+                    });
+            } else {
+                span.textContent = "*****";
+                btn.textContent = "Show";
+            }
+        }
+    </script>
+}
