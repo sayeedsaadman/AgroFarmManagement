@@ -101,8 +101,13 @@
                         <a class="nav-link nav-link-pill" href="#customer-reviews">Review</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-pill nav-shop-glow" href="@Url.Action("Shop", "Product")">Shop</a>
+                        <a class="nav-link nav-link-pill nav-shop-glow"
+                           asp-controller="Shop"
+                           asp-action="Index">
+                            Shop
+                        </a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link nav-link-pill" href="#about">About</a>
                     </li>
