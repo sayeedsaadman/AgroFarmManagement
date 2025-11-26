@@ -33,6 +33,9 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+
 
 </head>
 <!-- AOS Animation Script -->
@@ -40,53 +43,278 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg bg-light shadow-sm">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
-                <img src="https://static.vecteezy.com/system/resources/previews/047/163/007/original/logo-hand-drawn-head-cow-farm-illustration-vector.jpg"
-                     alt="Logo" width="36" height="36" class="me-2">
-                <strong>@appName</strong>
-            </a>
+    <!-- NAVBAR STYLE -->
+    <style>
+        /* 3 equal sections on lg+ */
+        @@media (min-width: 992px) {
+            .nav-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr; /* equal space */
+                align-items: center;
+            }
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            .nav-left {
+                justify-self: start;
+            }
+
+            .nav-center {
+                justify-self: center;
+            }
+
+            .nav-right {
+                justify-self: end;
+            }
+
+            .nav-toggle {
+                display: none;
+            }
+            /* hide toggler on lg+ */
+        }
+    </style>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top nav-glass shadow-sm">
+        <div class="container py-1 nav-grid">
+
+            <!-- LEFT: Brand -->
+            <div class="nav-left">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="@Url.Action("Index", "Home")">
+                    <span class="brand-logo">
+                        <img src="~/Images/Spesh.png"
+                             alt="Logo" />
+                    </span>
+                    <span class="brand-text">@appName</span>
+                </a>
+            </div>
+
+            <!-- Toggler (stays visible on small screens) -->
+            <button class="navbar-toggler border-0 nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div id="mainNav" class=" collapse navbar-collapse justify-content-center">
-                <ul class="navbar-nav fs-5">
-                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Home")">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#customer-reviews">Review</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Best Animal</a></li>
+            <!-- CENTER: Links -->
+            <div id="mainNav" class="collapse navbar-collapse justify-content-center nav-center">
+                <ul class="navbar-nav nav-pills gap-lg-2 gap-1 mt-3 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-pill" href="@Url.Action("Index", "Home")">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-pill" href="#customer-reviews">Review</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-pill nav-shop-glow" href="@Url.Action("Shop", "Product")">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-pill" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-pill" href="#contact">Contact</a>
+                    </li>
                 </ul>
             </div>
 
-            <!-- USER / ADMIN NAVBAR SECTION -->
-            <div class="ms-auto d-flex align-items-center">
-
+            <!-- RIGHT: Auth/User -->
+            <div class="collapse navbar-collapse justify-content-end mt-3 mt-lg-0 nav-right">
                 @if (userType == null)
                 {
-                    <!-- NOT LOGGED IN -->
-                    <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-success me-2">Login</a>
-                    <a asp-controller="Auth" asp-action="Register" class="btn btn-success">Sign Up</a>
+                    <div class="d-flex gap-2">
+                        <a asp-controller="Auth" asp-action="Login" class="btn btn-light btn-sm px-3 fw-semibold">Login</a>
+                        <a asp-controller="Auth" asp-action="Register" class="btn btn-warning btn-sm px-3 fw-semibold">Register</a>
+                    </div>
+                }
+                else if (userType == "Customer")
+                {
+                    <ul class="navbar-nav me-2">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-pill" asp-controller="Customer" asp-action="Dashboard">Dashboard</a>
+                        </li>
+                    </ul>
+
+                    <div class="user-chip me-2">
+                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User" />
+                        <span>@userName</span>
+                    </div>
+
+                    <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger btn-sm px-3 fw-semibold">Logout</a>
+                }
+                else if (userType == "Admin")
+                {
+                    <ul class="navbar-nav me-2">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-pill" asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-pill" asp-controller="Admin" asp-action="Products">Products</a>
+                        </li>
+                    </ul>
+
+                    <div class="user-chip me-2">
+                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User" />
+                        <span>@userName</span>
+                    </div>
+
+                    <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger btn-sm px-3 fw-semibold">Logout</a>
                 }
                 else
                 {
-                    <!-- LOGGED IN USER OR ADMIN -->
-                    <div class="d-flex align-items-center me-3">
-                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                             width="35" height="35" class="rounded-circle me-2" alt="User" />
-
-                        <span class="fw-bold">@userName (@userType)</span>
+                    <div class="user-chip me-2">
+                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User" />
+                        <span>@userName (@userType)</span>
                     </div>
 
-                    <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger">Logout</a>
+                    <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger btn-sm px-3 fw-semibold">Logout</a>
                 }
             </div>
 
         </div>
     </nav>
+
+    <style>
+        /* 3 equal sections on lg+ */
+        @@media (min-width: 992px) {
+            .nav-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr; /* equal space */
+                align-items: center;
+            }
+
+            .nav-left {
+                justify-self: start;
+            }
+
+            .nav-center {
+                justify-self: center;
+            }
+
+            .nav-right {
+                justify-self: end;
+            }
+
+            .nav-toggle {
+                display: none;
+            }
+            /* hide toggler on lg+ */
+        }
+    </style>
+
+
+    <style>
+        /* ===== Navbar Base ===== */
+        .nav-glass {
+            background: linear-gradient(90deg, #0f5132, #198754, #0f5132);
+            backdrop-filter: blur(8px);
+            padding-top: .6rem;
+            padding-bottom: .6rem;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            padding: 3px;
+            display: grid;
+            place-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,.2);
+        }
+
+            .brand-logo img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+        .brand-text {
+            letter-spacing: .5px;
+            font-family: "Poppins", "Segoe UI", sans-serif;
+            font-weight: 800;
+            letter-spacing: .8px;
+            font-size: 1.35rem;
+            color: #fff;
+        }
+
+        .nav-link-pill {
+            color: rgba(255,255,255,.9) !important;
+            padding: .45rem .9rem !important;
+            border-radius: 999px;
+            transition: .2s ease;
+            font-weight: 600;
+        }
+
+            .nav-link-pill:hover {
+                background: rgba(255,255,255,.15);
+                transform: translateY(-1px);
+            }
+
+        /* remove yellow active bg completely */
+        .nav-pills .nav-link.active {
+            background: transparent !important;
+            color: rgba(255,255,255,.95) !important;
+            box-shadow: none !important;
+        }
+
+        /* ===== SHOP: static black border + rotating white glow trace ===== */
+        .nav-shop-glow {
+            position: relative;
+            border-radius: 999px;
+            background: transparent;
+            border: 2px solid #000;
+            z-index: 0;
+            overflow: visible;
+        }
+
+            .nav-shop-glow::before {
+                content: "";
+                position: absolute;
+                inset: -2px;
+                border-radius: 999px;
+                padding: 2px;
+                background: conic-gradient( from 0deg, transparent 0deg, transparent 320deg, rgba(255,255,255,0.1) 330deg, rgba(255,255,255,1) 345deg, rgba(255,255,255,0.1) 360deg );
+                -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                animation: shopTrace 2.0s linear infinite;
+                filter: blur(0.6px) drop-shadow(0 0 6px rgba(255,255,255,0.95));
+                pointer-events: none;
+                z-index: 2;
+            }
+
+        @@keyframes shopTrace {
+            to
+
+        {
+            transform: rotate(360deg);
+        }
+
+        }
+
+        .nav-shop-glow:hover {
+            background: rgba(255,255,255,.12);
+        }
+
+        /* ===== user chip ===== */
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            background: rgba(255,255,255,.15);
+            padding: .35rem .6rem;
+            border-radius: 999px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+            .user-chip img {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid rgba(255,255,255,.7);
+            }
+    </style>
+
+
+
 
     <!-- MAIN CONTENT -->
     <main class="flex-grow-1">
