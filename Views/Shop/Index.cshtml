@@ -1,6 +1,369 @@
 ﻿@{
     ViewData["Title"] = "Shop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<!-- ====== Shop Cover Photo (Hero) — reduced height ====== -->
+<style>
+    /* ===== Shop Cover Photo (Hero) ===== */
+    #shop-hero {
+        position: relative;
+        width: 100%;
+        min-height: 200px; /* ↓ reduced mobile height (was 320px) */
+        background-image: url('/Images/shop-cover.jpg'); /* REPLACE with your final image */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-top: 0; /* sits right under navbar */
+    }
 
-<h2>Shop Page</h2>
-<p>Design will be added later.</p>
+        /* subtle green gradient overlay */
+        #shop-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(16,185,129,0.18) 0%, rgba(0,0,0,0.18) 100%);
+        }
+
+        /* center content */
+        #shop-hero .hero-inner {
+            position: relative;
+            z-index: 1; /* above overlay */
+            height: 100%;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 28px 12px; /* ↓ tighter padding (was 48px) */
+        }
+
+        #shop-hero .hero-title {
+            color: #062e1a;
+            font-weight: 800;
+            font-size: 1.6rem; /* ↓ */
+            text-shadow: 0 2px 10px rgba(0,0,0,.15);
+            margin: 0 0 .2rem 0;
+        }
+
+        #shop-hero .hero-subtitle {
+            color: #0f5132;
+            font-weight: 600;
+            opacity: .95;
+            margin: 0;
+            font-size: .98rem;
+        }
+
+    /* Taller hero on larger screens (still reduced) */
+    @@media (min-width: 768px) {
+        #shop-hero
+
+    {
+        min-height: 240px;
+    }
+    /* was 380px */
+    #shop-hero .hero-title {
+        font-size: 1.9rem;
+    }
+
+    }
+    @@media (min-width: 992px) {
+        #shop-hero
+
+    {
+        min-height: 280px;
+    }
+    /* was 460px */
+    #shop-hero .hero-title {
+        font-size: 2.1rem;
+    }
+    /* desktop */
+    }
+</style>
+
+<section id="shop-hero" class="w-100">
+    <div class="hero-inner container">
+        <div>
+            <h1 class="hero-title">Shop</h1>
+            <p class="hero-subtitle">Fresh • Organic • Daily</p>
+        </div>
+    </div>
+</section>
+
+
+
+<style>
+    /* ========= Mint/Green makeover (from Top Products) ========= */
+
+    /* Bigger discount % (left) and SALE/HOT (right) */
+    #shop-grid .tp-badge {
+        font-size: 1.05rem; /* was .8rem */
+        padding: .35rem .8rem; /* roomier */
+    }
+
+    @@media (min-width: 992px) {
+        #shop-grid .tp-badge
+
+    {
+        font-size: 1.15rem; /* larger on desktops */
+        padding: .4rem .9rem;
+    }
+
+    }
+
+    /* Card */
+    #shop-grid .tp-card {
+        position: relative; /* needed for whole-card overlay & centered CTA */
+        border-radius: 18px;
+        overflow: hidden;
+        background: linear-gradient(180deg, rgba(236,253,245,.85) 0%, rgba(255,255,255,.95) 60%), #f0fff4;
+        box-shadow: 0 5px 18px rgba(16,24,40,.08);
+        outline: 1px solid rgba(16,185,129,.18);
+        transition: transform .22s ease, box-shadow .22s ease, outline-color .22s ease;
+    }
+
+        #shop-grid .tp-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 44px rgba(16,185,129,.20);
+            outline-color: rgba(16,185,129,.34);
+        }
+
+        /* ===== WHOLE-CARD green overlay (moved from image to card) ===== */
+        #shop-grid .tp-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(16,185,129,0);
+            transition: background .32s ease;
+            pointer-events: none;
+            z-index: 1; /* sits above content to tint it; CTA will be above this */
+        }
+
+        #shop-grid .tp-card:hover::after {
+            background: rgba(16,185,129,.28);
+        }
+
+    /* Image stage + badges */
+    #shop-grid .tp-media {
+        /* was: position: relative; -> make it static so the centered button can use the card as its containing block */
+        position: static;
+        height: 160px;
+        padding: 12px;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(420px 140px at 50% 0, rgba(34,197,94,.12), transparent 60%), #f6fff9;
+        border-bottom: 1px solid #e6f6ee;
+        overflow: hidden;
+    }
+
+        #shop-grid .tp-media img {
+            max-height: 120px;
+            max-width: 80%;
+            object-fit: contain;
+            width: auto;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            transition: transform .32s ease, filter .32s ease, opacity .32s ease;
+        }
+
+    /* Slight image motion/blur on whole-card hover */
+    #shop-grid .tp-card:hover .tp-media img {
+        transform: scale(1.04);
+        filter: blur(1.5px) saturate(1.05);
+        opacity: .93;
+    }
+
+    /* ===== Centered Add to cart button for WHOLE card ===== */
+    #shop-grid .tp-add {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -40%);
+        opacity: 0;
+        pointer-events: none;
+        padding: .48rem 1.15rem;
+        border: none;
+        border-radius: 11px;
+        background: linear-gradient(90deg, #16a34a, #0ea5a4);
+        color: #fff;
+        font-weight: 700;
+        box-shadow: 0 10px 22px rgba(14,165,164,.35);
+        transition: opacity .22s ease, transform .22s ease;
+        z-index: 2; /* above the green overlay */
+    }
+
+    #shop-grid .tp-card:hover .tp-add {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Badges (left discount, right status) — now positioned relative to the CARD */
+    #shop-grid .tp-badge {
+        position: absolute;
+        top: .6rem;
+        font-weight: 700;
+        border-radius: 999px;
+        backdrop-filter: blur(2px);
+        z-index: 2; /* above overlay */
+    }
+
+        #shop-grid .tp-badge.left {
+            left: .6rem;
+            color: #065f46;
+            background: rgba(16,185,129,.16);
+            border: 1px solid rgba(16,185,129,.25);
+        }
+
+        #shop-grid .tp-badge.right {
+            right: .6rem;
+            color: #b45309;
+            background: rgba(253,186,116,.25);
+            border: 1px solid rgba(251,146,60,.35);
+        }
+
+            #shop-grid .tp-badge.right.sale {
+                color: #065f46;
+                background: rgba(16,185,129,.18);
+                border-color: rgba(16,185,129,.3);
+            }
+
+    /* Text + price */
+    #shop-grid .card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #062e1a;
+    }
+
+    #shop-grid .tp-price {
+        display: inline-block;
+        padding: .25rem .65rem;
+        font-weight: 700;
+        color: #065f46;
+        background: rgba(16,185,129,.12);
+        border: 1px solid rgba(16,185,129,.18);
+        border-radius: 999px;
+        font-size: .95rem;
+    }
+
+    /* Primary button (Buy Now fallback) */
+    #shop-grid .tp-btn {
+        background: linear-gradient(90deg, #16a34a, #0ea5a4);
+        color: #fff;
+        border: none;
+        padding: .48rem 1.15rem;
+        font-size: .95rem;
+        border-radius: 11px;
+        box-shadow: 0 8px 18px rgba(14,165,164,.25);
+        transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+        position: relative;
+        z-index: 2; /* clickable above overlay */
+    }
+
+        #shop-grid .tp-btn:hover {
+            filter: saturate(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 26px rgba(16,185,129,.35);
+        }
+
+</style>
+
+<section id="shop-grid" class="container py-5">
+
+    <div class="row g-4">
+        <!-- Product 1 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-25%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/yogurt.png" alt="Organic Yogurt" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Organic Yogurt</h5>
+                    <div class="tp-price mb-3">$2.99 / KG</div>
+
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-15%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/milk.png" alt="Farm Fresh Milk" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Farm Fresh Milk</h5>
+                    <div class="tp-price mb-3">$1.79 / Litre</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-30%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/cheese.png" alt="Aged Cheddar Cheese" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Aged Cheddar Cheese</h5>
+                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-10%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/butter.png" alt="Raw Organic Honey" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Salted Butter</h5>
+                    <div class="tp-price mb-3">$3.99 / 250 gm</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-20%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/meat.png" alt="Whole Grain Bread" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Raw Meat (With Bone)</h5>
+                    <div class="tp-price mb-3">$12.99 / KG</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-18%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/ghee.png" alt="Free-Range Eggs" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Light Flame Ghee</h5>
+                    <div class="tp-price mb-3">$15.99 / KG</div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
