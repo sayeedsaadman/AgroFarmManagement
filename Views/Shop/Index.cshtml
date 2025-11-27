@@ -2,10 +2,7 @@
     ViewData["Title"] = "Shop";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!-- comment added -->
-<!-- comment added -->
-<!-- comment added -->
-<!-- comment added -->
+
 <!-- comment added -->
 <!-- comment added -->
 <!-- ====== Shop Cover Photo (Hero) — reduced height ====== -->
@@ -59,28 +56,24 @@
 
     /* Taller hero on larger screens (still reduced) */
     @@media (min-width: 768px) {
-        #shop-hero
+        #shop-hero {
+            min-height: 240px;
+        }
+            /* was 380px */
+            #shop-hero .hero-title {
+                font-size: 1.9rem;
+            }
+    }
 
-    {
-        min-height: 240px;
-    }
-    /* was 380px */
-    #shop-hero .hero-title {
-        font-size: 1.9rem;
-    }
-
-    }
     @@media (min-width: 992px) {
-        #shop-hero
-
-    {
-        min-height: 280px;
-    }
-    /* was 460px */
-    #shop-hero .hero-title {
-        font-size: 2.1rem;
-    }
-    /* desktop */
+        #shop-hero {
+            min-height: 280px;
+        }
+            /* was 460px */
+            #shop-hero .hero-title {
+                font-size: 2.1rem;
+            }
+        /* desktop */
     }
 </style>
 
@@ -105,13 +98,10 @@
     }
 
     @@media (min-width: 992px) {
-        #shop-grid .tp-badge
-
-    {
-        font-size: 1.15rem; /* larger on desktops */
-        padding: .4rem .9rem;
-    }
-
+        #shop-grid .tp-badge {
+            font-size: 1.15rem; /* larger on desktops */
+            padding: .4rem .9rem;
+        }
     }
 
     /* Card */
@@ -272,7 +262,143 @@
 
 </style>
 
+<!----------------------------------------------- Milk Section ----------------------------------------------->
+
 <section id="shop-grid" class="container py-5">
+    <!-- Font (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <h1 class="section-intro mx-auto text-center mb-4">Milk</h1>
+
+    <style>
+        /* Intro heading style */
+        #top-products .section-intro {
+            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-weight: 800; /* bold */
+            color: #000; /* dark black */
+            line-height: 1.2;
+        }
+    </style>
+
+    <div class="row g-4">
+        <!-- Product 1 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-25%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/milk.png" alt="Organic Yogurt" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Raw Milk</h5>
+                    <div class="tp-price mb-3">$2.99 / KG</div>
+
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-15%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/pasteroized-milk.png" alt="Farm Fresh Milk" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Pasteurized Milk</h5>
+                    <div class="tp-price mb-3">$1.79 / Litre</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-30%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/uht-milk.png" alt="Aged Cheddar Cheese" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">UHT Milk</h5>
+                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-10%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/almond-milk.png" alt="Raw Organic Honey" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Almond Milk</h5>
+                    <div class="tp-price mb-3">$3.99 / 250 gm</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-20%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/zero-fat-milk.png" alt="Whole Grain Bread" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Zero Fat Milk</h5>
+                    <div class="tp-price mb-3">$12.99 / KG</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-18%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/mango-milk.png" alt="Free-Range Eggs" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Mango Milk</h5>
+                    <div class="tp-price mb-3">$15.99 / KG</div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+
+<!----------------------------------------------- Yogurt Section ----------------------------------------------->
+
+
+<section id="shop-grid" class="container py-5">
+    <!-- Font (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <h1 class="section-intro mx-auto text-center mb-4">Yogurt</h1>
+
+    <style>
+        /* Intro heading style */
+        #top-products .section-intro {
+            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-weight: 800; /* bold */
+            color: #000; /* dark black */
+            line-height: 1.2;
+        }
+    </style>
 
     <div class="row g-4">
         <!-- Product 1 -->
@@ -298,11 +424,132 @@
                 <div class="tp-media">
                     <span class="tp-badge left">-15%</span>
                     <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/milk.png" alt="Farm Fresh Milk" />
+                    <img src="~/Images/sweet-curd.png" alt="Farm Fresh Milk" />
                     <button class="tp-add">Buy Now</button>
                 </div>
                 <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Farm Fresh Milk</h5>
+                    <h5 class="card-title mb-1">Sweet Curd</h5>
+                    <div class="tp-price mb-3">$1.79 / Litre</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-30%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/greek-yogurt.png" alt="Aged Cheddar Cheese" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Greek Yogurt</h5>
+                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-10%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/mango-yogurt.png" alt="Raw Organic Honey" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Mango Yogurt</h5>
+                    <div class="tp-price mb-3">$3.99 / 250 gm</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-20%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/baked-yogurt.png" alt="Whole Grain Bread" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Baked Yogurt</h5>
+                    <div class="tp-price mb-3">$12.99 / KG</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-18%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/lassi.png" alt="Free-Range Eggs" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">No Sugar Lassi</h5>
+                    <div class="tp-price mb-3">$15.99 / KG</div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+
+<!----------------------------------------------- Cheese Section ----------------------------------------------->
+
+
+<section id="shop-grid" class="container py-5">
+    <!-- Font (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <h1 class="section-intro mx-auto text-center mb-4">Cheese</h1>
+
+    <style>
+        /* Intro heading style */
+        #top-products .section-intro {
+            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-weight: 800; /* bold */
+            color: #000; /* dark black */
+            line-height: 1.2;
+        }
+    </style>
+
+
+    <div class="row g-4">
+        <!-- Product 1 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-25%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/paneer.png" alt="Organic Yogurt" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Paneer</h5>
+                    <div class="tp-price mb-3">$2.99 / KG</div>
+
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-15%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/mozarella.png" alt="Farm Fresh Milk" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Mozarella</h5>
                     <div class="tp-price mb-3">$1.79 / Litre</div>
                 </div>
             </article>
@@ -318,7 +565,7 @@
                     <button class="tp-add">Buy Now</button>
                 </div>
                 <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Aged Cheddar Cheese</h5>
+                    <h5 class="card-title mb-1">Cheddar Cheese</h5>
                     <div class="tp-price mb-3">$3.49 / 200 gm</div>
                 </div>
             </article>
@@ -330,11 +577,11 @@
                 <div class="tp-media">
                     <span class="tp-badge left">-10%</span>
                     <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/butter.png" alt="Raw Organic Honey" />
+                    <img src="~/Images/cottage.png" alt="Raw Organic Honey" />
                     <button class="tp-add">Buy Now</button>
                 </div>
                 <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Salted Butter</h5>
+                    <h5 class="card-title mb-1">Cottage Cheese</h5>
                     <div class="tp-price mb-3">$3.99 / 250 gm</div>
                 </div>
             </article>
@@ -346,11 +593,11 @@
                 <div class="tp-media">
                     <span class="tp-badge left">-20%</span>
                     <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/meat.png" alt="Whole Grain Bread" />
+                    <img src="~/Images/Parmen.png" alt="Whole Grain Bread" />
                     <button class="tp-add">Buy Now</button>
                 </div>
                 <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Raw Meat (With Bone)</h5>
+                    <h5 class="card-title mb-1">Parmigiano</h5>
                     <div class="tp-price mb-3">$12.99 / KG</div>
                 </div>
             </article>
@@ -362,12 +609,218 @@
                 <div class="tp-media">
                     <span class="tp-badge left">-18%</span>
                     <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/ghee.png" alt="Free-Range Eggs" />
+                    <img src="~/Images/Roquefort.png" alt="Free-Range Eggs" />
                     <button class="tp-add">Buy Now</button>
                 </div>
                 <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Light Flame Ghee</h5>
+                    <h5 class="card-title mb-1">Roquefort Cheese</h5>
                     <div class="tp-price mb-3">$15.99 / KG</div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="shop-grid" class="container py-5">
+    <!-- Font (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <h1 class="section-intro mx-auto text-center mb-4">Meat</h1>
+
+    <style>
+        /* Intro heading style */
+        #top-products .section-intro {
+            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-weight: 800; /* bold */
+            color: #000; /* dark black */
+            line-height: 1.2;
+        }
+    </style>
+
+    <div class="row g-4">
+        <!-- Product 1 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-25%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/Bmeat.png" alt="Organic Yogurt" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Raw Meat (Boneless)</h5>
+                    <div class="tp-price mb-3">$2.99 / KG</div>
+
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-15%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/steak.png" alt="Farm Fresh Milk" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Beef Steak</h5>
+                    <div class="tp-price mb-3">$1.79 / Litre</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-30%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/sausage.png" alt="Aged Cheddar Cheese" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Beef Sausage</h5>
+                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="shop-grid" class="container py-5">
+    <!-- Font (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <h1 class="section-intro mx-auto text-center mb-4">Creamy Products</h1>
+
+    <style>
+        /* Intro heading style */
+        #top-products .section-intro {
+            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-weight: 800; /* bold */
+            color: #000; /* dark black */
+            line-height: 1.2;
+        }
+    </style>
+
+    <div class="row g-4">
+        <!-- Product 1 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-25%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/heavy-cream.png" alt="Organic Yogurt" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Heavy Cream</h5>
+                    <div class="tp-price mb-3">$2.99 / KG</div>
+
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-15%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/whipped-cream.png" alt="Farm Fresh Milk" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Whipped Cream</h5>
+                    <div class="tp-price mb-3">$1.79 / Litre</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-30%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/cream-cheese.png" alt="Aged Cheddar Cheese" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Cream Cheese</h5>
+                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
+                </div>
+            </article>
+        </div>
+
+
+    </div>
+</section>
+
+<section id="shop-grid" class="container py-5">
+    <!-- Font (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <h1 class="section-intro mx-auto text-center mb-4">Others</h1>
+
+    <style>
+        /* Intro heading style */
+        #top-products .section-intro {
+            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-weight: 800; /* bold */
+            color: #000; /* dark black */
+            line-height: 1.2;
+        }
+    </style>
+
+    <div class="row g-4">
+        <!-- Product 1 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-25%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/milk-powder.png" alt="Organic Yogurt" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Milk Powder</h5>
+                    <div class="tp-price mb-3">$2.99 / KG</div>
+
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-15%</span>
+                    <span class="tp-badge right sale">SALE</span>
+                    <img src="~/Images/casein.png" alt="Farm Fresh Milk" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">Casein</h5>
+                    <div class="tp-price mb-3">$1.79 / Litre</div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="tp-card card h-100 border-0">
+                <div class="tp-media">
+                    <span class="tp-badge left">-30%</span>
+                    <span class="tp-badge right hot">HOT</span>
+                    <img src="~/Images/string-cheese.png" alt="Aged Cheddar Cheese" />
+                    <button class="tp-add">Buy Now</button>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-1">String Cheese</h5>
+                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
                 </div>
             </article>
         </div>
