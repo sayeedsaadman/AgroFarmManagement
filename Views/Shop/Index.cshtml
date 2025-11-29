@@ -3,110 +3,87 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- comment added -->
-<!-- comment added -->
-<!-- ====== Shop Cover Photo (Hero) — reduced height ====== -->
 <style>
-    /* ===== Shop Cover Photo (Hero) ===== */
+    /* ================= HERO ================= */
     #shop-hero {
         position: relative;
         width: 100%;
-        min-height: 200px; /* ↓ reduced mobile height (was 320px) */
-        background-image: url('/Images/shop-cover.jpg'); /* REPLACE with your final image */
+        min-height: 160px;
+        background: linear-gradient(180deg, rgba(16,185,129,0.08), rgba(0,0,0,0.12)), url('/Images/shop-cover.jpg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        margin-top: 0; /* sits right under navbar */
+        margin-top: 0;
     }
 
-        /* subtle green gradient overlay */
         #shop-hero::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(16,185,129,0.18) 0%, rgba(0,0,0,0.18) 100%);
+            background: rgba(0,0,0,0.25);
         }
 
-        /* center content */
         #shop-hero .hero-inner {
             position: relative;
-            z-index: 1; /* above overlay */
+            z-index: 1;
             height: 100%;
             display: grid;
             place-items: center;
             text-align: center;
-            padding: 28px 12px; /* ↓ tighter padding (was 48px) */
+            padding: 22px 12px;
         }
 
         #shop-hero .hero-title {
-            color: #062e1a;
-            font-weight: 800;
-            font-size: 1.6rem; /* ↓ */
-            text-shadow: 0 2px 10px rgba(0,0,0,.15);
+            color: #0b3b22;
+            font-weight: 900;
+            font-size: 1.8rem;
+            letter-spacing: .5px;
             margin: 0 0 .2rem 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,.12);
         }
 
         #shop-hero .hero-subtitle {
-            color: #0f5132;
+            color: #134e35;
             font-weight: 600;
+            font-size: 1rem;
             opacity: .95;
-            margin: 0;
-            font-size: .98rem;
         }
 
-    /* Taller hero on larger screens (still reduced) */
     @@media (min-width: 768px) {
         #shop-hero {
-            min-height: 240px;
+            min-height: 210px;
         }
-            /* was 380px */
+
             #shop-hero .hero-title {
-                font-size: 1.9rem;
+                font-size: 2.2rem;
             }
     }
 
     @@media (min-width: 992px) {
         #shop-hero {
-            min-height: 280px;
+            min-height: 240px;
         }
-            /* was 460px */
+
             #shop-hero .hero-title {
-                font-size: 2.1rem;
+                font-size: 2.4rem;
             }
-        /* desktop */
     }
-</style>
 
-<section id="shop-hero" class="w-100">
-    <div class="hero-inner container">
-        <div>
-            <h1 class="hero-title">Shop</h1>
-            <p class="hero-subtitle">Fresh • Organic • Daily</p>
-        </div>
-    </div>
-</section>
-
-
-
-<style>
-    /* ========= Mint/Green makeover (from Top Products) ========= */
-
-    /* Bigger discount % (left) and SALE/HOT (right) */
+    /* ================= PRODUCT CARDS ================= */
     #shop-grid .tp-badge {
-        font-size: 1.05rem; /* was .8rem */
-        padding: .35rem .8rem; /* roomier */
+        font-size: 1.05rem;
+        padding: .35rem .8rem;
     }
 
     @@media (min-width: 992px) {
         #shop-grid .tp-badge {
-            font-size: 1.15rem; /* larger on desktops */
+            font-size: 1.15rem;
             padding: .4rem .9rem;
         }
     }
 
-    /* Card */
     #shop-grid .tp-card {
-        position: relative; /* needed for whole-card overlay & centered CTA */
+        position: relative;
         border-radius: 18px;
         overflow: hidden;
         background: linear-gradient(180deg, rgba(236,253,245,.85) 0%, rgba(255,255,255,.95) 60%), #f0fff4;
@@ -121,7 +98,6 @@
             outline-color: rgba(16,185,129,.34);
         }
 
-        /* ===== WHOLE-CARD green overlay (moved from image to card) ===== */
         #shop-grid .tp-card::after {
             content: "";
             position: absolute;
@@ -129,16 +105,14 @@
             background: rgba(16,185,129,0);
             transition: background .32s ease;
             pointer-events: none;
-            z-index: 1; /* sits above content to tint it; CTA will be above this */
+            z-index: 1;
         }
 
         #shop-grid .tp-card:hover::after {
             background: rgba(16,185,129,.28);
         }
 
-    /* Image stage + badges */
     #shop-grid .tp-media {
-        /* was: position: relative; -> make it static so the centered button can use the card as its containing block */
         position: static;
         height: 160px;
         padding: 12px;
@@ -160,46 +134,43 @@
             transition: transform .32s ease, filter .32s ease, opacity .32s ease;
         }
 
-    /* Slight image motion/blur on whole-card hover */
     #shop-grid .tp-card:hover .tp-media img {
         transform: scale(1.04);
         filter: blur(1.5px) saturate(1.05);
         opacity: .93;
     }
 
-    /* ===== Centered Add to cart button for WHOLE card ===== */
     #shop-grid .tp-add {
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -40%);
+        transform: translate(-50%,-40%);
         opacity: 0;
         pointer-events: none;
         padding: .48rem 1.15rem;
         border: none;
         border-radius: 11px;
-        background: linear-gradient(90deg, #16a34a, #0ea5a4);
+        background: linear-gradient(90deg,#16a34a,#0ea5a4);
         color: #fff;
         font-weight: 700;
         box-shadow: 0 10px 22px rgba(14,165,164,.35);
         transition: opacity .22s ease, transform .22s ease;
-        z-index: 2; /* above the green overlay */
+        z-index: 2;
     }
 
     #shop-grid .tp-card:hover .tp-add {
         opacity: 1;
         pointer-events: auto;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%,-50%);
     }
 
-    /* Badges (left discount, right status) — now positioned relative to the CARD */
     #shop-grid .tp-badge {
         position: absolute;
         top: .6rem;
         font-weight: 700;
         border-radius: 999px;
         backdrop-filter: blur(2px);
-        z-index: 2; /* above overlay */
+        z-index: 2;
     }
 
         #shop-grid .tp-badge.left {
@@ -222,7 +193,6 @@
                 border-color: rgba(16,185,129,.3);
             }
 
-    /* Text + price */
     #shop-grid .card-title {
         font-size: 1rem;
         font-weight: 700;
@@ -240,589 +210,721 @@
         font-size: .95rem;
     }
 
-    /* Primary button (Buy Now fallback) */
-    #shop-grid .tp-btn {
-        background: linear-gradient(90deg, #16a34a, #0ea5a4);
-        color: #fff;
-        border: none;
-        padding: .48rem 1.15rem;
-        font-size: .95rem;
-        border-radius: 11px;
-        box-shadow: 0 8px 18px rgba(14,165,164,.25);
-        transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+    /* Section headers refined */
+    .section-intro {
+        font-size: 1.9rem !important;
+        font-weight: 900 !important;
+        color: #0b3b22 !important;
+        letter-spacing: .6px;
+        margin-bottom: 22px !important;
         position: relative;
-        z-index: 2; /* clickable above overlay */
+        font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
-        #shop-grid .tp-btn:hover {
-            filter: saturate(1.1);
-            transform: translateY(-1px);
-            box-shadow: 0 12px 26px rgba(16,185,129,.35);
+        .section-intro::after {
+            content: "";
+            display: block;
+            width: 70px;
+            height: 4px;
+            margin: 10px auto 0;
+            border-radius: 999px;
+            background: linear-gradient(90deg,#16a34a,#0ea5a4);
+            opacity: .9;
         }
 
+    /* ================= FILTER CARD ================= */
+    .filter-card {
+        border: 1px solid rgba(16,185,129,.20);
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 0 10px 28px rgba(0,0,0,.06);
+        position: sticky;
+        top: 90px;
+    }
+
+        .filter-card h4 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #0b3b22;
+            letter-spacing: .3px;
+        }
+
+    .filter-group .form-range {
+        accent-color: #16a34a;
+    }
+
+    .filter-group .input-group-text {
+        background: #ecfdf5;
+        color: #065f46;
+        border-color: #c7f0e1;
+    }
+
+    .filter-group .form-control {
+        border-color: #c7f0e1;
+    }
+
+    .form-select, .form-control {
+        border-radius: 10px;
+    }
 </style>
 
-<!----------------------------------------------- Milk Section ----------------------------------------------->
-
-<section id="shop-grid" class="container py-5">
-    <!-- Font (Montserrat) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-
-    <h1 class="section-intro mx-auto text-center mb-4">Milk</h1>
-
-    <style>
-        /* Intro heading style */
-        #top-products .section-intro {
-            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            font-weight: 800; /* bold */
-            color: #000; /* dark black */
-            line-height: 1.2;
-        }
-    </style>
-
-    <div class="row g-4">
-        <!-- Product 1 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-25%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/milk.png" alt="Organic Yogurt" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Raw Milk</h5>
-                    <div class="tp-price mb-3">$2.99 / KG</div>
-
-                </div>
-            </article>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-15%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/pasteroized-milk.png" alt="Farm Fresh Milk" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Pasteurized Milk</h5>
-                    <div class="tp-price mb-3">$1.79 / Litre</div>
-                </div>
-            </article>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-30%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/uht-milk.png" alt="Aged Cheddar Cheese" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">UHT Milk</h5>
-                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
-                </div>
-            </article>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-10%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/almond-milk.png" alt="Raw Organic Honey" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Almond Milk</h5>
-                    <div class="tp-price mb-3">$3.99 / 250 gm</div>
-                </div>
-            </article>
-        </div>
-
-        <!-- Product 5 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-20%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/zero-fat-milk.png" alt="Whole Grain Bread" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Zero Fat Milk</h5>
-                    <div class="tp-price mb-3">$12.99 / KG</div>
-                </div>
-            </article>
-        </div>
-
-        <!-- Product 6 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-18%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/mango-milk.png" alt="Free-Range Eggs" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Mango Milk</h5>
-                    <div class="tp-price mb-3">$15.99 / KG</div>
-                </div>
-            </article>
+<section id="shop-hero" class="w-100">
+    <div class="hero-inner container">
+        <div>
+            <h1 class="hero-title">Shop</h1>
+            <p class="hero-subtitle">Fresh • Organic • Daily</p>
         </div>
     </div>
 </section>
 
-
-<!----------------------------------------------- Yogurt Section ----------------------------------------------->
-
-
-<section id="shop-grid" class="container py-5">
-    <!-- Font (Montserrat) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-
-    <h1 class="section-intro mx-auto text-center mb-4">Yogurt</h1>
-
-    <style>
-        /* Intro heading style */
-        #top-products .section-intro {
-            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            font-weight: 800; /* bold */
-            color: #000; /* dark black */
-            line-height: 1.2;
-        }
-    </style>
-
+<section class="container py-4">
     <div class="row g-4">
-        <!-- Product 1 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-25%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/yogurt.png" alt="Organic Yogurt" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Organic Yogurt</h5>
-                    <div class="tp-price mb-3">$2.99 / KG</div>
 
-                </div>
-            </article>
-        </div>
+        <!-- LEFT FILTERS -->
+        <aside class="col-lg-3 d-none d-lg-block">
+            <form id="shop-filters" class="filter-card p-3">
+                <h4 class="mb-3 fw-semibold">Filter</h4>
 
-        <!-- Product 2 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-15%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/sweet-curd.png" alt="Farm Fresh Milk" />
-                    <button class="tp-add">Buy Now</button>
+                <!-- Category -->
+                <div class="filter-group mb-4">
+                    <label class="fw-semibold mb-2 d-block">Category</label>
+                    <select id="categorySelect" class="form-select">
+                        <option value="all" selected>All</option>
+                        <option value="Milk">Milk</option>
+                        <option value="Yogurt">Yogurt</option>
+                        <option value="Cheese">Cheese</option>
+                        <option value="Meat">Meat</option>
+                        <option value="Creamy Products">Creamy Products</option>
+                        <option value="Others">Others</option>
+                    </select>
                 </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Sweet Curd</h5>
-                    <div class="tp-price mb-3">$1.79 / Litre</div>
-                </div>
-            </article>
-        </div>
 
-        <!-- Product 3 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-30%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/greek-yogurt.png" alt="Aged Cheddar Cheese" />
-                    <button class="tp-add">Buy Now</button>
+                <!-- Price -->
+                <div class="filter-group mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="fw-semibold">Price (BDT)</span>
+                        <small class="text-muted"><span id="f-price-min">৳ 0</span> – <span id="f-price-max">৳ 5,000</span></small>
+                    </div>
+                    <div class="range-wrap position-relative mb-2">
+                        <input type="range" id="priceMin" min="0" max="5000" step="10" value="0" class="form-range">
+                        <input type="range" id="priceMax" min="0" max="5000" step="10" value="5000" class="form-range mt-2">
+                    </div>
+                    <div class="row gx-2">
+                        <div class="col">
+                            <div class="input-group">
+                                <span class="input-group-text">৳</span>
+                                <input type="number" class="form-control" id="priceFrom" min="0" max="5000" step="10" value="0">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <span class="input-group-text">৳</span>
+                                <input type="number" class="form-control" id="priceTo" min="0" max="5000" step="10" value="5000">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Greek Yogurt</h5>
-                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
-                </div>
-            </article>
-        </div>
 
-        <!-- Product 4 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-10%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/mango-yogurt.png" alt="Raw Organic Honey" />
-                    <button class="tp-add">Buy Now</button>
+                <!-- Discount (slider only, 5% steps) -->
+                <div class="filter-group mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="fw-semibold">Discount</span>
+                        <small class="text-muted" id="f-discount-label">0%+</small>
+                    </div>
+                    <input type="range" id="discountMin" min="0" max="50" step="5" value="0" class="form-range">
+                    <div class="d-flex justify-content-between small text-muted">
+                        <span>0%</span><span>50%+</span>
+                    </div>
                 </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Mango Yogurt</h5>
-                    <div class="tp-price mb-3">$3.99 / 250 gm</div>
-                </div>
-            </article>
-        </div>
 
-        <!-- Product 5 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-20%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/baked-yogurt.png" alt="Whole Grain Bread" />
-                    <button class="tp-add">Buy Now</button>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success">Apply Filters</button>
+                    <button type="reset" class="btn btn-outline-secondary" id="resetFilters">Reset</button>
                 </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Baked Yogurt</h5>
-                    <div class="tp-price mb-3">$12.99 / KG</div>
-                </div>
-            </article>
-        </div>
+            </form>
+        </aside>
 
-        <!-- Product 6 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-18%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/lassi.png" alt="Free-Range Eggs" />
-                    <button class="tp-add">Buy Now</button>
+        <!-- RIGHT CONTENT -->
+        <div class="col-12 col-lg-9">
+
+            <!-- ================= MILK ================= -->
+            <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Milk">
+                <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+                <h1 class="section-intro mx-auto text-center mb-4">Milk</h1>
+
+                <div class="row g-4">
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Milk" data-price="360" data-discount="25">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-25%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/milk.png" alt="Raw Milk" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Raw Milk</h5>
+                                <div class="tp-price mb-3">৳ 360 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Milk" data-price="215" data-discount="15">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-15%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/pasteroized-milk.png" alt="Pasteurized Milk" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Pasteurized Milk</h5>
+                                <div class="tp-price mb-3">৳ 215 / Litre</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Milk" data-price="419" data-discount="30">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-30%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/uht-milk.png" alt="UHT Milk" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">UHT Milk</h5>
+                                <div class="tp-price mb-3">৳ 419 / 200 gm</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Milk" data-price="479" data-discount="10">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-10%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/almond-milk.png" alt="Almond Milk" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Almond Milk</h5>
+                                <div class="tp-price mb-3">৳ 479 / 250 gm</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Milk" data-price="1559" data-discount="20">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-20%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/zero-fat-milk.png" alt="Zero Fat Milk" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Zero Fat Milk</h5>
+                                <div class="tp-price mb-3">৳ 1,559 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Milk" data-price="1919" data-discount="20">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-20%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/mango-milk.png" alt="Mango Milk" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Mango Milk</h5>
+                                <div class="tp-price mb-3">৳ 1,919 / KG</div>
+                            </div>
+                        </article>
+                    </div>
                 </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">No Sugar Lassi</h5>
-                    <div class="tp-price mb-3">$15.99 / KG</div>
+            </section>
+
+            <!-- ================= YOGURT ================= -->
+            <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Yogurt">
+                <h1 class="section-intro mx-auto text-center mb-4">Yogurt</h1>
+
+                <div class="row g-4">
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Yogurt" data-price="360" data-discount="25">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-25%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/yogurt.png" alt="Organic Yogurt" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Organic Yogurt</h5>
+                                <div class="tp-price mb-3">৳ 360 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Yogurt" data-price="215" data-discount="15">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-15%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/sweet-curd.png" alt="Sweet Curd" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Sweet Curd</h5>
+                                <div class="tp-price mb-3">৳ 215 / Litre</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Yogurt" data-price="419" data-discount="30">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-30%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/greek-yogurt.png" alt="Greek Yogurt" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Greek Yogurt</h5>
+                                <div class="tp-price mb-3">৳ 419 / 200 gm</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Yogurt" data-price="479" data-discount="10">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-10%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/mango-yogurt.png" alt="Mango Yogurt" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Mango Yogurt</h5>
+                                <div class="tp-price mb-3">৳ 479 / 250 gm</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Yogurt" data-price="1559" data-discount="20">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-20%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/baked-yogurt.png" alt="Baked Yogurt" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Baked Yogurt</h5>
+                                <div class="tp-price mb-3">৳ 1,559 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Yogurt" data-price="1919" data-discount="20">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-20%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/lassi.png" alt="No Sugar Lassi" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">No Sugar Lassi</h5>
+                                <div class="tp-price mb-3">৳ 1,919 / KG</div>
+                            </div>
+                        </article>
+                    </div>
                 </div>
-            </article>
+            </section>
+
+            <!-- ================= CHEESE ================= -->
+            <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Cheese">
+                <h1 class="section-intro mx-auto text-center mb-4">Cheese</h1>
+
+                <div class="row g-4">
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Cheese" data-price="360" data-discount="25">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-25%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/paneer.png" alt="Paneer" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Paneer</h5>
+                                <div class="tp-price mb-3">৳ 360 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Cheese" data-price="215" data-discount="15">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-15%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/mozarella.png" alt="Mozarella" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Mozarella</h5>
+                                <div class="tp-price mb-3">৳ 215 / Litre</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Cheese" data-price="419" data-discount="30">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-30%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/cheese.png" alt="Cheddar Cheese" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Cheddar Cheese</h5>
+                                <div class="tp-price mb-3">৳ 419 / 200 gm</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Cheese" data-price="479" data-discount="10">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-10%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/cottage.png" alt="Cottage Cheese" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Cottage Cheese</h5>
+                                <div class="tp-price mb-3">৳ 479 / 250 gm</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Cheese" data-price="1559" data-discount="20">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-20%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/Parmen.png" alt="Parmigiano" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Parmigiano</h5>
+                                <div class="tp-price mb-3">৳ 1,559 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Cheese" data-price="1919" data-discount="20">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-20%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/Roquefort.png" alt="Roquefort Cheese" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Roquefort Cheese</h5>
+                                <div class="tp-price mb-3">৳ 1,919 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= MEAT ================= -->
+            <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Meat">
+                <h1 class="section-intro mx-auto text-center mb-4">Meat</h1>
+
+                <div class="row g-4">
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Meat" data-price="360" data-discount="25">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-25%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/Bmeat.png" alt="Raw Meat Boneless" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Raw Meat (Boneless)</h5>
+                                <div class="tp-price mb-3">৳ 360 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Meat" data-price="215" data-discount="15">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-15%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/steak.png" alt="Beef Steak" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Beef Steak</h5>
+                                <div class="tp-price mb-3">৳ 215 / Litre</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Meat" data-price="419" data-discount="30">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-30%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/sausage.png" alt="Beef Sausage" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Beef Sausage</h5>
+                                <div class="tp-price mb-3">৳ 419 / 200 gm</div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= CREAMY PRODUCTS ================= -->
+            <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Creamy Products">
+                <h1 class="section-intro mx-auto text-center mb-4">Creamy Products</h1>
+
+                <div class="row g-4">
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Creamy Products" data-price="360" data-discount="25">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-25%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/heavy-cream.png" alt="Heavy Cream" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Heavy Cream</h5>
+                                <div class="tp-price mb-3">৳ 360 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Creamy Products" data-price="215" data-discount="15">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-15%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/whipped-cream.png" alt="Whipped Cream" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Whipped Cream</h5>
+                                <div class="tp-price mb-3">৳ 215 / Litre</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Creamy Products" data-price="419" data-discount="30">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-30%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/cream-cheese.png" alt="Cream Cheese" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Cream Cheese</h5>
+                                <div class="tp-price mb-3">৳ 419 / 200 gm</div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= OTHERS ================= -->
+            <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Others">
+                <h1 class="section-intro mx-auto text-center mb-4">Others</h1>
+
+                <div class="row g-4">
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Others" data-price="360" data-discount="25">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-25%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/milk-powder.png" alt="Milk Powder" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Milk Powder</h5>
+                                <div class="tp-price mb-3">৳ 360 / KG</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Others" data-price="215" data-discount="15">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-15%</span>
+                                <span class="tp-badge right sale">SALE</span>
+                                <img src="~/Images/casein.png" alt="Casein" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Casein</h5>
+                                <div class="tp-price mb-3">৳ 215 / Litre</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0"
+                                 data-category="Others" data-price="419" data-discount="30">
+                            <div class="tp-media">
+                                <span class="tp-badge left">-30%</span>
+                                <span class="tp-badge right hot">HOT</span>
+                                <img src="~/Images/string-cheese.png" alt="String Cheese" />
+                                <button class="tp-add">Buy Now</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">String Cheese</h5>
+                                <div class="tp-price mb-3">৳ 419 / 200 gm</div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 </section>
 
+<script>
+    /* ------- FILTERING (CLIENT SIDE) ------- */
 
-<!----------------------------------------------- Cheese Section ----------------------------------------------->
+    const form = document.getElementById("shop-filters");
+    const categorySelect = document.getElementById("categorySelect");
 
+    const priceMin = document.getElementById('priceMin');
+    const priceMax = document.getElementById('priceMax');
+    const priceFrom = document.getElementById('priceFrom');
+    const priceTo   = document.getElementById('priceTo');
+    const pMinOut   = document.getElementById('f-price-min');
+    const pMaxOut   = document.getElementById('f-price-max');
 
-<section id="shop-grid" class="container py-5">
-    <!-- Font (Montserrat) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    const discountMin = document.getElementById('discountMin');
+    const discLabel   = document.getElementById('f-discount-label');
 
-    <h1 class="section-intro mx-auto text-center mb-4">Cheese</h1>
+    const allItems = Array.from(document.querySelectorAll(".shop-item"));
+    const allSections = Array.from(document.querySelectorAll(".shop-section"));
 
-    <style>
-        /* Intro heading style */
-        #top-products .section-intro {
-            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            font-weight: 800; /* bold */
-            color: #000; /* dark black */
-            line-height: 1.2;
-        }
-    </style>
+    function fmt(n){ return Number(n).toLocaleString(); }
 
+    function syncPriceFromRanges(){
+        if(+priceMin.value > +priceMax.value){ priceMin.value = priceMax.value; }
+        priceFrom.value = priceMin.value;
+        priceTo.value   = priceMax.value;
+        pMinOut.textContent = '৳ ' + fmt(priceMin.value);
+        pMaxOut.textContent = '৳ ' + fmt(priceMax.value);
+    }
+    function syncPriceFromInputs(){
+        if(+priceFrom.value > +priceTo.value){ priceFrom.value = priceTo.value; }
+        priceMin.value = priceFrom.value;
+        priceMax.value = priceTo.value;
+        pMinOut.textContent = '৳ ' + fmt(priceFrom.value);
+        pMaxOut.textContent = '৳ ' + fmt(priceTo.value);
+    }
 
-    <div class="row g-4">
-        <!-- Product 1 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-25%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/paneer.png" alt="Organic Yogurt" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Paneer</h5>
-                    <div class="tp-price mb-3">$2.99 / KG</div>
+    function syncDiscount(){
+        discLabel.textContent = (discountMin.value || 0) + '%+';
+    }
 
-                </div>
-            </article>
-        </div>
+    function getDiscountThreshold(){
+        return +discountMin.value || 0;
+    }
 
-        <!-- Product 2 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-15%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/mozarella.png" alt="Farm Fresh Milk" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Mozarella</h5>
-                    <div class="tp-price mb-3">$1.79 / Litre</div>
-                </div>
-            </article>
-        </div>
+    function applyFilters(){
+        const cat  = categorySelect.value;
+        const minP = +priceMin.value;
+        const maxP = +priceMax.value;
+        const minD = getDiscountThreshold();
 
-        <!-- Product 3 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-30%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/cheese.png" alt="Aged Cheddar Cheese" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Cheddar Cheese</h5>
-                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
-                </div>
-            </article>
-        </div>
+        allItems.forEach(item=>{
+            const card = item.querySelector("article");
+            const price = +card.dataset.price;
+            const disc  = +card.dataset.discount;
+            const category = card.dataset.category;
 
-        <!-- Product 4 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-10%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/cottage.png" alt="Raw Organic Honey" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Cottage Cheese</h5>
-                    <div class="tp-price mb-3">$3.99 / 250 gm</div>
-                </div>
-            </article>
-        </div>
+            const matchCategory = (cat === "all") || (category === cat);
+            const matchPrice    = price >= minP && price <= maxP;
+            const matchDisc     = disc >= minD;
 
-        <!-- Product 5 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-20%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/Parmen.png" alt="Whole Grain Bread" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Parmigiano</h5>
-                    <div class="tp-price mb-3">$12.99 / KG</div>
-                </div>
-            </article>
-        </div>
+            item.style.display = (matchCategory && matchPrice && matchDisc) ? "" : "none";
+        });
 
-        <!-- Product 6 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-18%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/Roquefort.png" alt="Free-Range Eggs" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Roquefort Cheese</h5>
-                    <div class="tp-price mb-3">$15.99 / KG</div>
-                </div>
-            </article>
-        </div>
-    </div>
-</section>
+        allSections.forEach(sec=>{
+            const visibleAny = sec.querySelectorAll(".shop-item:not([style*='display: none'])").length > 0;
+            sec.style.display = visibleAny ? "" : "none";
+        });
+    }
 
-<section id="shop-grid" class="container py-5">
-    <!-- Font (Montserrat) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    priceMin?.addEventListener('input', ()=>{ syncPriceFromRanges(); applyFilters(); });
+    priceMax?.addEventListener('input', ()=>{ syncPriceFromRanges(); applyFilters(); });
+    priceFrom?.addEventListener('input', ()=>{ syncPriceFromInputs(); applyFilters(); });
+    priceTo?.addEventListener('input', ()=>{ syncPriceFromInputs(); applyFilters(); });
 
-    <h1 class="section-intro mx-auto text-center mb-4">Meat</h1>
+    discountMin?.addEventListener('input', ()=>{ syncDiscount(); applyFilters(); });
+    categorySelect?.addEventListener("change", applyFilters);
 
-    <style>
-        /* Intro heading style */
-        #top-products .section-intro {
-            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            font-weight: 800; /* bold */
-            color: #000; /* dark black */
-            line-height: 1.2;
-        }
-    </style>
+    form?.addEventListener("submit", function(e){
+        e.preventDefault();
+        applyFilters();
+    });
 
-    <div class="row g-4">
-        <!-- Product 1 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-25%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/Bmeat.png" alt="Organic Yogurt" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Raw Meat (Boneless)</h5>
-                    <div class="tp-price mb-3">$2.99 / KG</div>
+    document.getElementById('resetFilters')?.addEventListener('click', () => {
+        setTimeout(()=>{
+            categorySelect.value = "all";
 
-                </div>
-            </article>
-        </div>
+            priceMin.value=0;
+            priceMax.value=5000;
+            syncPriceFromRanges();
 
-        <!-- Product 2 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-15%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/steak.png" alt="Farm Fresh Milk" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Beef Steak</h5>
-                    <div class="tp-price mb-3">$1.79 / Litre</div>
-                </div>
-            </article>
-        </div>
+            discountMin.value=0;
+            syncDiscount();
 
-        <!-- Product 3 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-30%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/sausage.png" alt="Aged Cheddar Cheese" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Beef Sausage</h5>
-                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
-                </div>
-            </article>
-        </div>
-    </div>
-</section>
+            applyFilters();
+        },0);
+    });
 
-<section id="shop-grid" class="container py-5">
-    <!-- Font (Montserrat) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-
-    <h1 class="section-intro mx-auto text-center mb-4">Creamy Products</h1>
-
-    <style>
-        /* Intro heading style */
-        #top-products .section-intro {
-            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            font-weight: 800; /* bold */
-            color: #000; /* dark black */
-            line-height: 1.2;
-        }
-    </style>
-
-    <div class="row g-4">
-        <!-- Product 1 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-25%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/heavy-cream.png" alt="Organic Yogurt" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Heavy Cream</h5>
-                    <div class="tp-price mb-3">$2.99 / KG</div>
-
-                </div>
-            </article>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-15%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/whipped-cream.png" alt="Farm Fresh Milk" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Whipped Cream</h5>
-                    <div class="tp-price mb-3">$1.79 / Litre</div>
-                </div>
-            </article>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-30%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/cream-cheese.png" alt="Aged Cheddar Cheese" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Cream Cheese</h5>
-                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
-                </div>
-            </article>
-        </div>
-
-
-    </div>
-</section>
-
-<section id="shop-grid" class="container py-5">
-    <!-- Font (Montserrat) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-
-    <h1 class="section-intro mx-auto text-center mb-4">Others</h1>
-
-    <style>
-        /* Intro heading style */
-        #top-products .section-intro {
-            font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            font-weight: 800; /* bold */
-            color: #000; /* dark black */
-            line-height: 1.2;
-        }
-    </style>
-
-    <div class="row g-4">
-        <!-- Product 1 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-25%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/milk-powder.png" alt="Organic Yogurt" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Milk Powder</h5>
-                    <div class="tp-price mb-3">$2.99 / KG</div>
-
-                </div>
-            </article>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-15%</span>
-                    <span class="tp-badge right sale">SALE</span>
-                    <img src="~/Images/casein.png" alt="Farm Fresh Milk" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">Casein</h5>
-                    <div class="tp-price mb-3">$1.79 / Litre</div>
-                </div>
-            </article>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="col-12 col-sm-6 col-lg-4">
-            <article class="tp-card card h-100 border-0">
-                <div class="tp-media">
-                    <span class="tp-badge left">-30%</span>
-                    <span class="tp-badge right hot">HOT</span>
-                    <img src="~/Images/string-cheese.png" alt="Aged Cheddar Cheese" />
-                    <button class="tp-add">Buy Now</button>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-1">String Cheese</h5>
-                    <div class="tp-price mb-3">$3.49 / 200 gm</div>
-                </div>
-            </article>
-        </div>
-    </div>
-</section>
+    // init
+    syncPriceFromRanges();
+    syncDiscount();
+    applyFilters();
+</script>
