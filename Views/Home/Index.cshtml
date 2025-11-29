@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home";
+    var isLoggedIn = Context.Session.GetString("UserType") != null;
 }
 <!-- Hello World -->
 <!-- Hello World -->
@@ -69,148 +70,249 @@
         </div>
     </div>
 </section>
-
-<!-- OUR TOP PRODUCTS -->
+<!-- OUR TOP PRODUCTS (Shop-style preview) -->
 <section class="py-5 bg-light" id="top-products">
     <div class="container">
         <h1 class="fw-bold display-5 mb-5 text-center">Our Top Products</h1>
 
-        <div class="row g-4">
+        <div class="row g-4" id="home-top-products">
+
             <!-- Milk -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0">
+                <article class="tp-card card h-100 border-0" data-price="360" data-discount="25">
                     <div class="tp-media">
+                        <span class="tp-badge left">-25%</span>
+                        <span class="tp-badge right hot">HOT</span>
                         <img src="~/Images/milk.png" alt="Fresh Cow Milk" />
+                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Fresh Cow Milk</h5>
-                        <div class="tp-price mb-3">$5.99</div>
-                        <a href="#" class="btn tp-btn">Buy Now</a>
+                        <div class="tp-price mb-3">৳ 360 / Litre</div>
                     </div>
                 </article>
             </div>
 
             <!-- Meat -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0">
+                <article class="tp-card card h-100 border-0" data-price="1299" data-discount="20">
                     <div class="tp-media">
+                        <span class="tp-badge left">-20%</span>
+                        <span class="tp-badge right hot">HOT</span>
                         <img src="~/Images/meat.png" alt="Raw Fresh Meat" />
+                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Raw Fresh Meat</h5>
-                        <div class="tp-price mb-3">$12.99</div>
-                        <a href="#" class="btn tp-btn">Buy Now</a>
+                        <div class="tp-price mb-3">৳ 1,299 / KG</div>
                     </div>
                 </article>
             </div>
 
             <!-- Cheese -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0">
+                <article class="tp-card card h-100 border-0" data-price="849" data-discount="30">
                     <div class="tp-media">
+                        <span class="tp-badge left">-30%</span>
+                        <span class="tp-badge right sale">SALE</span>
                         <img src="~/Images/cheese.png" alt="Organic Cheese" />
+                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Organic Cheese</h5>
-                        <div class="tp-price mb-3">$8.49</div>
-                        <a href="#" class="btn tp-btn">Buy Now</a>
+                        <div class="tp-price mb-3">৳ 849 / 200 gm</div>
                     </div>
                 </article>
             </div>
 
             <!-- Butter -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0">
+                <article class="tp-card card h-100 border-0" data-price="699" data-discount="10">
                     <div class="tp-media">
+                        <span class="tp-badge left">-10%</span>
+                        <span class="tp-badge right sale">SALE</span>
                         <img src="~/Images/butter.png" alt="Fresh Butter" />
+                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Fresh Butter</h5>
-                        <div class="tp-price mb-3">$6.99</div>
-                        <a href="#" class="btn tp-btn">Buy Now</a>
+                        <div class="tp-price mb-3">৳ 699 / 250 gm</div>
                     </div>
                 </article>
             </div>
 
             <!-- Ghee -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0">
+                <article class="tp-card card h-100 border-0" data-price="349" data-discount="18">
                     <div class="tp-media">
+                        <span class="tp-badge left">-18%</span>
+                        <span class="tp-badge right hot">HOT</span>
                         <img src="~/Images/ghee.png" alt="Pure Deshi Ghee" />
+                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Pure Deshi Ghee</h5>
-                        <div class="tp-price mb-3">$3.49</div>
-                        <a href="#" class="btn tp-btn">Buy Now</a>
+                        <div class="tp-price mb-3">৳ 349 / 200 gm</div>
                     </div>
                 </article>
             </div>
 
             <!-- Yogurt -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0">
+                <article class="tp-card card h-100 border-0" data-price="499" data-discount="15">
                     <div class="tp-media">
+                        <span class="tp-badge left">-15%</span>
+                        <span class="tp-badge right sale">SALE</span>
                         <img src="~/Images/yogurt.png" alt="Organic Yogurt" />
+                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Organic Yogurt</h5>
-                        <div class="tp-price mb-3">$4.99</div>
-                        <a href="#" class="btn tp-btn">Buy Now</a>
+                        <div class="tp-price mb-3">৳ 499 / KG</div>
                     </div>
                 </article>
             </div>
+
+        </div>
+
+        <!-- ✅ Show More button -->
+        <div class="text-center mt-5">
+            <a asp-controller="Shop" asp-action="Index"
+               class="btn btn-success btn-lg px-5 shadow-sm">
+                Show More
+            </a>
         </div>
     </div>
 </section>
 
 <style>
-    /* ========= Mint/Green makeover ========= */
+    /* ====== SAME SHOP-CARD STYLE (home preview) ====== */
 
     #top-products .tp-card {
+        position: relative;
         border-radius: 18px;
         overflow: hidden;
-        background: linear-gradient(180deg, rgba(236,253,245,.85) 0%, rgba(255,255,255,.95) 60%), #f0fff4; /* light green base */
+        background: linear-gradient(180deg, rgba(236,253,245,.85) 0%, rgba(255,255,255,.95) 60%), #f0fff4;
         box-shadow: 0 5px 18px rgba(16,24,40,.08);
-        outline: 1px solid rgba(16,185,129,.18); /* emerald outline */
+        outline: 1px solid rgba(16,185,129,.18);
         transition: transform .22s ease, box-shadow .22s ease, outline-color .22s ease;
     }
 
         #top-products .tp-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 18px 44px rgba(16,185,129,.20); /* greenish hover shadow */
+            box-shadow: 0 18px 44px rgba(16,185,129,.20);
             outline-color: rgba(16,185,129,.34);
         }
 
-    /* Image stage: same size for all, mint BG */
+        /* Whole-card green overlay */
+        #top-products .tp-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(16,185,129,0);
+            transition: background .32s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        #top-products .tp-card:hover::after {
+            background: rgba(16,185,129,.22);
+        }
+
     #top-products .tp-media {
+        position: static;
         height: 160px;
         padding: 12px;
         display: grid;
         place-items: center;
-        background: radial-gradient(420px 140px at 50% 0, rgba(34,197,94,.12), transparent 60%), #f6fff9; /* very light mint behind image */
+        background: radial-gradient(420px 140px at 50% 0, rgba(34,197,94,.12), transparent 60%), #f6fff9;
         border-bottom: 1px solid #e6f6ee;
+        overflow: hidden;
     }
 
         #top-products .tp-media img {
             max-height: 120px;
             max-width: 80%;
             object-fit: contain;
-            width: auto;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            transition: transform .32s ease;
+            transition: transform .32s ease, filter .32s ease, opacity .32s ease;
+            z-index: 0;
         }
 
+    /* Image motion on hover */
     #top-products .tp-card:hover .tp-media img {
         transform: scale(1.04);
+        filter: blur(1px) saturate(1.05);
+        opacity: .93;
     }
+
+    /* Centered Buy Now button */
+    #top-products .tp-add {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -40%);
+        opacity: 0;
+        pointer-events: none;
+        padding: .48rem 1.15rem;
+        border: none;
+        border-radius: 11px;
+        background: linear-gradient(90deg, #16a34a, #0ea5a4);
+        color: #fff;
+        font-weight: 700;
+        box-shadow: 0 10px 22px rgba(14,165,164,.35);
+        transition: opacity .22s ease, transform .22s ease;
+        z-index: 2;
+    }
+
+    #top-products .tp-card:hover .tp-add {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Badges */
+    #top-products .tp-badge {
+        position: absolute;
+        top: .6rem;
+        font-weight: 700;
+        border-radius: 999px;
+        backdrop-filter: blur(2px);
+        z-index: 2;
+        font-size: 1.05rem;
+        padding: .35rem .8rem;
+    }
+
+        #top-products .tp-badge.left {
+            left: .6rem;
+            color: #065f46;
+            background: rgba(16,185,129,.16);
+            border: 1px solid rgba(16,185,129,.25);
+        }
+
+        #top-products .tp-badge.right {
+            right: .6rem;
+            color: #b45309;
+            background: rgba(253,186,116,.25);
+            border: 1px solid rgba(251,146,60,.35);
+        }
+
+            #top-products .tp-badge.right.sale {
+                color: #065f46;
+                background: rgba(16,185,129,.18);
+                border-color: rgba(16,185,129,.3);
+            }
 
     /* Text + price */
     #top-products .card-title {
         font-size: 1rem;
         font-weight: 700;
-        color: #062e1a
+        color: #062e1a;
     }
 
     #top-products .tp-price {
@@ -218,88 +320,13 @@
         padding: .25rem .65rem;
         font-weight: 700;
         color: #065f46;
-        background: rgba(16,185,129,.12); /* emerald tint */
+        background: rgba(16,185,129,.12);
         border: 1px solid rgba(16,185,129,.18);
         border-radius: 999px;
         font-size: .95rem;
     }
-
-    /* Gradient button (emerald -> teal) w/ subtle glow */
-    #top-products .tp-btn {
-        --c1: #16a34a; /* emerald */
-        --c2: #0ea5a4; /* teal-600 */
-        background: linear-gradient(90deg, var(--c1), var(--c2));
-        color: #fff;
-        border: none;
-        padding: .48rem 1.15rem;
-        font-size: .95rem;
-        border-radius: 11px;
-        box-shadow: 0 8px 18px rgba(14,165,164,.25);
-        transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
-    }
-
-        #top-products .tp-btn:hover {
-            filter: saturate(1.1);
-            transform: translateY(-1px);
-            box-shadow: 0 12px 26px rgba(16,185,129,.35);
-        }
-
-        #top-products .tp-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 6px 14px rgba(16,185,129,.28);
-        }
 </style>
 
-
-
-
-
-<!-- TOP RATED ANIMALS SECTION -->
-<section class="py-5 bg-light" id="top-rated-animals">
-
-    <style>
-        /* Card styling */
-        .card {
-            background-color: #fff; /* White background for a clean look */
-            border: 1px solid #f0f0f0; /* Soft border for subtle elegance */
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-            transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
-            border-radius: 12px; /* Rounded corners */
-        }
-
-            .card:hover {
-                box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
-                transform: translateY(-8px); /* Slight lift effect */
-            }
-
-        .card-img-top {
-            object-fit: cover;
-            height: 220px; /* Fixed height for images */
-            border-top-left-radius: 12px; /* Rounded top corners */
-            border-top-right-radius: 12px;
-        }
-
-        .card-body {
-            text-align: center;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .btn-primary {
-            background-color: #198754; /* Green color for the button */
-            border-color: #198754;
-        }
-
-            .btn-primary:hover {
-                background-color: #2b6e44; /* Darker green on hover */
-                border-color: #2b6e44;
-            }
-    </style>
 
 
 <!-- WHY CHOOSE US SECTION -->
@@ -604,5 +631,21 @@
     </div>
 </section>
 
+<script>
+    function handleBuyNow(e) {
+        e.preventDefault();
+
+        const loggedIn = @isLoggedIn.ToString().ToLower();
+
+        if (!loggedIn) {
+            const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+            window.location.href = "/Auth/Login?returnUrl=" + returnUrl;
+            return;
+        }
+
+        // logged in → later you will connect cart
+        alert("Added! (cart will be connected later)");
+    }
+</script>
 
 

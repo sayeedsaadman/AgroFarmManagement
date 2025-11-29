@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Shop";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var isLoggedIn = Context.Session.GetString("UserType") != null;
 }
 
 <style>
@@ -360,7 +361,8 @@
                                 <span class="tp-badge left">-25%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/milk.png" alt="Raw Milk" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Raw Milk</h5>
@@ -376,7 +378,8 @@
                                 <span class="tp-badge left">-15%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/pasteroized-milk.png" alt="Pasteurized Milk" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Pasteurized Milk</h5>
@@ -392,7 +395,8 @@
                                 <span class="tp-badge left">-30%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/uht-milk.png" alt="UHT Milk" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">UHT Milk</h5>
@@ -408,7 +412,8 @@
                                 <span class="tp-badge left">-10%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/almond-milk.png" alt="Almond Milk" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Almond Milk</h5>
@@ -424,7 +429,8 @@
                                 <span class="tp-badge left">-20%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/zero-fat-milk.png" alt="Zero Fat Milk" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Zero Fat Milk</h5>
@@ -440,7 +446,8 @@
                                 <span class="tp-badge left">-20%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/mango-milk.png" alt="Mango Milk" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Mango Milk</h5>
@@ -463,7 +470,8 @@
                                 <span class="tp-badge left">-25%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/yogurt.png" alt="Organic Yogurt" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Organic Yogurt</h5>
@@ -479,7 +487,8 @@
                                 <span class="tp-badge left">-15%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/sweet-curd.png" alt="Sweet Curd" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Sweet Curd</h5>
@@ -495,7 +504,8 @@
                                 <span class="tp-badge left">-30%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/greek-yogurt.png" alt="Greek Yogurt" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Greek Yogurt</h5>
@@ -511,7 +521,8 @@
                                 <span class="tp-badge left">-10%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/mango-yogurt.png" alt="Mango Yogurt" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Mango Yogurt</h5>
@@ -527,7 +538,8 @@
                                 <span class="tp-badge left">-20%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/baked-yogurt.png" alt="Baked Yogurt" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Baked Yogurt</h5>
@@ -543,7 +555,8 @@
                                 <span class="tp-badge left">-20%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/lassi.png" alt="No Sugar Lassi" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">No Sugar Lassi</h5>
@@ -566,7 +579,8 @@
                                 <span class="tp-badge left">-25%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/paneer.png" alt="Paneer" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Paneer</h5>
@@ -582,7 +596,8 @@
                                 <span class="tp-badge left">-15%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/mozarella.png" alt="Mozarella" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Mozarella</h5>
@@ -598,7 +613,8 @@
                                 <span class="tp-badge left">-30%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/cheese.png" alt="Cheddar Cheese" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Cheddar Cheese</h5>
@@ -614,7 +630,8 @@
                                 <span class="tp-badge left">-10%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/cottage.png" alt="Cottage Cheese" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Cottage Cheese</h5>
@@ -630,7 +647,8 @@
                                 <span class="tp-badge left">-20%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/Parmen.png" alt="Parmigiano" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Parmigiano</h5>
@@ -646,7 +664,8 @@
                                 <span class="tp-badge left">-20%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/Roquefort.png" alt="Roquefort Cheese" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Roquefort Cheese</h5>
@@ -669,7 +688,8 @@
                                 <span class="tp-badge left">-25%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/Bmeat.png" alt="Raw Meat Boneless" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Raw Meat (Boneless)</h5>
@@ -685,7 +705,8 @@
                                 <span class="tp-badge left">-15%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/steak.png" alt="Beef Steak" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Beef Steak</h5>
@@ -701,7 +722,8 @@
                                 <span class="tp-badge left">-30%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/sausage.png" alt="Beef Sausage" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Beef Sausage</h5>
@@ -724,7 +746,8 @@
                                 <span class="tp-badge left">-25%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/heavy-cream.png" alt="Heavy Cream" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Heavy Cream</h5>
@@ -740,7 +763,8 @@
                                 <span class="tp-badge left">-15%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/whipped-cream.png" alt="Whipped Cream" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Whipped Cream</h5>
@@ -756,7 +780,8 @@
                                 <span class="tp-badge left">-30%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/cream-cheese.png" alt="Cream Cheese" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Cream Cheese</h5>
@@ -779,7 +804,8 @@
                                 <span class="tp-badge left">-25%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/milk-powder.png" alt="Milk Powder" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Milk Powder</h5>
@@ -795,7 +821,8 @@
                                 <span class="tp-badge left">-15%</span>
                                 <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/casein.png" alt="Casein" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Casein</h5>
@@ -811,7 +838,8 @@
                                 <span class="tp-badge left">-30%</span>
                                 <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/string-cheese.png" alt="String Cheese" />
-                                <button class="tp-add">Buy Now</button>
+                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">String Cheese</h5>
@@ -825,6 +853,25 @@
         </div>
     </div>
 </section>
+<script>
+    function handleBuyNow(e) {
+        e.preventDefault();
+
+        // Razor injects true/false here
+        const loggedIn = @isLoggedIn.ToString().ToLower();
+
+        if (!loggedIn) {
+            // redirect to login and come back to shop after login
+            const returnUrl = encodeURIComponent(window.location.pathname);
+            window.location.href = "/Auth/Login?returnUrl=" + returnUrl;
+            return;
+        }
+
+        // ✅ If logged in, allow normal flow
+        // (later you will replace with AddToCart / Checkout logic)
+        alert("Added! (you can wire cart later)");
+    }
+</script>
 
 <script>
     /* ------- FILTERING (CLIENT SIDE) ------- */
