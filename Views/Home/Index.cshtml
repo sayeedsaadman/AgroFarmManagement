@@ -70,118 +70,100 @@
         </div>
     </div>
 </section>
-<!-- OUR TOP PRODUCTS (Shop-style preview) -->
+<!-- OUR TOP PRODUCTS (Shop-style preview from Shop Index) -->
 <section class="py-5 bg-light" id="top-products">
     <div class="container">
         <h1 class="fw-bold display-5 mb-5 text-center">Our Top Products</h1>
 
         <div class="row g-4" id="home-top-products">
 
-            <!-- Milk -->
+            <!-- 1) Raw Milk -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0" data-price="360" data-discount="25">
+                <article class="tp-card card h-100 border-0" data-price="360">
                     <div class="tp-media">
-                        <span class="tp-badge left">-25%</span>
-                        <span class="tp-badge right hot">HOT</span>
-                        <img src="~/Images/milk.png" alt="Fresh Cow Milk" />
+                        <img src="~/Images/milk.png" alt="Raw Milk" />
                         <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                     </div>
                     <div class="card-body text-center">
-                        <h5 class="card-title mb-1">Fresh Cow Milk</h5>
-                        <div class="tp-price mb-3">৳ 360 / Litre</div>
+                        <h5 class="card-title mb-1">Raw Milk</h5>
+                        <div class="tp-price mb-3">৳ 360 / KG</div>
                     </div>
                 </article>
             </div>
 
-            <!-- Meat -->
+            <!-- 2) Pasteurized Milk -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0" data-price="1299" data-discount="20">
+                <article class="tp-card card h-100 border-0" data-price="215">
                     <div class="tp-media">
-                        <span class="tp-badge left">-20%</span>
-                        <span class="tp-badge right hot">HOT</span>
-                        <img src="~/Images/meat.png" alt="Raw Fresh Meat" />
+                        <img src="~/Images/pasteroized-milk.png" alt="Pasteurized Milk" />
                         <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                     </div>
                     <div class="card-body text-center">
-                        <h5 class="card-title mb-1">Raw Fresh Meat</h5>
-                        <div class="tp-price mb-3">৳ 1,299 / KG</div>
+                        <h5 class="card-title mb-1">Pasteurized Milk</h5>
+                        <div class="tp-price mb-3">৳ 215 / Litre</div>
                     </div>
                 </article>
             </div>
 
-            <!-- Cheese -->
+            <!-- 3) UHT Milk -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0" data-price="849" data-discount="30">
+                <article class="tp-card card h-100 border-0" data-price="419">
                     <div class="tp-media">
-                        <span class="tp-badge left">-30%</span>
-                        <span class="tp-badge right sale">SALE</span>
-                        <img src="~/Images/cheese.png" alt="Organic Cheese" />
+                        <img src="~/Images/uht-milk.png" alt="UHT Milk" />
                         <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                     </div>
                     <div class="card-body text-center">
-                        <h5 class="card-title mb-1">Organic Cheese</h5>
-                        <div class="tp-price mb-3">৳ 849 / 200 gm</div>
+                        <h5 class="card-title mb-1">UHT Milk</h5>
+                        <div class="tp-price mb-3">৳ 419 / 200 gm</div>
                     </div>
                 </article>
             </div>
 
-            <!-- Butter -->
+            <!-- 4) Organic Yogurt -->
             <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0" data-price="699" data-discount="10">
+                <article class="tp-card card h-100 border-0" data-price="360">
                     <div class="tp-media">
-                        <span class="tp-badge left">-10%</span>
-                        <span class="tp-badge right sale">SALE</span>
-                        <img src="~/Images/butter.png" alt="Fresh Butter" />
-                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
-                    </div>
-                    <div class="card-body text-center">
-                        <h5 class="card-title mb-1">Fresh Butter</h5>
-                        <div class="tp-price mb-3">৳ 699 / 250 gm</div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Ghee -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0" data-price="349" data-discount="18">
-                    <div class="tp-media">
-                        <span class="tp-badge left">-18%</span>
-                        <span class="tp-badge right hot">HOT</span>
-                        <img src="~/Images/ghee.png" alt="Pure Deshi Ghee" />
-                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
-                    </div>
-                    <div class="card-body text-center">
-                        <h5 class="card-title mb-1">Pure Deshi Ghee</h5>
-                        <div class="tp-price mb-3">৳ 349 / 200 gm</div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Yogurt -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <article class="tp-card card h-100 border-0" data-price="499" data-discount="15">
-                    <div class="tp-media">
-                        <span class="tp-badge left">-15%</span>
-                        <span class="tp-badge right sale">SALE</span>
                         <img src="~/Images/yogurt.png" alt="Organic Yogurt" />
                         <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Organic Yogurt</h5>
-                        <div class="tp-price mb-3">৳ 499 / KG</div>
+                        <div class="tp-price mb-3">৳ 360 / KG</div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- 5) Paneer -->
+            <div class="col-12 col-sm-6 col-lg-4">
+                <article class="tp-card card h-100 border-0" data-price="360">
+                    <div class="tp-media">
+                        <img src="~/Images/paneer.png" alt="Paneer" />
+                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-1">Paneer</h5>
+                        <div class="tp-price mb-3">৳ 360 / KG</div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- 6) Raw Meat (Boneless) -->
+            <div class="col-12 col-sm-6 col-lg-4">
+                <article class="tp-card card h-100 border-0" data-price="360">
+                    <div class="tp-media">
+                        <img src="~/Images/Bmeat.png" alt="Raw Meat Boneless" />
+                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-1">Raw Meat (Boneless)</h5>
+                        <div class="tp-price mb-3">৳ 360 / KG</div>
                     </div>
                 </article>
             </div>
 
         </div>
 
-        <!-- ✅ Show More button -->
+        <!-- Show More button -->
         <div class="text-center mt-5">
             <a asp-controller="Shop" asp-action="Index"
                class="btn btn-success btn-lg px-5 shadow-sm">
@@ -190,6 +172,7 @@
         </div>
     </div>
 </section>
+
 
 <style>
     /* ====== SAME SHOP-CARD STYLE (home preview) ====== */
@@ -276,38 +259,6 @@
         transform: translate(-50%, -50%);
     }
 
-    /* Badges */
-    #top-products .tp-badge {
-        position: absolute;
-        top: .6rem;
-        font-weight: 700;
-        border-radius: 999px;
-        backdrop-filter: blur(2px);
-        z-index: 2;
-        font-size: 1.05rem;
-        padding: .35rem .8rem;
-    }
-
-        #top-products .tp-badge.left {
-            left: .6rem;
-            color: #065f46;
-            background: rgba(16,185,129,.16);
-            border: 1px solid rgba(16,185,129,.25);
-        }
-
-        #top-products .tp-badge.right {
-            right: .6rem;
-            color: #b45309;
-            background: rgba(253,186,116,.25);
-            border: 1px solid rgba(251,146,60,.35);
-        }
-
-            #top-products .tp-badge.right.sale {
-                color: #065f46;
-                background: rgba(16,185,129,.18);
-                border-color: rgba(16,185,129,.3);
-            }
-
     /* Text + price */
     #top-products .card-title {
         font-size: 1rem;
@@ -326,7 +277,6 @@
         font-size: .95rem;
     }
 </style>
-
 
 
 <!-- WHY CHOOSE US SECTION -->

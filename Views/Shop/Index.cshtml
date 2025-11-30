@@ -71,18 +71,6 @@
     }
 
     /* ================= PRODUCT CARDS ================= */
-    #shop-grid .tp-badge {
-        font-size: 1.05rem;
-        padding: .35rem .8rem;
-    }
-
-    @@media (min-width: 992px) {
-        #shop-grid .tp-badge {
-            font-size: 1.15rem;
-            padding: .4rem .9rem;
-        }
-    }
-
     #shop-grid .tp-card {
         position: relative;
         border-radius: 18px;
@@ -164,35 +152,6 @@
         pointer-events: auto;
         transform: translate(-50%,-50%);
     }
-
-    #shop-grid .tp-badge {
-        position: absolute;
-        top: .6rem;
-        font-weight: 700;
-        border-radius: 999px;
-        backdrop-filter: blur(2px);
-        z-index: 2;
-    }
-
-        #shop-grid .tp-badge.left {
-            left: .6rem;
-            color: #065f46;
-            background: rgba(16,185,129,.16);
-            border: 1px solid rgba(16,185,129,.25);
-        }
-
-        #shop-grid .tp-badge.right {
-            right: .6rem;
-            color: #b45309;
-            background: rgba(253,186,116,.25);
-            border: 1px solid rgba(251,146,60,.35);
-        }
-
-            #shop-grid .tp-badge.right.sale {
-                color: #065f46;
-                background: rgba(16,185,129,.18);
-                border-color: rgba(16,185,129,.3);
-            }
 
     #shop-grid .card-title {
         font-size: 1rem;
@@ -326,18 +285,6 @@
                     </div>
                 </div>
 
-                <!-- Discount (slider only, 5% steps) -->
-                <div class="filter-group mb-4">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="fw-semibold">Discount</span>
-                        <small class="text-muted" id="f-discount-label">0%+</small>
-                    </div>
-                    <input type="range" id="discountMin" min="0" max="50" step="5" value="0" class="form-range">
-                    <div class="d-flex justify-content-between small text-muted">
-                        <span>0%</span><span>50%+</span>
-                    </div>
-                </div>
-
                 <div class="d-grid gap-2 mt-4">
                     <button type="submit" class="btn btn-success">Apply Filters</button>
                     <button type="reset" class="btn btn-outline-secondary" id="resetFilters">Reset</button>
@@ -355,14 +302,10 @@
 
                 <div class="row g-4">
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Milk" data-price="360" data-discount="25">
+                        <article class="tp-card card h-100 border-0" data-category="Milk" data-price="360">
                             <div class="tp-media">
-                                <span class="tp-badge left">-25%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/milk.png" alt="Raw Milk" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Raw Milk</h5>
@@ -372,14 +315,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Milk" data-price="215" data-discount="15">
+                        <article class="tp-card card h-100 border-0" data-category="Milk" data-price="215">
                             <div class="tp-media">
-                                <span class="tp-badge left">-15%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/pasteroized-milk.png" alt="Pasteurized Milk" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Pasteurized Milk</h5>
@@ -389,14 +328,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Milk" data-price="419" data-discount="30">
+                        <article class="tp-card card h-100 border-0" data-category="Milk" data-price="419">
                             <div class="tp-media">
-                                <span class="tp-badge left">-30%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/uht-milk.png" alt="UHT Milk" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">UHT Milk</h5>
@@ -406,14 +341,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Milk" data-price="479" data-discount="10">
+                        <article class="tp-card card h-100 border-0" data-category="Milk" data-price="479">
                             <div class="tp-media">
-                                <span class="tp-badge left">-10%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/almond-milk.png" alt="Almond Milk" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Almond Milk</h5>
@@ -423,14 +354,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Milk" data-price="1559" data-discount="20">
+                        <article class="tp-card card h-100 border-0" data-category="Milk" data-price="1559">
                             <div class="tp-media">
-                                <span class="tp-badge left">-20%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/zero-fat-milk.png" alt="Zero Fat Milk" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Zero Fat Milk</h5>
@@ -440,14 +367,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Milk" data-price="1919" data-discount="20">
+                        <article class="tp-card card h-100 border-0" data-category="Milk" data-price="1919">
                             <div class="tp-media">
-                                <span class="tp-badge left">-20%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/mango-milk.png" alt="Mango Milk" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Mango Milk</h5>
@@ -464,14 +387,10 @@
 
                 <div class="row g-4">
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Yogurt" data-price="360" data-discount="25">
+                        <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="360">
                             <div class="tp-media">
-                                <span class="tp-badge left">-25%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/yogurt.png" alt="Organic Yogurt" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Organic Yogurt</h5>
@@ -481,14 +400,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Yogurt" data-price="215" data-discount="15">
+                        <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="215">
                             <div class="tp-media">
-                                <span class="tp-badge left">-15%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/sweet-curd.png" alt="Sweet Curd" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Sweet Curd</h5>
@@ -498,14 +413,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Yogurt" data-price="419" data-discount="30">
+                        <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="419">
                             <div class="tp-media">
-                                <span class="tp-badge left">-30%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/greek-yogurt.png" alt="Greek Yogurt" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Greek Yogurt</h5>
@@ -515,14 +426,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Yogurt" data-price="479" data-discount="10">
+                        <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="479">
                             <div class="tp-media">
-                                <span class="tp-badge left">-10%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/mango-yogurt.png" alt="Mango Yogurt" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Mango Yogurt</h5>
@@ -532,14 +439,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Yogurt" data-price="1559" data-discount="20">
+                        <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="1559">
                             <div class="tp-media">
-                                <span class="tp-badge left">-20%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/baked-yogurt.png" alt="Baked Yogurt" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Baked Yogurt</h5>
@@ -549,14 +452,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Yogurt" data-price="1919" data-discount="20">
+                        <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="1919">
                             <div class="tp-media">
-                                <span class="tp-badge left">-20%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/lassi.png" alt="No Sugar Lassi" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">No Sugar Lassi</h5>
@@ -573,14 +472,10 @@
 
                 <div class="row g-4">
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Cheese" data-price="360" data-discount="25">
+                        <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="360">
                             <div class="tp-media">
-                                <span class="tp-badge left">-25%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/paneer.png" alt="Paneer" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Paneer</h5>
@@ -590,14 +485,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Cheese" data-price="215" data-discount="15">
+                        <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="215">
                             <div class="tp-media">
-                                <span class="tp-badge left">-15%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/mozarella.png" alt="Mozarella" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Mozarella</h5>
@@ -607,14 +498,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Cheese" data-price="419" data-discount="30">
+                        <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="419">
                             <div class="tp-media">
-                                <span class="tp-badge left">-30%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/cheese.png" alt="Cheddar Cheese" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Cheddar Cheese</h5>
@@ -624,14 +511,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Cheese" data-price="479" data-discount="10">
+                        <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="479">
                             <div class="tp-media">
-                                <span class="tp-badge left">-10%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/cottage.png" alt="Cottage Cheese" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Cottage Cheese</h5>
@@ -641,14 +524,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Cheese" data-price="1559" data-discount="20">
+                        <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="1559">
                             <div class="tp-media">
-                                <span class="tp-badge left">-20%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/Parmen.png" alt="Parmigiano" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Parmigiano</h5>
@@ -658,14 +537,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Cheese" data-price="1919" data-discount="20">
+                        <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="1919">
                             <div class="tp-media">
-                                <span class="tp-badge left">-20%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/Roquefort.png" alt="Roquefort Cheese" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Roquefort Cheese</h5>
@@ -682,14 +557,10 @@
 
                 <div class="row g-4">
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Meat" data-price="360" data-discount="25">
+                        <article class="tp-card card h-100 border-0" data-category="Meat" data-price="360">
                             <div class="tp-media">
-                                <span class="tp-badge left">-25%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/Bmeat.png" alt="Raw Meat Boneless" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Raw Meat (Boneless)</h5>
@@ -699,14 +570,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Meat" data-price="215" data-discount="15">
+                        <article class="tp-card card h-100 border-0" data-category="Meat" data-price="215">
                             <div class="tp-media">
-                                <span class="tp-badge left">-15%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/steak.png" alt="Beef Steak" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Beef Steak</h5>
@@ -716,14 +583,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Meat" data-price="419" data-discount="30">
+                        <article class="tp-card card h-100 border-0" data-category="Meat" data-price="419">
                             <div class="tp-media">
-                                <span class="tp-badge left">-30%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/sausage.png" alt="Beef Sausage" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Beef Sausage</h5>
@@ -740,14 +603,10 @@
 
                 <div class="row g-4">
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Creamy Products" data-price="360" data-discount="25">
+                        <article class="tp-card card h-100 border-0" data-category="Creamy Products" data-price="360">
                             <div class="tp-media">
-                                <span class="tp-badge left">-25%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/heavy-cream.png" alt="Heavy Cream" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Heavy Cream</h5>
@@ -757,14 +616,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Creamy Products" data-price="215" data-discount="15">
+                        <article class="tp-card card h-100 border-0" data-category="Creamy Products" data-price="215">
                             <div class="tp-media">
-                                <span class="tp-badge left">-15%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/whipped-cream.png" alt="Whipped Cream" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Whipped Cream</h5>
@@ -774,14 +629,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Creamy Products" data-price="419" data-discount="30">
+                        <article class="tp-card card h-100 border-0" data-category="Creamy Products" data-price="419">
                             <div class="tp-media">
-                                <span class="tp-badge left">-30%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/cream-cheese.png" alt="Cream Cheese" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Cream Cheese</h5>
@@ -798,14 +649,10 @@
 
                 <div class="row g-4">
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Others" data-price="360" data-discount="25">
+                        <article class="tp-card card h-100 border-0" data-category="Others" data-price="360">
                             <div class="tp-media">
-                                <span class="tp-badge left">-25%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/milk-powder.png" alt="Milk Powder" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Milk Powder</h5>
@@ -815,14 +662,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Others" data-price="215" data-discount="15">
+                        <article class="tp-card card h-100 border-0" data-category="Others" data-price="215">
                             <div class="tp-media">
-                                <span class="tp-badge left">-15%</span>
-                                <span class="tp-badge right sale">SALE</span>
                                 <img src="~/Images/casein.png" alt="Casein" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Casein</h5>
@@ -832,14 +675,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0"
-                                 data-category="Others" data-price="419" data-discount="30">
+                        <article class="tp-card card h-100 border-0" data-category="Others" data-price="419">
                             <div class="tp-media">
-                                <span class="tp-badge left">-30%</span>
-                                <span class="tp-badge right hot">HOT</span>
                                 <img src="~/Images/string-cheese.png" alt="String Cheese" />
                                 <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">String Cheese</h5>
@@ -853,22 +692,18 @@
         </div>
     </div>
 </section>
+
 <script>
     function handleBuyNow(e) {
         e.preventDefault();
-
-        // Razor injects true/false here
         const loggedIn = @isLoggedIn.ToString().ToLower();
 
         if (!loggedIn) {
-            // redirect to login and come back to shop after login
             const returnUrl = encodeURIComponent(window.location.pathname);
             window.location.href = "/Auth/Login?returnUrl=" + returnUrl;
             return;
         }
 
-        // ✅ If logged in, allow normal flow
-        // (later you will replace with AddToCart / Checkout logic)
         alert("Added! (you can wire cart later)");
     }
 </script>
@@ -885,9 +720,6 @@
     const priceTo   = document.getElementById('priceTo');
     const pMinOut   = document.getElementById('f-price-min');
     const pMaxOut   = document.getElementById('f-price-max');
-
-    const discountMin = document.getElementById('discountMin');
-    const discLabel   = document.getElementById('f-discount-label');
 
     const allItems = Array.from(document.querySelectorAll(".shop-item"));
     const allSections = Array.from(document.querySelectorAll(".shop-section"));
@@ -909,35 +741,24 @@
         pMaxOut.textContent = '৳ ' + fmt(priceTo.value);
     }
 
-    function syncDiscount(){
-        discLabel.textContent = (discountMin.value || 0) + '%+';
-    }
-
-    function getDiscountThreshold(){
-        return +discountMin.value || 0;
-    }
-
     function applyFilters(){
         const cat  = categorySelect.value;
         const minP = +priceMin.value;
         const maxP = +priceMax.value;
-        const minD = getDiscountThreshold();
 
         allItems.forEach(item=>{
             const card = item.querySelector("article");
             const price = +card.dataset.price;
-            const disc  = +card.dataset.discount;
             const category = card.dataset.category;
 
             const matchCategory = (cat === "all") || (category === cat);
             const matchPrice    = price >= minP && price <= maxP;
-            const matchDisc     = disc >= minD;
 
-            item.style.display = (matchCategory && matchPrice && matchDisc) ? "" : "none";
+            item.style.display = (matchCategory && matchPrice) ? "" : "none";
         });
 
         allSections.forEach(sec=>{
-            const visibleAny = sec.querySelectorAll(".shop-item:not([style*='display: none'])").length > 0;
+            const visibleAny = [...sec.querySelectorAll(".shop-item")].some(x => x.style.display !== "none");
             sec.style.display = visibleAny ? "" : "none";
         });
     }
@@ -947,7 +768,6 @@
     priceFrom?.addEventListener('input', ()=>{ syncPriceFromInputs(); applyFilters(); });
     priceTo?.addEventListener('input', ()=>{ syncPriceFromInputs(); applyFilters(); });
 
-    discountMin?.addEventListener('input', ()=>{ syncDiscount(); applyFilters(); });
     categorySelect?.addEventListener("change", applyFilters);
 
     form?.addEventListener("submit", function(e){
@@ -963,15 +783,11 @@
             priceMax.value=5000;
             syncPriceFromRanges();
 
-            discountMin.value=0;
-            syncDiscount();
-
             applyFilters();
         },0);
     });
 
     // init
     syncPriceFromRanges();
-    syncDiscount();
     applyFilters();
 </script>
