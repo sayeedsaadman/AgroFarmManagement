@@ -1,0 +1,80 @@
+﻿@model List<AgroManagement.Models.Employee>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Employee Management</h2>
+        <a class="btn btn-success" asp-controller="Employees" asp-action="Create">
+            + Add Employee
+        </a>
+    </div>
+
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-success">@TempData["success"]</div>
+    }
+
+    <table class="table table-bordered table-striped shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Employee ID</th>
+                <th>Employee Number</th>
+                <th>Salary</th>
+                <th>Address</th>
+                <th>Assigned Tasks</th>
+                <th style="width:160px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in Model)
+            {
+                <tr>
+                    <td>@e.EmployeeName</td>
+                    <td>@e.EmployeeCode</td>
+                    <td>@e.EmployeeNumber</td>
+                    <td>@e.Salary</td>
+                    <td>@e.Address</td>
+
+                    <td>
+                        @if (e.Tasks.Any())
+                        {
+                            <ul class="mb-0">
+                                @foreach (var t in e.Tasks)
+                                {
+                                    <li>
+                                        <strong>@t.TaskName</strong>
+                                        on <em>@t.Animal?.Breed</em>
+                                        (Tag: @t.Animal?.TagNumber)
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No tasks assigned</span>
+                        }
+                    </td>
+
+                    <td class="text-center">
+                        <a asp-controller="Employees"
+                           asp-action="Edit"
+                           asp-route-id="@e.EmployeeCode"
+                           class="btn btn-sm btn-primary me-1">
+                            Edit
+                        </a>
+
+                        <a asp-controller="Employees"
+                           asp-action="Delete"
+                           asp-route-id="@e.EmployeeCode"
+                           class="btn btn-sm btn-danger">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

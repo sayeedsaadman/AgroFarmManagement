@@ -2,6 +2,9 @@
 using AgroManagement.Data;
 using AgroManagement.Models;
 using System.Linq;
+using AgroManagement.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
+
 
 public class AdminController : Controller
 {

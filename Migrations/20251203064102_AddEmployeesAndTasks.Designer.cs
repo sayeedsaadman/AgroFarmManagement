@@ -4,6 +4,7 @@ using AgroManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgroManagement.Migrations
 {
     [DbContext(typeof(AgroContext))]
-    partial class AgroContextModelSnapshot : ModelSnapshot
+    [Migration("20251203064102_AddEmployeesAndTasks")]
+    partial class AddEmployeesAndTasks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,14 +65,21 @@ namespace AgroManagement.Migrations
 
             modelBuilder.Entity("AgroManagement.Models.Employee", b =>
                 {
-                    b.Property<string>("EmployeeCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("EmployeeCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("EmployeeName")
                         .IsRequired()
@@ -79,7 +89,7 @@ namespace AgroManagement.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("EmployeeCode");
+                    b.HasKey("Id");
 
                     b.ToTable("Employees");
                 });
@@ -98,12 +108,8 @@ namespace AgroManagement.Migrations
                     b.Property<DateTime>("AssignedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EmployeeCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmployeeCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("TaskName")
                         .IsRequired()
@@ -114,7 +120,7 @@ namespace AgroManagement.Migrations
 
                     b.HasIndex("AnimalId");
 
-                    b.HasIndex("EmployeeCode1");
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("EmployeeTasks");
                 });
@@ -166,7 +172,9 @@ namespace AgroManagement.Migrations
 
                     b.HasOne("AgroManagement.Models.Employee", "Employee")
                         .WithMany("Tasks")
-                        .HasForeignKey("EmployeeCode1");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Animal");
 

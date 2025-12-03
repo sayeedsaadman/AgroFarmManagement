@@ -1,0 +1,127 @@
+﻿@model AgroManagement.Models.ViewModels.EmployeeCreateVM
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var animals = ViewBag.Animals as List<AgroManagement.Models.Animal>;
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">Add Employee</h2>
+
+    <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Employee Name</label>
+                <input asp-for="EmployeeName" class="form-control" />
+                <span asp-validation-for="EmployeeName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Employee ID</label>
+                <input asp-for="EmployeeCode" class="form-control" />
+                <span asp-validation-for="EmployeeCode" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Employee Number</label>
+                <input asp-for="EmployeeNumber" class="form-control" />
+                <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Salary</label>
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Address</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <h4>Assign Tasks to Animal</h4>
+
+        <div class="mb-3">
+            <label class="form-label">Select Animal</label>
+            <select asp-for="SelectedAnimalId" class="form-select" id="animalSelect">
+                <option value="">-- Select Animal --</option>
+                @foreach (var a in animals)
+                {
+                    <option value="@a.Id">@a.Breed (Tag: @a.TagNumber)</option>
+                }
+            </select>
+        </div>
+
+        <div id="taskArea" style="display:none;">
+            <div id="taskAssignedBanner" class="alert alert-success py-2" style="display:none;">
+                Tasks Assigned ✅
+            </div>
+
+            <label class="form-label">Choose Tasks (multiple allowed)</label>
+            <div id="tasksContainer" class="row g-2"></div>
+
+            <div id="noTasksMsg" class="text-muted mt-2" style="display:none;">
+                All tasks are already assigned for this animal.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">
+            Save Employee
+        </button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const animalSelect = document.getElementById("animalSelect");
+        const taskArea = document.getElementById("taskArea");
+        const banner = document.getElementById("taskAssignedBanner");
+        const tasksContainer = document.getElementById("tasksContainer");
+        const noTasksMsg = document.getElementById("noTasksMsg");
+
+        animalSelect.addEventListener("change", async function () {
+            banner.style.display = "none";
+            tasksContainer.innerHTML = "";
+            noTasksMsg.style.display = "none";
+
+            if (!this.value) {
+                taskArea.style.display = "none";
+                return;
+            }
+
+            taskArea.style.display = "block";
+
+            const res = await fetch(`/Employees/GetAvailableTasks?animalId=${this.value}`);
+            const tasks = await res.json();
+
+            if (!tasks.length) {
+                noTasksMsg.style.display = "block";
+                return;
+            }
+
+            tasks.forEach(task => {
+                const col = document.createElement("div");
+                col.className = "col-md-6";
+                col.innerHTML = `
+                    <label class="border rounded p-2 w-100 d-flex align-items-center gap-2">
+                        <input type="checkbox" name="SelectedTaskNames" value="${task}" class="taskCheck" />
+                        <span>${task}</span>
+                    </label>
+                `;
+                tasksContainer.appendChild(col);
+            });
+        });
+
+        document.addEventListener("change", function(e){
+            if(e.target.classList.contains("taskCheck")){
+                const anyChecked = [...document.querySelectorAll(".taskCheck")].some(c => c.checked);
+                banner.style.display = anyChecked ? "block" : "none";
+            }
+        });
+    </script>
+}

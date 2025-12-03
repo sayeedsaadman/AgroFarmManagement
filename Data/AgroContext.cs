@@ -12,14 +12,31 @@ namespace AgroManagement.Data
         public DbSet<Animal> Animals { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeTask> EmployeeTasks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
+            // Animal unique TagNumber
             modelBuilder.Entity<Animal>()
                 .HasIndex(a => a.TagNumber)
                 .IsUnique();
-        }
 
+            // EmployeeTask -> Employee (EmployeeCode PK/FK)
+            modelBuilder.Entity<EmployeeTask>()
+                .HasOne(t => t.Employee)
+                .WithMany(e => e.Tasks)
+                .HasForeignKey(t => t.EmployeeCode)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // EmployeeTask -> Animal
+            modelBuilder.Entity<EmployeeTask>()
+                .HasOne(t => t.Animal)
+                .WithMany()
+                .HasForeignKey(t => t.AnimalId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

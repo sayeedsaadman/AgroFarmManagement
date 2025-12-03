@@ -1,0 +1,126 @@
+﻿@model AgroManagement.Models.ViewModels.EmployeeCreateVM
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var animals = ViewBag.Animals as List<AgroManagement.Models.Animal>;
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">Edit Employee</h2>
+
+    <form asp-action="Edit" asp-route-id="@Model.EmployeeCode" method="post" class="card p-4 shadow-sm">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Employee Name</label>
+                <input asp-for="EmployeeName" class="form-control" />
+                <span asp-validation-for="EmployeeName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Employee ID</label>
+                <input asp-for="EmployeeCode" class="form-control" readonly />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Employee Number</label>
+                <input asp-for="EmployeeNumber" class="form-control" />
+                <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Salary</label>
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Address</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <h4>Assign / Edit Tasks for Animal</h4>
+
+        <div class="mb-3">
+            <label class="form-label">Select Animal</label>
+            <select asp-for="SelectedAnimalId" class="form-select" id="animalSelect">
+                <option value="">-- Select Animal --</option>
+                @foreach (var a in animals)
+                {
+                    <option value="@a.Id">@a.Breed (Tag: @a.TagNumber)</option>
+                }
+            </select>
+        </div>
+
+        <div id="taskArea" style="display:none;">
+
+            <div id="tasksContainer" class="row g-2"></div>
+
+            <div id="noTasksMsg" class="text-muted mt-2" style="display:none;">
+                No tasks available for this animal.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+        <a asp-action="Index" class="btn btn-secondary mt-2">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const animalSelect = document.getElementById("animalSelect");
+        const taskArea = document.getElementById("taskArea");
+        const tasksContainer = document.getElementById("tasksContainer");
+        const noTasksMsg = document.getElementById("noTasksMsg");
+        const employeeCode = "@Model.EmployeeCode";
+
+        async function loadTasks(animalId) {
+            tasksContainer.innerHTML = "";
+            noTasksMsg.style.display = "none";
+
+            const res = await fetch(`/Employees/GetTasksForAnimal?animalId=${animalId}&employeeCode=${employeeCode}`);
+            const tasks = await res.json();
+
+            if (!tasks.length) {
+                noTasksMsg.style.display = "block";
+                return;
+            }
+
+            tasks.forEach(t => {
+                const col = document.createElement("div");
+                col.className = "col-md-6";
+                col.innerHTML = `
+                    <label class="border rounded p-2 w-100 d-flex align-items-center gap-2 ${t.isDisabled ? 'opacity-50' : ''}">
+                        <input type="checkbox"
+                               name="SelectedTaskNames"
+                               value="${t.name}"
+                               class="taskCheck"
+                               ${t.isChecked ? 'checked' : ''}
+                               ${t.isDisabled ? 'disabled' : ''} />
+                        <span>${t.name}</span>
+                    </label>
+                `;
+                tasksContainer.appendChild(col);
+            });
+        }
+
+        animalSelect.addEventListener("change", function () {
+            if (this.value) {
+                taskArea.style.display = "block";
+                loadTasks(this.value);
+            } else {
+                taskArea.style.display = "none";
+            }
+        });
+
+        // auto-load tasks if animal preselected
+        if (animalSelect.value) {
+            taskArea.style.display = "block";
+            loadTasks(animalSelect.value);
+        }
+    </script>
+}
