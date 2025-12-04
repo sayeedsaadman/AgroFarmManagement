@@ -1,0 +1,506 @@
+﻿@{
+    ViewData["Title"] = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- ====== ABOUT: Styles (mint/emerald, consistent with Shop/Footer) ====== -->
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .anchor-target {
+        scroll-margin-top: 110px;
+    }
+    /* keeps titles visible below sticky navbar */
+
+    /* Hero */
+    #about-hero {
+        position: relative;
+        width: 100%;
+        min-height: 240px;
+        background: url('/Images/about-cover.jpg') center/cover no-repeat; /* replace with your image */
+    }
+
+        #about-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(16,185,129,.18) 0%, rgba(0,0,0,.18) 100%);
+        }
+
+        #about-hero .inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 48px 12px;
+            min-height: 240px;
+        }
+
+        #about-hero h1 {
+            color: #062e1a;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0,0,0,.15);
+        }
+
+        #about-hero p {
+            color: #0f5132;
+            font-weight: 600;
+            opacity: .95;
+        }
+
+    /* Section title */
+    .section-title {
+        font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        font-weight: 800;
+        color: #000;
+        line-height: 1.2;
+        margin-bottom: 1.25rem;
+    }
+
+    /* Cards */
+    .mint-card {
+        border: 1px solid rgba(16,185,129,.18);
+        background: linear-gradient(180deg, rgba(236,253,245,.85) 0%, rgba(255,255,255,.98) 60%), #f0fff4;
+        border-radius: 18px;
+        box-shadow: 0 5px 18px rgba(16,24,40,.08);
+        transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+
+        .mint-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 44px rgba(16,185,129,.20);
+            border-color: rgba(16,185,129,.34);
+        }
+
+    /* Team avatars */
+    .dev-photo {
+        width: 96px;
+        height: 96px;
+        object-fit: cover;
+        border-radius: 999px;
+        border: 3px solid rgba(16,185,129,.25);
+        background: #fff;
+    }
+
+    .badge-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: .35rem .7rem;
+        border-radius: 999px;
+        background: rgba(16,185,129,.12);
+        border: 1px solid rgba(16,185,129,.22);
+        color: #065f46;
+        font-weight: 700;
+        font-size: .875rem;
+    }
+
+    /* Accordion */
+    .accordion-button {
+        font-weight: 600;
+        color: #065f46;
+    }
+
+        .accordion-button:not(.collapsed) {
+            background: #ecfdf5;
+            color: #065f46;
+        }
+
+    /* Pricing cards */
+    .price {
+        font-weight: 800;
+        font-size: 2rem;
+        color: #065f46;
+    }
+
+    .mint-btn {
+        background: linear-gradient(90deg,#16a34a,#0ea5a4);
+        color: #fff;
+        border: none;
+        border-radius: 11px;
+        padding: .6rem 1.1rem;
+        box-shadow: 0 8px 18px rgba(14,165,164,.25);
+    }
+
+        .mint-btn:hover {
+            filter: saturate(1.08);
+        }
+
+    /* Lists */
+    .list-check li {
+        padding-left: 1.4rem;
+        position: relative;
+        margin: .35rem 0;
+    }
+
+        .list-check li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #16a34a;
+            font-weight: 800;
+        }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+<!-- ===== HERO ===== -->
+<section id="about-hero">
+    <div class="inner container">
+        <div>
+            <h1 class="display-5 mb-1">About Us</h1>
+            <p>A small, focused team. <br /> Building a modern agro experience.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== NAV SHORTCUTS (mint/emerald chips) ===== -->
+<style>
+    /* container spacing */
+    .quick-nav {
+        --mint: #16a34a;
+        --teal: #0ea5a4;
+        --ink: #062e1a;
+        --leaf: #065f46;
+    }
+
+        .quick-nav .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: .55rem;
+            padding: .62rem .9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(16,185,129,.22);
+            background: linear-gradient(180deg, rgba(236,253,245,.85) 0%, rgba(255,255,255,.98) 70%), #f0fff4;
+            color: var(--leaf);
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 6px 16px rgba(16,24,40,.06);
+            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+        }
+
+            .quick-nav .chip:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 16px 34px rgba(16,185,129,.18);
+                border-color: rgba(16,185,129,.34);
+                background: linear-gradient(90deg, rgba(236,253,245,1) 0%, rgba(236,253,245,1) 100%);
+            }
+
+            .quick-nav .chip i {
+                display: inline-grid;
+                place-items: center;
+                width: 28px;
+                height: 28px;
+                border-radius: 999px;
+                background: rgba(16,185,129,.14);
+                border: 1px solid rgba(16,185,129,.25);
+                color: var(--leaf);
+                font-size: 14px;
+            }
+            /* active chip (when hash matches) */
+            .quick-nav .chip.active {
+                color: #fff;
+                border-color: transparent;
+                background: linear-gradient(90deg, var(--mint), var(--teal));
+                box-shadow: 0 12px 28px rgba(14,165,164,.28);
+            }
+
+                .quick-nav .chip.active i {
+                    background: rgba(255,255,255,.18);
+                    border-color: rgba(255,255,255,.35);
+                    color: #fff;
+                }
+</style>
+
+<nav class="container mt-3 quick-nav">
+    <div class="d-flex flex-wrap gap-2 justify-content-center">
+        <a class="chip text-decoration-none" href="#FAQ">
+            <i class="bi bi-question-circle"></i> FAQ
+        </a>
+        <a class="chip text-decoration-none" href="#RefundPolicy">
+            <i class="bi bi-arrow-repeat"></i> Refund & Return
+        </a>
+        <a class="chip text-decoration-none" href="#Terms">
+            <i class="bi bi-file-earmark-text"></i> Terms & Conditions
+        </a>
+        <a class="chip text-decoration-none" href="#Privacy">
+            <i class="bi bi-shield-lock"></i> Privacy Policy
+        </a>
+    </div>
+</nav>
+
+<!-- Optional: highlight the current chip by URL hash & on click -->
+<script>
+    (function(){
+      const chips = document.querySelectorAll('.quick-nav .chip');
+      function setActive(hash){
+        chips.forEach(c => c.classList.toggle('active', c.getAttribute('href') === hash));
+      }
+      setActive(location.hash || '');
+      chips.forEach(c => c.addEventListener('click', () => setTimeout(() => setActive(location.hash), 10)));
+      window.addEventListener('hashchange', () => setActive(location.hash));
+    })();
+</script>
+
+
+<!-- ===== DEVELOPERS ===== -->
+<section id="Developers" class="container py-5">
+    <h2 class="section-title anchor-target text-center">Our Developers</h2>
+
+    <!-- center the columns -->
+    <div class="row g-4 justify-content-center">
+
+        <style>
+            /* Larger “developer” card */
+            .dev-card-lg .mint-card {
+                padding: 2.25rem !important;
+            }
+            /* more padding */
+            .dev-card-lg .dev-photo {
+                width: 150px;
+                height: 150px;
+            }
+            /* bigger avatar */
+            .dev-card-lg h5 {
+                font-size: 1.25rem;
+            }
+            /* larger name */
+            .dev-card-lg .text-muted {
+                font-size: 1rem;
+            }
+            /* larger subtext */
+            /* optional: make the border/glow feel a bit stronger on hover */
+            .dev-card-lg .mint-card:hover {
+                box-shadow: 0 22px 54px rgba(16,185,129,.22);
+            }
+        </style>
+
+        <!-- Dev 1 -->
+        <div class="col-12 col-sm-10 col-md-6 col-lg-5 col-xl-4 dev-card-lg">
+            <div class="mint-card h-100 p-4 text-center">
+                <img class="dev-photo mb-3" src="/Images/dev-1.jpg" alt="Developer 1">
+                <h5 class="mb-1 fw-bold">Walid</h5>
+                <div class="text-muted mb-2">BSc in CSE — UI/UX Engineer</div>
+                <span class="badge-pill">Role: Frontend</span>
+            </div>
+        </div>
+
+
+        <!-- Dev 2 -->
+        <div class="col-12 col-sm-10 col-md-6 col-lg-5 col-xl-4 dev-card-lg">
+            <div class="mint-card h-100 p-4 text-center">
+                <img class="dev-photo mb-3" src="/Images/dev-2.jpg" alt="Developer 2">
+                <h5 class="mb-1 fw-bold">Sayeed Saadman Saad</h5>
+                <div class="text-muted mb-2">BSc in CSE — Systems Design</div>
+                <span class="badge-pill">Role: Backend</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ===== FAQ ===== -->
+<section id="FAQ" class="container py-5">
+    <h2 class="section-title anchor-target text-center">FAQ</h2>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="accordion" id="faqAcc">
+                <div class="accordion-item mint-card">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1">How fresh are your dairy products?</button>
+                    </h2>
+                    <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc">
+                        <div class="accordion-body">
+                            We source directly from our partner farms daily, chill immediately, and maintain a cold chain until delivery.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mint-card mt-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">Do you test for quality?</button>
+                    </h2>
+                    <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+                        <div class="accordion-body">
+                            Yes—each batch is lab-tested for purity and safety. We reject anything below standard.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mint-card mt-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">What areas do you deliver to?</button>
+                    </h2>
+                    <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+                        <div class="accordion-body">
+                            We currently deliver across Dhaka city. More areas rolling out soon.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mint-card mt-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q4">Can I cancel or change my order?</button>
+                    </h2>
+                    <div id="q4" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+                        <div class="accordion-body">
+                            Yes—contact support within 30 minutes of placing your order for changes or cancellations.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== REFUND & POLICY ===== -->
+<section id="RefundPolicy" class="container py-5">
+    <h2 class="section-title anchor-target text-center">Refund & Policy</h2>
+    <div class="row g-4">
+        <div class="col-12 col-lg-6">
+            <div class="mint-card p-4 h-100">
+                <h5 class="fw-bold mb-2">Refund Policy</h5>
+                <ul class="list-check mb-0">
+                    <li>Full refund for damaged/expired products reported within 24 hours.</li>
+                    <li>Refunds processed via original payment method within 5–7 business days.</li>
+                    <li>For cash-on-delivery, refunds are issued as store credit or bank transfer.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="mint-card p-4 h-100">
+                <h5 class="fw-bold mb-2">Return Policy</h5>
+                <ul class="list-check mb-0">
+                    <li>Chilled items are returnable only upon delivery if seal is broken or package damaged.</li>
+                    <li>Non-perishable items accept returns within 7 days if unopened and in original condition.</li>
+                    <li>Please keep receipt and unboxing video/photos for claims.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ===== TERMS & CONDITIONS ===== -->
+<section id="Terms" class="container py-5">
+    <h2 class="section-title anchor-target text-center">Terms & Conditions</h2>
+    <div class="mint-card p-4">
+        <h6 class="fw-bold">1) Acceptance of Terms</h6>
+        <p class="mb-3">By using SPESH AGRO, you agree to these Terms and our Privacy Policy.</p>
+
+        <h6 class="fw-bold">2) Orders & Payments</h6>
+        <p class="mb-3">All orders are subject to availability. Prices may change without prior notice.</p>
+
+        <h6 class="fw-bold">3) Delivery</h6>
+        <p class="mb-3">We aim to deliver within selected time windows. Unforeseen delays may occur.</p>
+
+        <h6 class="fw-bold">4) Liability</h6>
+        <p class="mb-3">We are not liable for indirect losses arising from product use beyond the product value.</p>
+
+        <h6 class="fw-bold">5) Changes</h6>
+        <p class="mb-0">We may update these Terms from time to time. Continued use constitutes acceptance.</p>
+    </div>
+</section>
+
+<!-- ===== PRIVACY POLICY ===== -->
+<section id="Privacy" class="container py-5">
+    <h2 class="section-title anchor-target text-center">Privacy Policy</h2>
+
+    <div class="mint-card p-4 mb-3">
+        <p class="mb-2 text-muted">
+            <strong>Last updated:</strong> @DateTime.Now.ToString("MMMM dd, yyyy")
+        </p>
+        <p>
+            SPESH AGRO (“we”, “our”, “us”) is committed to protecting your privacy. This policy explains what data we collect, how we use it, and the choices you have.
+        </p>
+    </div>
+
+    <!-- What we collect -->
+    <div class="mint-card p-4 mb-3">
+        <h5 class="fw-bold mb-2">1) Information We Collect</h5>
+        <ul class="list-check mb-0">
+            <li><strong>Account & Contact:</strong> name, email, phone, delivery address.</li>
+            <li><strong>Order & Payment:</strong> items purchased, totals, payment status (payments are processed by secure third-party providers—we don’t store full card details).</li>
+            <li><strong>Technical:</strong> device/browser info, IP address, cookies for session, analytics, and preferences.</li>
+            <li><strong>Communications:</strong> support messages, reviews, and survey responses.</li>
+        </ul>
+    </div>
+
+    <!-- How we use -->
+    <div class="mint-card p-4 mb-3">
+        <h5 class="fw-bold mb-2">2) How We Use Your Information</h5>
+        <ul class="list-check mb-0">
+            <li>Process and deliver your orders, including notifications and support.</li>
+            <li>Improve our website, products, and user experience.</li>
+            <li>Prevent fraud, enforce policies, and ensure platform security.</li>
+            <li>Send offers and newsletters (you can unsubscribe anytime).</li>
+        </ul>
+    </div>
+
+    <!-- Sharing -->
+    <div class="mint-card p-4 mb-3">
+        <h5 class="fw-bold mb-2">3) Sharing & Disclosure</h5>
+        <ul class="list-check mb-0">
+            <li><strong>Service Providers:</strong> delivery, payments, analytics—only what’s necessary to perform services.</li>
+            <li><strong>Legal & Safety:</strong> when required by law or to protect rights, property, and safety.</li>
+            <li><strong>Business Changes:</strong> as part of a merger, acquisition, or asset transfer (with notice where required).</li>
+        </ul>
+    </div>
+
+    <!-- Cookies -->
+    <div class="mint-card p-4 mb-3">
+        <h5 class="fw-bold mb-2">4) Cookies & Tracking</h5>
+        <p class="mb-0">
+            We use cookies to keep you signed in, remember preferences, and measure performance. You can control cookies in your browser settings; some features may not work without them.
+        </p>
+    </div>
+
+    <!-- Data rights -->
+    <div class="mint-card p-4 mb-3">
+        <h5 class="fw-bold mb-2">5) Your Choices & Rights</h5>
+        <ul class="list-check mb-0">
+            <li>Access, correct, or delete your personal data (subject to applicable law).</li>
+            <li>Opt out of marketing emails via the unsubscribe link.</li>
+            <li>Request a copy of your data or object to certain processing.</li>
+        </ul>
+    </div>
+
+    <!-- Security & retention -->
+    <div class="mint-card p-4 mb-3">
+        <h5 class="fw-bold mb-2">6) Data Security & Retention</h5>
+        <p class="mb-0">
+            We use reasonable technical and organizational measures to protect data. We keep information only as long as needed for the purposes described or as required by law.
+        </p>
+    </div>
+
+    <!-- Children -->
+    <div class="mint-card p-4 mb-3">
+        <h5 class="fw-bold mb-2">7) Children’s Privacy</h5>
+        <p class="mb-0">
+            Our services are not directed to children under 13. If you believe a child provided personal data, please contact us to remove it.
+        </p>
+    </div>
+
+    <!-- Changes -->
+    <div class="mint-card p-4 mb-3">
+        <h5 class="fw-bold mb-2">8) Changes to This Policy</h5>
+        <p class="mb-0">
+            We may update this policy from time to time. We’ll post the new version here with an updated date.
+        </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="mint-card p-4">
+        <h5 class="fw-bold mb-2">9) Contact Us</h5>
+        <p class="mb-1">Questions or requests about privacy?</p>
+        <div class="d-flex flex-wrap gap-2">
+            <span class="badge-pill"><i class="bi bi-envelope"></i> privacy@speshagro.com</span>
+            <span class="badge-pill"><i class="bi bi-telephone"></i> +880 1XXX-XXXXXX</span>
+            <span class="badge-pill"><i class="bi bi-geo-alt"></i> Chittagong , Bangladesh</span>
+        </div>
+    </div>
+</section>
+

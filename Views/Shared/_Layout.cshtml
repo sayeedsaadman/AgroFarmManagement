@@ -34,8 +34,10 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-</head>
 
+
+
+</head>
 <!-- AOS Animation Script -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
@@ -69,7 +71,6 @@
             /* hide toggler on lg+ */
         }
     </style>
-
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top nav-glass shadow-sm">
         <div class="container py-1 nav-grid">
@@ -78,7 +79,8 @@
             <div class="nav-left">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="@Url.Action("Index", "Home")">
                     <span class="brand-logo">
-                        <img src="~/Images/Spesh.png" alt="Logo" />
+                        <img src="~/Images/Spesh.png"
+                             alt="Logo" />
                     </span>
                     <span class="brand-text">@appName</span>
                 </a>
@@ -107,17 +109,18 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-link-pill" href="#about">About</a>
+                        <a class="nav-link nav-link-pill" href="/About">About</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link nav-link-pill" href="#contact">Contact</a>
+                        <a class="nav-link nav-link-pill" href="#site-footer">Contact</a>
                     </li>
+
                 </ul>
             </div>
 
             <!-- RIGHT: Auth/User -->
             <div class="collapse navbar-collapse justify-content-end mt-3 mt-lg-0 nav-right">
-
                 @if (userType == null)
                 {
                     <div class="d-flex gap-2">
@@ -130,15 +133,6 @@
                     <ul class="navbar-nav me-2">
                         <li class="nav-item">
                             <a class="nav-link nav-link-pill" asp-controller="Customer" asp-action="Dashboard">Dashboard</a>
-                        </li>
-
-                        <!-- ✅ UPDATE PROFILE (Customer) -->
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-pill"
-                               asp-controller="Profile"
-                               asp-action="Index">
-                                Update Profile
-                            </a>
                         </li>
                     </ul>
 
@@ -158,15 +152,6 @@
                         <li class="nav-item">
                             <a class="nav-link nav-link-pill" asp-controller="Admin" asp-action="Products">Products</a>
                         </li>
-
-                        <!-- ✅ UPDATE PROFILE (Admin) -->
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-pill"
-                               asp-controller="Profile"
-                               asp-action="Index">
-                                Update Profile
-                            </a>
-                        </li>
                     </ul>
 
                     <div class="user-chip me-2">
@@ -178,17 +163,6 @@
                 }
                 else
                 {
-                    <!-- ✅ UPDATE PROFILE (any other userType like "User") -->
-                    <ul class="navbar-nav me-2">
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-pill"
-                               asp-controller="Profile"
-                               asp-action="Index">
-                                Update Profile
-                            </a>
-                        </li>
-                    </ul>
-
                     <div class="user-chip me-2">
                         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User" />
                         <span>@userName (@userType)</span>
@@ -200,6 +174,35 @@
 
         </div>
     </nav>
+
+    <style>
+        /* 3 equal sections on lg+ */
+        @@media (min-width: 992px) {
+            .nav-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr; /* equal space */
+                align-items: center;
+            }
+
+            .nav-left {
+                justify-self: start;
+            }
+
+            .nav-center {
+                justify-self: center;
+            }
+
+            .nav-right {
+                justify-self: end;
+            }
+
+            .nav-toggle {
+                display: none;
+            }
+            /* hide toggler on lg+ */
+        }
+    </style>
+
 
     <style>
         /* ===== Navbar Base ===== */
@@ -250,12 +253,14 @@
                 transform: translateY(-1px);
             }
 
+        /* remove yellow active bg completely */
         .nav-pills .nav-link.active {
             background: transparent !important;
             color: rgba(255,255,255,.95) !important;
             box-shadow: none !important;
         }
 
+        /* ===== SHOP: static black border + rotating white glow trace ===== */
         .nav-shop-glow {
             position: relative;
             border-radius: 999px;
@@ -291,6 +296,7 @@
             background: rgba(255,255,255,.12);
         }
 
+        /* ===== user chip ===== */
         .user-chip {
             display: flex;
             align-items: center;
@@ -311,18 +317,233 @@
             }
     </style>
 
+
+
+
     <!-- MAIN CONTENT -->
     <main class="flex-grow-1">
         @RenderBody()
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-success text-white text-center py-3 mt-5">
-        <div class="container">
-            © @DateTime.Now.Year SPESH AGRO Farm Management System. All rights reserved.
+    <!-- ===== Footer (Mint/Emerald theme) ===== -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        /* smooth jump to footer */
+
+        #site-footer {
+            position: relative;
+            background: linear-gradient(180deg, rgba(236,253,245,.92) 0%, rgba(255,255,255,.98) 55%), #f0fff4;
+            border-top: 1px solid rgba(16,185,129,.18);
+            color: #062e1a;
+        }
+
+            #site-footer .footer-title {
+                font-weight: 800;
+                font-size: 1.05rem;
+                margin-bottom: .9rem;
+                color: #065f46;
+            }
+
+            #site-footer .footer-link {
+                color: #0f5132;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: .45rem;
+                padding: .25rem 0;
+            }
+
+                #site-footer .footer-link:hover {
+                    color: #046c4e;
+                    text-decoration: underline;
+                }
+
+            /* contact badges */
+            #site-footer .ct-pill {
+                display: inline-flex;
+                align-items: center;
+                gap: .5rem;
+                padding: .4rem .7rem;
+                border-radius: 999px;
+                background: rgba(16,185,129,.12);
+                border: 1px solid rgba(16,185,129,.22);
+                color: #065f46;
+                font-weight: 600;
+            }
+
+            /* newsletter */
+            #site-footer .nl-wrap {
+                display: flex;
+                gap: .5rem;
+            }
+
+            #site-footer .nl-input {
+                border: 1px solid rgba(16,185,129,.22);
+                background: #fff;
+                border-radius: 10px;
+                padding: .6rem .8rem;
+                flex: 1;
+                color: #062e1a;
+            }
+
+                #site-footer .nl-input::placeholder {
+                    color: #6b8f82;
+                }
+
+            #site-footer .nl-btn {
+                border: none;
+                border-radius: 10px;
+                padding: .6rem 1rem;
+                background: linear-gradient(90deg, #16a34a, #0ea5a4);
+                color: #fff;
+                font-weight: 700;
+                box-shadow: 0 8px 18px rgba(14,165,164,.25);
+            }
+
+                #site-footer .nl-btn:hover {
+                    filter: saturate(1.08);
+                }
+
+            /* social */
+            #site-footer .social a {
+                width: 38px;
+                height: 38px;
+                display: inline-grid;
+                place-items: center;
+                border-radius: 999px;
+                margin-right: .4rem;
+                background: rgba(16,185,129,.12);
+                border: 1px solid rgba(16,185,129,.22);
+                color: #065f46;
+            }
+
+                #site-footer .social a:hover {
+                    background: rgba(16,185,129,.18);
+                }
+
+            /* bottom bar */
+            #site-footer .foot-bottom {
+                border-top: 1px solid rgba(16,185,129,.18);
+                color: #0f5132;
+            }
+    </style>
+
+    <footer id="site-footer" class="mt-5">
+        <div class="container py-5">
+            <div class="row g-4">
+                <!-- Brand / short blurb -->
+                <div class="col-12 col-lg-4">
+                    <h5 class="footer-title">SPESH AGRO</h5>
+                    <p class="mb-3" style="max-width: 420px;">
+                        Fresh, lab-tested dairy & meat — delivered with care. Sustainably produced, transparently priced.
+                    </p>
+
+                    <!-- quick contact pills -->
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+                        <span class="ct-pill"><i class="bi bi-telephone"></i> +880 1XXX-XXXXXX</span>
+                        <span class="ct-pill"><i class="bi bi-envelope"></i> hello@speshagro.com</span>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="ct-pill"><i class="bi bi-geo-alt"></i> Chittagong, Bangladesh</span>
+                        <span class="ct-pill"><i class="bi bi-clock"></i> 8:00–22:00</span>
+                    </div>
+                </div>
+
+                <!-- Quick links -->
+                <div class="col-6 col-lg-2">
+                    <h6 class="footer-title">Shop</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li><a class="footer-link" href="/Shop#Milk"><i class="bi bi-caret-right-fill"></i> Milk</a></li>
+                        <li><a class="footer-link" href="/Shop#Yogurt"><i class="bi bi-caret-right-fill"></i> Yogurt</a></li>
+                        <li><a class="footer-link" href="/Shop#Cheese"><i class="bi bi-caret-right-fill"></i> Cheese</a></li>
+                        <li><a class="footer-link" href="/Shop#Meat"><i class="bi bi-caret-right-fill"></i> Meat</a></li>
+                        <li><a class="footer-link" href="/Shop#Cream"><i class="bi bi-caret-right-fill"></i> Creamy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="col-6 col-lg-3">
+                    <h6 class="footer-title">Support</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li><a class="footer-link" href="/About"><i class="bi bi-info-circle"></i> About us</a></li>
+                        <li><a class="footer-link" href="/About#FAQ"><i class="bi bi-question-circle"></i> FAQ</a></li>
+                        <li><a class="footer-link" href="/About#RefundPolicy"><i class="bi bi-arrow-repeat"></i> Refund & Return</a></li>
+                        <li><a class="footer-link" href="/About#Terms"><i class="bi bi-file-earmark-text"></i> Terms & Conditions</a></li>
+                        <li><a class="footer-link" href="/About#Privacy"><i class="bi bi-shield-lock"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="col-12 col-lg-3">
+                    <h6 class="footer-title">Newsletter</h6>
+                    <p class="mb-2">Get fresh deals & new arrivals.</p>
+                    <form class="nl-wrap" method="post" action="/Subscribe">
+                        <input class="nl-input" type="email" name="email" placeholder="Your email address" required />
+                        <button class="nl-btn" type="submit">Subscribe</button>
+                    </form>
+
+                    <div class="social mt-3">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://github.com/sayeedsaadman/AgroFarmManagement" target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="SPESH AGRO on GitHub"
+                           title="GitHub">
+                            <i class="bi bi-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- bottom bar -->
+        <style>
+            /* Use existing Montserrat */
+            .foot-bottom .human-link {
+                text-decoration: none !important;
+            }
+
+            .foot-bottom .human {
+                font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+                font-weight: 800; /* bold */
+                color: #0ea5a4; /* teal */
+                font-size: 1.15rem; /* bigger on mobile */
+                letter-spacing: .2px;
+            }
+
+            @@media (min-width:768px) {
+                .foot-bottom .human {
+                    font-size: 1.35rem;
+                }
+            }
+        </style>
+
+
+        <div class="foot-bottom py-3">
+            <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start">
+                <small class="copy m-0">
+                    © @DateTime.Now.Year SPESH AGRO. All rights reserved.
+                </small>
+
+                <!-- Made by Human — teal, bold, Rockybilly, linked, NO underline -->
+                <small class="m-0">
+                    Made by
+                    <a class="human-link" href="/About" aria-label="About SPESH AGRO">
+                        <span class="human">Human</span>
+                    </a>
+                </small>
+            </div>
+        </div>
+
     </footer>
 
+
+    <!-- OPTIONAL: add anchors on Shop page section titles so footer quick links work -->
+    <!-- Example in your Shop view: <h1 id="Milk" class="section-intro ...">Milk</h1> etc. -->
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -335,11 +556,13 @@
     @RenderSection("Scripts", required: false)
 
     <script>
+        // Initialize AOS
         AOS.init();
 
+        // Function to animate the numbers
         const countUp = (element, target) => {
             let start = 0;
-            const duration = 2000;
+            const duration = 2000; // Duration of animation in ms
             const stepTime = Math.abs(Math.floor(duration / target));
             const interval = setInterval(() => {
                 start += 1;
@@ -348,20 +571,22 @@
             }, stepTime);
         };
 
+        // Trigger number animation on scroll
         document.addEventListener('DOMContentLoaded', function () {
             const animals = document.getElementById('animals');
             const milk = document.getElementById('milk');
             const experience = document.getElementById('experience');
             const customers = document.getElementById('customers');
 
+            // When the statistics section comes into view, animate the numbers
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        countUp(animals, 50);
-                        countUp(milk, 150);
-                        countUp(experience, 20);
-                        countUp(customers, 300);
-                        observer.disconnect();
+                        countUp(animals, 50); // 50+ Healthy Animals
+                        countUp(milk, 150); // 150L+ Milk Produced Daily
+                        countUp(experience, 20); // 20+ Years of Farming Experience
+                        countUp(customers, 300); // 300+ Satisfied Customers
+                        observer.disconnect(); // Stop watching after animation
                     }
                 });
             }, { threshold: 0.5 });
