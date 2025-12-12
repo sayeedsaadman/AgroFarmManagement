@@ -15,6 +15,7 @@ namespace AgroManagement.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeTask> EmployeeTasks { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Animal unique TagNumber

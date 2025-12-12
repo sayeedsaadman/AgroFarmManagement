@@ -16,15 +16,57 @@ public class AdminController : Controller
     }
 
     // Dashboard
-    public IActionResult Dashboard()
+    public async Task<IActionResult> Dashboard()
     {
-        var totalAnimals = _context.Animals.Count();
-        var totalUsers = _context.Users.Count();
+        const int TASKS_PER_ANIMAL = 8;
 
-        ViewBag.TotalAnimals = totalAnimals;
-        ViewBag.TotalUsers = totalUsers;
+        var totalEmployees = await _context.Employees.CountAsync();
+        var totalAnimals = await _context.Animals.CountAsync();
+        var totalUsers = await _context.Users.CountAsync();
 
-        return View();
+        var totalTasksAssigned = await _context.EmployeeTasks.CountAsync();
+
+        var totalTasksPossible = totalAnimals * TASKS_PER_ANIMAL;
+        var totalTasksUnassigned = totalTasksPossible - totalTasksAssigned;
+        if (totalTasksUnassigned < 0) totalTasksUnassigned = 0;
+
+        var tasksByEmployee = await _context.EmployeeTasks
+            .GroupBy(t => t.EmployeeCode)
+            .Select(g => new { EmployeeCode = g.Key, Count = g.Count() })
+            .ToListAsync();
+
+        var empLookup = await _context.Employees
+            .ToDictionaryAsync(e => e.EmployeeCode, e => e.EmployeeName);
+
+        var employeeNames = new List<string>();
+        var tasksPerEmployee = new List<int>();
+
+        foreach (var row in tasksByEmployee.OrderByDescending(x => x.Count))
+        {
+            employeeNames.Add(empLookup.ContainsKey(row.EmployeeCode)
+                ? empLookup[row.EmployeeCode]
+                : row.EmployeeCode);
+
+            tasksPerEmployee.Add(row.Count);
+        }
+
+        var vm = new DashboardVM
+        {
+            TotalEmployees = totalEmployees,
+            TotalAnimals = totalAnimals,
+            TotalUsers = totalUsers,
+
+            TotalTasksAssigned = totalTasksAssigned,
+            TasksRemaining = totalTasksUnassigned,
+
+            TotalTasksPossible = totalTasksPossible,
+            TotalTasksUnassigned = totalTasksUnassigned,
+
+            EmployeeNames = employeeNames,
+            TasksPerEmployee = tasksPerEmployee
+        };
+
+        return View(vm);
     }
 
     // -----------------------------

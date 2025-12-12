@@ -76,6 +76,11 @@ namespace AgroManagement.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("EmployeeNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
@@ -100,9 +105,6 @@ namespace AgroManagement.Migrations
 
                     b.Property<string>("EmployeeCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmployeeCode1")
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("TaskName")
@@ -114,10 +116,12 @@ namespace AgroManagement.Migrations
 
                     b.HasIndex("AnimalId");
 
-                    b.HasIndex("EmployeeCode1");
+                    b.HasIndex("EmployeeCode");
 
                     b.ToTable("EmployeeTasks");
                 });
+
+            
 
             modelBuilder.Entity("AgroManagement.Models.User", b =>
                 {
@@ -166,7 +170,9 @@ namespace AgroManagement.Migrations
 
                     b.HasOne("AgroManagement.Models.Employee", "Employee")
                         .WithMany("Tasks")
-                        .HasForeignKey("EmployeeCode1");
+                        .HasForeignKey("EmployeeCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Animal");
 

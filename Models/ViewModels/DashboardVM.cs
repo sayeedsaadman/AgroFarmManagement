@@ -5,6 +5,9 @@ namespace AgroManagement.Models.ViewModels
     public class DashboardVM
     {
         public int TotalEmployees { get; set; }
+        public int TotalAnimals { get; set; }
+        public int TotalUsers { get; set; }
+
         public int TotalTasksAssigned { get; set; }
         public int TasksRemaining { get; set; }
 
