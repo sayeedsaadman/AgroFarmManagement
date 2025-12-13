@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AgroManagement.Data;
+﻿using AgroManagement.Data;
+using AgroManagement.Helper;
 using AgroManagement.Models;
-using System.Linq;
 using AgroManagement.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 
 public class AdminController : Controller
@@ -40,6 +41,12 @@ public class AdminController : Controller
 
         var employeeNames = new List<string>();
         var tasksPerEmployee = new List<int>();
+        var contentRoot = (HttpContext.RequestServices.GetService(typeof(Microsoft.AspNetCore.Hosting.IWebHostEnvironment))
+    as Microsoft.AspNetCore.Hosting.IWebHostEnvironment)?.ContentRootPath
+    ?? Directory.GetCurrentDirectory();
+
+        AgroManagement.Helper.SalesHelper.EnsureInitialized(contentRoot);
+        ViewBag.TotalIncome = AgroManagement.Helper.SalesHelper.GetTotalIncome(contentRoot);
 
         foreach (var row in tasksByEmployee.OrderByDescending(x => x.Count))
         {
@@ -67,6 +74,91 @@ public class AdminController : Controller
         };
 
         return View(vm);
+    }
+    // -----------------------------
+    // MANAGE PRODUCTS (STOCK) - JSON
+    // -----------------------------
+    public IActionResult Products()
+    {
+        // Admin only (your session auth)
+        var userType = HttpContext.Session.GetString("UserType");
+        if (userType != "Admin") return RedirectToAction("Login", "Auth");
+
+        var contentRoot = GetContentRoot();
+
+        StockHelper.EnsureInitialized(contentRoot, 10);
+
+        var stocks = StockHelper.GetAllStocks(contentRoot);
+
+        var list = ProductCatalog.All
+            .Select(p => new AdminProductVM
+            {
+                Key = p.Key,
+                Category = p.Category,
+                Name = p.Name,
+                UnitLabel = p.UnitLabel,
+                Price = p.Price,
+                Stock = stocks.ContainsKey(p.Key) ? stocks[p.Key] : 0
+            })
+            .OrderBy(x => x.Category)
+            .ThenBy(x => x.Name)
+            .ToList();
+
+        return View(list);
+    }
+
+    // -----------------------------
+    // ADD PRODUCT (INCREASE STOCK) - GET
+    // -----------------------------
+    [HttpGet]
+    public IActionResult AddProduct()
+    {
+        var userType = HttpContext.Session.GetString("UserType");
+        if (userType != "Admin") return RedirectToAction("Login", "Auth");
+
+        return View();
+    }
+
+    // -----------------------------
+    // ADD PRODUCT (INCREASE STOCK) - POST
+    // -----------------------------
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult AddProduct(string key, int qty)
+    {
+        var userType = HttpContext.Session.GetString("UserType");
+        if (userType != "Admin") return RedirectToAction("Login", "Auth");
+
+        if (string.IsNullOrWhiteSpace(key) || qty <= 0)
+            return RedirectToAction(nameof(Products));
+
+        var contentRoot = GetContentRoot();
+        StockHelper.EnsureInitialized(contentRoot, 10);
+
+        StockHelper.IncreaseStock(contentRoot, key, qty);
+
+        return RedirectToAction(nameof(Products));
+    }
+
+    // -----------------------------
+    // SET STOCK (DIRECT UPDATE) - POST
+    // -----------------------------
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult SetStock(string key, int stock)
+    {
+        var userType = HttpContext.Session.GetString("UserType");
+        if (userType != "Admin") return RedirectToAction("Login", "Auth");
+
+        if (string.IsNullOrWhiteSpace(key))
+            return RedirectToAction(nameof(Products));
+
+        var contentRoot = GetContentRoot();
+        StockHelper.EnsureInitialized(contentRoot, 10);
+
+        StockHelper.SetStock(contentRoot, key, stock);
+
+        return RedirectToAction(nameof(Products));
     }
 
     // -----------------------------
@@ -144,6 +236,13 @@ public class AdminController : Controller
 
         return Json(new { ok = true });
 
+    }
+    private string GetContentRoot()
+    {
+        var env = (HttpContext.RequestServices.GetService(typeof(Microsoft.AspNetCore.Hosting.IWebHostEnvironment))
+            as Microsoft.AspNetCore.Hosting.IWebHostEnvironment);
+
+        return env?.ContentRootPath ?? Directory.GetCurrentDirectory();
     }
 
     // -----------------------------

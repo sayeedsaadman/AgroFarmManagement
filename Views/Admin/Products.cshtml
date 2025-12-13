@@ -1,0 +1,46 @@
+﻿@model List<AgroManagement.Models.AdminProductVM>
+
+@{
+    ViewData["Title"] = "Manage Products";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Manage Products</h2>
+        <a class="btn btn-success" href="/Admin/AddProduct">Add Product</a>
+    </div>
+
+    <table class="table table-bordered table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Name</th>
+                <th>Unit</th>
+                <th>Price</th>
+                <th style="width:110px;">Stock</th>
+                <th style="width:260px;">Update Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.Category</td>
+                    <td>@p.Name</td>
+                    <td>@p.UnitLabel</td>
+                    <td>৳ @p.Price</td>
+                    <td><b>@p.Stock</b></td>
+                    <td>
+                        <form method="post" action="/Admin/SetStock" class="d-flex gap-2">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="key" value="@p.Key" />
+                            <input type="number" class="form-control" name="stock" min="0" value="@p.Stock" />
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

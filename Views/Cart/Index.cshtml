@@ -1,0 +1,64 @@
+﻿@model AgroManagement.Models.CartVM
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<div class="container mt-4">
+    <h2>Your Cart</h2>
+
+    @if (ViewBag.Msg != null)
+    {
+        <div class="alert alert-warning">@ViewBag.Msg</div>
+    }
+
+    @if (!Model.Items.Any())
+    {
+        <div class="alert alert-info">Cart is empty.</div>
+        <a class="btn btn-primary" href="/Shop">Browse Products</a>
+    }
+    else
+    {
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th style="width:180px;">Qty</th>
+                    <th>Line Total</th>
+                    <th style="width:120px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.UnitLabel</td>
+                        <td>৳ @item.Price</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a class="btn btn-sm btn-secondary" href="/Cart/Decrease?key=@item.ProductKey">-</a>
+                                <span class="pt-1">@item.Quantity</span>
+                                <a class="btn btn-sm btn-secondary" href="/Cart/Increase?key=@item.ProductKey">+</a>
+                            </div>
+                        </td>
+                        <td>৳ @(item.Price* item.Quantity)</td>
+                        <td>
+                            <a class="btn btn-sm btn-danger" href="/Cart/Remove?key=@item.ProductKey">Remove</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-outline-primary" href="/Shop">Browse more products</a>
+            <div>
+                <h5 class="d-inline me-3">Subtotal: ৳ @Model.Subtotal</h5>
+                <a class="btn btn-success" href="/Cart/Checkout">Checkout</a>
+            </div>
+        </div>
+    }
+</div>

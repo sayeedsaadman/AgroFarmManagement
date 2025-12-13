@@ -6,6 +6,50 @@
 
 <style>
     /* ================= HERO ================= */
+    .tp-media {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .buy-btn-overlay {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) translateY(10px);
+        padding: 12px 26px;
+        background: #16a34a;
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.25s ease;
+    }
+
+    .tp-card:hover .buy-btn-overlay {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateY(0);
+    }
+
+    .buy-btn-overlay:hover {
+        background: #15803d;
+    }
+
+
+    /* optional: show always on mobile (no hover) */
+    @@media (max-width: 768px) {
+        .buy-btn-overlay
+
+    {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    }
+
+
+
     #shop-hero {
         position: relative;
         width: 100%;
@@ -301,11 +345,16 @@
                 <h1 class="section-intro mx-auto text-center mb-4">Milk</h1>
 
                 <div class="row g-4">
+                    <!-- Raw Milk -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Milk" data-price="360">
                             <div class="tp-media">
                                 <img src="~/Images/milk.png" alt="Raw Milk" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=milk_raw_milk'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Raw Milk</h5>
@@ -314,11 +363,16 @@
                         </article>
                     </div>
 
+                    <!-- Pasteurized Milk -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Milk" data-price="215">
                             <div class="tp-media">
                                 <img src="~/Images/pasteroized-milk.png" alt="Pasteurized Milk" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=milk_pasteurized'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Pasteurized Milk</h5>
@@ -327,11 +381,16 @@
                         </article>
                     </div>
 
+                    <!-- UHT Milk -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Milk" data-price="419">
                             <div class="tp-media">
                                 <img src="~/Images/uht-milk.png" alt="UHT Milk" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=milk_uht'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">UHT Milk</h5>
@@ -340,11 +399,16 @@
                         </article>
                     </div>
 
+                    <!-- Almond Milk -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Milk" data-price="479">
                             <div class="tp-media">
                                 <img src="~/Images/almond-milk.png" alt="Almond Milk" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=milk_almond'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Almond Milk</h5>
@@ -353,11 +417,16 @@
                         </article>
                     </div>
 
+                    <!-- Zero Fat Milk -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Milk" data-price="1559">
                             <div class="tp-media">
                                 <img src="~/Images/zero-fat-milk.png" alt="Zero Fat Milk" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=milk_zero_fat'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Zero Fat Milk</h5>
@@ -366,11 +435,16 @@
                         </article>
                     </div>
 
+                    <!-- Mango Milk -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Milk" data-price="1919">
                             <div class="tp-media">
                                 <img src="~/Images/mango-milk.png" alt="Mango Milk" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=milk_mango'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Mango Milk</h5>
@@ -381,16 +455,22 @@
                 </div>
             </section>
 
+
             <!-- ================= YOGURT ================= -->
             <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Yogurt">
                 <h1 class="section-intro mx-auto text-center mb-4">Yogurt</h1>
 
                 <div class="row g-4">
+                    <!-- Organic Yogurt -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="360">
                             <div class="tp-media">
                                 <img src="~/Images/yogurt.png" alt="Organic Yogurt" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=yogurt_organic'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Organic Yogurt</h5>
@@ -399,11 +479,16 @@
                         </article>
                     </div>
 
+                    <!-- Sweet Curd -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="215">
                             <div class="tp-media">
                                 <img src="~/Images/sweet-curd.png" alt="Sweet Curd" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=yogurt_sweet_curd'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Sweet Curd</h5>
@@ -412,11 +497,16 @@
                         </article>
                     </div>
 
+                    <!-- Greek Yogurt -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="419">
                             <div class="tp-media">
                                 <img src="~/Images/greek-yogurt.png" alt="Greek Yogurt" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=yogurt_greek'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Greek Yogurt</h5>
@@ -425,11 +515,16 @@
                         </article>
                     </div>
 
+                    <!-- Mango Yogurt -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="479">
                             <div class="tp-media">
                                 <img src="~/Images/mango-yogurt.png" alt="Mango Yogurt" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=yogurt_mango'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Mango Yogurt</h5>
@@ -438,11 +533,16 @@
                         </article>
                     </div>
 
+                    <!-- Baked Yogurt -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="1559">
                             <div class="tp-media">
                                 <img src="~/Images/baked-yogurt.png" alt="Baked Yogurt" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=yogurt_baked'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Baked Yogurt</h5>
@@ -451,11 +551,16 @@
                         </article>
                     </div>
 
+                    <!-- No Sugar Lassi -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Yogurt" data-price="1919">
                             <div class="tp-media">
                                 <img src="~/Images/lassi.png" alt="No Sugar Lassi" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=yogurt_no_sugar_lassi'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">No Sugar Lassi</h5>
@@ -466,16 +571,22 @@
                 </div>
             </section>
 
+
             <!-- ================= CHEESE ================= -->
             <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Cheese">
                 <h1 class="section-intro mx-auto text-center mb-4">Cheese</h1>
 
                 <div class="row g-4">
+                    <!-- Paneer -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="360">
                             <div class="tp-media">
                                 <img src="~/Images/paneer.png" alt="Paneer" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=cheese_paneer'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Paneer</h5>
@@ -484,11 +595,16 @@
                         </article>
                     </div>
 
+                    <!-- Mozarella -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="215">
                             <div class="tp-media">
                                 <img src="~/Images/mozarella.png" alt="Mozarella" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=cheese_mozarella'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Mozarella</h5>
@@ -497,11 +613,16 @@
                         </article>
                     </div>
 
+                    <!-- Cheddar Cheese -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="419">
                             <div class="tp-media">
                                 <img src="~/Images/cheese.png" alt="Cheddar Cheese" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=cheese_cheddar'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Cheddar Cheese</h5>
@@ -510,11 +631,16 @@
                         </article>
                     </div>
 
+                    <!-- Cottage Cheese -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="479">
                             <div class="tp-media">
                                 <img src="~/Images/cottage.png" alt="Cottage Cheese" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=cheese_cottage'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Cottage Cheese</h5>
@@ -523,11 +649,16 @@
                         </article>
                     </div>
 
+                    <!-- Parmigiano -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="1559">
                             <div class="tp-media">
                                 <img src="~/Images/Parmen.png" alt="Parmigiano" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=cheese_parmigiano'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Parmigiano</h5>
@@ -536,11 +667,16 @@
                         </article>
                     </div>
 
+                    <!-- Roquefort Cheese -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Cheese" data-price="1919">
                             <div class="tp-media">
                                 <img src="~/Images/Roquefort.png" alt="Roquefort Cheese" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=cheese_roquefort'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Roquefort Cheese</h5>
@@ -551,16 +687,22 @@
                 </div>
             </section>
 
+
             <!-- ================= MEAT ================= -->
             <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Meat">
                 <h1 class="section-intro mx-auto text-center mb-4">Meat</h1>
 
                 <div class="row g-4">
+                    <!-- Raw Meat (Boneless) -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Meat" data-price="360">
                             <div class="tp-media">
                                 <img src="~/Images/Bmeat.png" alt="Raw Meat Boneless" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=meat_raw_boneless'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Raw Meat (Boneless)</h5>
@@ -569,11 +711,16 @@
                         </article>
                     </div>
 
+                    <!-- Beef Steak -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Meat" data-price="215">
                             <div class="tp-media">
                                 <img src="~/Images/steak.png" alt="Beef Steak" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=meat_beef_steak'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Beef Steak</h5>
@@ -582,11 +729,16 @@
                         </article>
                     </div>
 
+                    <!-- Beef Sausage -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Meat" data-price="419">
                             <div class="tp-media">
                                 <img src="~/Images/sausage.png" alt="Beef Sausage" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=meat_beef_sausage'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Beef Sausage</h5>
@@ -597,62 +749,23 @@
                 </div>
             </section>
 
+
+
             <!-- ================= CREAMY PRODUCTS ================= -->
-            <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Creamy Products">
-                <h1 class="section-intro mx-auto text-center mb-4">Creamy Products</h1>
-
-                <div class="row g-4">
-                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0" data-category="Creamy Products" data-price="360">
-                            <div class="tp-media">
-                                <img src="~/Images/heavy-cream.png" alt="Heavy Cream" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-                            </div>
-                            <div class="card-body text-center">
-                                <h5 class="card-title mb-1">Heavy Cream</h5>
-                                <div class="tp-price mb-3">৳ 360 / KG</div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0" data-category="Creamy Products" data-price="215">
-                            <div class="tp-media">
-                                <img src="~/Images/whipped-cream.png" alt="Whipped Cream" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-                            </div>
-                            <div class="card-body text-center">
-                                <h5 class="card-title mb-1">Whipped Cream</h5>
-                                <div class="tp-price mb-3">৳ 215 / Litre</div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
-                        <article class="tp-card card h-100 border-0" data-category="Creamy Products" data-price="419">
-                            <div class="tp-media">
-                                <img src="~/Images/cream-cheese.png" alt="Cream Cheese" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
-                            </div>
-                            <div class="card-body text-center">
-                                <h5 class="card-title mb-1">Cream Cheese</h5>
-                                <div class="tp-price mb-3">৳ 419 / 200 gm</div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ================= OTHERS ================= -->
             <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Others">
                 <h1 class="section-intro mx-auto text-center mb-4">Others</h1>
 
                 <div class="row g-4">
+                    <!-- Milk Powder -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Others" data-price="360">
                             <div class="tp-media">
                                 <img src="~/Images/milk-powder.png" alt="Milk Powder" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=other_milk_powder'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Milk Powder</h5>
@@ -661,11 +774,16 @@
                         </article>
                     </div>
 
+                    <!-- Casein -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Others" data-price="215">
                             <div class="tp-media">
                                 <img src="~/Images/casein.png" alt="Casein" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=other_casein'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">Casein</h5>
@@ -674,11 +792,16 @@
                         </article>
                     </div>
 
+                    <!-- String Cheese -->
                     <div class="col-12 col-sm-6 col-lg-4 shop-item">
                         <article class="tp-card card h-100 border-0" data-category="Others" data-price="419">
                             <div class="tp-media">
                                 <img src="~/Images/string-cheese.png" alt="String Cheese" />
-                                <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='/Cart/Add?key=other_string_cheese'">
+                                    Buy Now
+                                </button>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-1">String Cheese</h5>
@@ -689,9 +812,6 @@
                 </div>
             </section>
 
-        </div>
-    </div>
-</section>
 
 <script>
     function handleBuyNow(e) {

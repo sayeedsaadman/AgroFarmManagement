@@ -1,0 +1,53 @@
+﻿@model AgroManagement.Models.CartVM
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container mt-4">
+    <h2>Checkout</h2>
+
+    @if (!Model.Items.Any())
+    {
+        <div class="alert alert-info">Cart is empty.</div>
+        <a class="btn btn-primary" href="/Shop">Browse Products</a>
+    }
+    else
+    {
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Line Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.UnitLabel</td>
+                        <td>৳ @item.Price</td>
+                        <td>@item.Quantity</td>
+                        <td>৳ @(item.Price* item.Quantity)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h4>Total: ৳ @Model.Subtotal</h4>
+
+        <!-- Next step: Confirm Purchase -->
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-primary" href="/Cart">Back to Cart</a>
+
+            <form method="post" action="/Cart/ConfirmPurchase">
+                <button type="submit" class="btn btn-success">Confirm Purchase</button>
+            </form>
+        </div>
+
+    }
+</div>

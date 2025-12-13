@@ -40,5 +40,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
+AgroManagement.Helper.StockHelper.EnsureInitialized(app.Environment.ContentRootPath, defaultStockPerProduct: 10);
+AgroManagement.Helper.SalesHelper.EnsureInitialized(app.Environment.ContentRootPath);
 
 app.Run();
