@@ -1,0 +1,115 @@
+﻿@model AgroManagement.Models.ViewModels.HealthDashboardVM
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Health Dashboard</h2>
+
+        <form method="get" class="d-flex gap-2" asp-action="HealthDashboard">
+            <input type="number" class="form-control" name="year" value="@Model.Year" min="2000" max="2100" />
+            <input type="number" class="form-control" name="month" value="@Model.Month" min="1" max="12" />
+            <button class="btn btn-dark" type="submit">Load</button>
+        </form>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <div class="text-muted">Total Milk (Month)</div>
+                    <div style="font-size:32px;font-weight:700;">@Model.TotalMilkMonth</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <div class="text-muted">Animals With Milk (Month)</div>
+                    <div style="font-size:32px;font-weight:700;">@Model.AnimalsWithMilkMonth</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <div class="text-muted">Medicine Logs (Month)</div>
+                    <div style="font-size:32px;font-weight:700;">@Model.MedicineLogsMonth</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="mb-3">Milk by Animal (Monthly Total)</h5>
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Tag</th>
+                                <th>Total Milk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.MilkByAnimal.Count == 0)
+                            {
+                                <tr><td colspan="2" class="text-muted">No data.</td></tr>
+                            }
+                            else
+                            {
+                                @foreach (var row in Model.MilkByAnimal)
+                                {
+                                    <tr>
+                                        <td>@row.TagNumber</td>
+                                        <td>@row.TotalMilk</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="mb-3">Medicine Log (This Month)</h5>
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Tag</th>
+                                <th>Medicine</th>
+                                <th>Dose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.MedicineEntries.Count == 0)
+                            {
+                                <tr><td colspan="4" class="text-muted">No medicine logs.</td></tr>
+                            }
+                            else
+                            {
+                                @foreach (var e in Model.MedicineEntries)
+                                {
+                                    <tr>
+                                        <td>@e.Date</td>
+                                        <td>@e.TagNumber</td>
+                                        <td>@e.MedicineName</td>
+                                        <td>@e.Dose</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

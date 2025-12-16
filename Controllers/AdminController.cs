@@ -25,13 +25,29 @@ public class AdminController : Controller
         var totalAnimals = await _context.Animals.CountAsync();
         var totalUsers = await _context.Users.CountAsync();
 
-        var totalTasksAssigned = await _context.EmployeeTasks.CountAsync();
+        // ✅ Only count tasks that belong to existing employees
+        var existingEmpCodesQuery = _context.Employees.Select(e => e.EmployeeCode);
+
+        var totalTasksAssigned = await _context.EmployeeTasks
+            .Where(t => existingEmpCodesQuery.Contains(t.EmployeeCode))
+            .CountAsync();
 
         var totalTasksPossible = totalAnimals * TASKS_PER_ANIMAL;
-        var totalTasksUnassigned = totalTasksPossible - totalTasksAssigned;
-        if (totalTasksUnassigned < 0) totalTasksUnassigned = 0;
+
+        // Tasks currently running (assigned)
+        var tasksInProgress = totalTasksAssigned;
+
+        // Tasks done = everything not currently assigned
+        var tasksDone = totalTasksPossible - tasksInProgress;
+        if (tasksDone < 0) tasksDone = 0;
+
+        // If you still want a "remaining" number, it should be tasksInProgress (pending work)
+        // because you delete tasks when done.
+        var tasksRemaining = tasksInProgress;
+
 
         var tasksByEmployee = await _context.EmployeeTasks
+            .Where(t => existingEmpCodesQuery.Contains(t.EmployeeCode))
             .GroupBy(t => t.EmployeeCode)
             .Select(g => new { EmployeeCode = g.Key, Count = g.Count() })
             .ToListAsync();
@@ -41,9 +57,10 @@ public class AdminController : Controller
 
         var employeeNames = new List<string>();
         var tasksPerEmployee = new List<int>();
+
         var contentRoot = (HttpContext.RequestServices.GetService(typeof(Microsoft.AspNetCore.Hosting.IWebHostEnvironment))
-    as Microsoft.AspNetCore.Hosting.IWebHostEnvironment)?.ContentRootPath
-    ?? Directory.GetCurrentDirectory();
+            as Microsoft.AspNetCore.Hosting.IWebHostEnvironment)?.ContentRootPath
+            ?? Directory.GetCurrentDirectory();
 
         AgroManagement.Helper.SalesHelper.EnsureInitialized(contentRoot);
         ViewBag.TotalIncome = AgroManagement.Helper.SalesHelper.GetTotalIncome(contentRoot);
@@ -63,11 +80,13 @@ public class AdminController : Controller
             TotalAnimals = totalAnimals,
             TotalUsers = totalUsers,
 
-            TotalTasksAssigned = totalTasksAssigned,
-            TasksRemaining = totalTasksUnassigned,
+            TotalTasksAssigned = tasksInProgress,
+            TasksRemaining = tasksRemaining,      // pending/in-progress tasks
 
             TotalTasksPossible = totalTasksPossible,
-            TotalTasksUnassigned = totalTasksUnassigned,
+            TotalTasksUnassigned = tasksRemaining, // keep old property name but now it's "pending"
+
+            TasksDone = tasksDone,
 
             EmployeeNames = employeeNames,
             TasksPerEmployee = tasksPerEmployee
@@ -75,6 +94,7 @@ public class AdminController : Controller
 
         return View(vm);
     }
+
     // -----------------------------
     // MANAGE PRODUCTS (STOCK) - JSON
     // -----------------------------
@@ -107,38 +127,8 @@ public class AdminController : Controller
         return View(list);
     }
 
-    // -----------------------------
-    // ADD PRODUCT (INCREASE STOCK) - GET
-    // -----------------------------
-    [HttpGet]
-    public IActionResult AddProduct()
-    {
-        var userType = HttpContext.Session.GetString("UserType");
-        if (userType != "Admin") return RedirectToAction("Login", "Auth");
 
-        return View();
-    }
 
-    // -----------------------------
-    // ADD PRODUCT (INCREASE STOCK) - POST
-    // -----------------------------
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult AddProduct(string key, int qty)
-    {
-        var userType = HttpContext.Session.GetString("UserType");
-        if (userType != "Admin") return RedirectToAction("Login", "Auth");
-
-        if (string.IsNullOrWhiteSpace(key) || qty <= 0)
-            return RedirectToAction(nameof(Products));
-
-        var contentRoot = GetContentRoot();
-        StockHelper.EnsureInitialized(contentRoot, 10);
-
-        StockHelper.IncreaseStock(contentRoot, key, qty);
-
-        return RedirectToAction(nameof(Products));
-    }
 
     // -----------------------------
     // SET STOCK (DIRECT UPDATE) - POST

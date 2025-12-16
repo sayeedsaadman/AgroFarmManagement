@@ -26,6 +26,7 @@ namespace AgroManagement.Models
         [Column(TypeName = "decimal(18,2)")]
         [Display(Name = "Purchase Price")]
         public decimal PurchasePrice { get; set; }
+        
 
         [NotMapped]
         public string Age

@@ -4,50 +4,269 @@
     ViewData["Title"] = "Checkout";
 }
 
-<div class="container mt-4">
-    <h2>Checkout</h2>
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <div>
+            <h2 class="mb-1">Checkout</h2>
+            <small class="text-muted">Review your order and choose a payment method.</small>
+        </div>
+        <a class="btn btn-outline-secondary" href="/Cart">← Back to Cart</a>
+    </div>
 
     @if (!Model.Items.Any())
     {
-        <div class="alert alert-info">Cart is empty.</div>
-        <a class="btn btn-primary" href="/Shop">Browse Products</a>
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 text-center">
+                <div class="display-6 mb-2">🛒</div>
+                <h5 class="mb-1">Your cart is empty</h5>
+                <p class="text-muted mb-3">Add some products first, then come back to checkout.</p>
+                <a class="btn btn-success px-4" href="/Shop">Browse Products</a>
+            </div>
+        </div>
     }
     else
     {
-        <table class="table table-bordered align-middle">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Unit</th>
-                    <th>Price</th>
-                    <th>Qty</th>
-                    <th>Line Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.UnitLabel</td>
-                        <td>৳ @item.Price</td>
-                        <td>@item.Quantity</td>
-                        <td>৳ @(item.Price* item.Quantity)</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="row g-4">
 
-        <h4>Total: ৳ @Model.Subtotal</h4>
+            <!-- LEFT: Items -->
+            <div class="col-12 col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 pt-4 px-4">
+                        <h5 class="mb-0">Order Items</h5>
+                        <small class="text-muted">Make sure quantities are correct before confirming.</small>
+                    </div>
 
-        <!-- Next step: Confirm Purchase -->
-        <div class="d-flex gap-2">
-            <a class="btn btn-outline-primary" href="/Cart">Back to Cart</a>
+                    <div class="card-body px-4 pb-4">
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th class="text-nowrap">Unit</th>
+                                        <th class="text-nowrap">Price</th>
+                                        <th class="text-nowrap text-center">Qty</th>
+                                        <th class="text-nowrap text-end">Line Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Items)
+                                    {
+                                        var lineTotal = item.Price * item.Quantity;
+                                        <tr>
+                                            <td class="fw-semibold">@item.Name</td>
+                                            <td class="text-muted text-nowrap">@item.UnitLabel</td>
+                                            <td class="text-nowrap">৳ @item.Price</td>
+                                            <td class="text-center fw-semibold">@item.Quantity</td>
+                                            <td class="text-end fw-semibold">৳ @lineTotal</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
 
-            <form method="post" action="/Cart/ConfirmPurchase">
-                <button type="submit" class="btn btn-success">Confirm Purchase</button>
-            </form>
+                        <hr class="my-4" />
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-muted">Subtotal</div>
+                            <div class="fs-5 fw-bold">৳ @Model.Subtotal</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="text-muted">Delivery Charge</div>
+                            <div class="fw-semibold">৳ <span id="deliveryCharge">0</span></div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="text-muted">Grand Total</div>
+                            <div class="fs-4 fw-bold">৳ <span id="grandTotal">@Model.Subtotal</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Payment + Confirm -->
+            <div class="col-12 col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="mb-1">Payment</h5>
+                        <small class="text-muted">Choose how you want to pay.</small>
+
+                        <div class="mt-3">
+
+                            <!-- Payment option: COD -->
+                            <div class="border rounded-3 p-3 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="pmCod" value="COD">
+                                    <label class="form-check-label fw-semibold" for="pmCod">
+                                        Cash on Delivery
+                                    </label>
+                                    <div class="text-muted small mt-1">
+                                        Pay with cash when your order is delivered.
+                                    </div>
+                                </div>
+
+                                <div id="codDetails" class="mt-3" style="display:none;">
+                                    <div class="mb-2">
+                                        <label class="form-label small text-muted mb-1">Full Name</label>
+                                        <input type="text" class="form-control" id="codName" placeholder="Your name">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small text-muted mb-1">Phone</label>
+                                        <input type="text" class="form-control" id="codPhone" placeholder="01XXXXXXXXX">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small text-muted mb-1">Delivery Address</label>
+                                        <textarea class="form-control" id="codAddress" rows="2" placeholder="House, Road, Area, City"></textarea>
+                                    </div>
+                                    <div class="small text-muted">
+                                        Delivery charge may apply based on your location.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment option: SSLCommerz demo -->
+                            <div class="border rounded-3 p-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="pmSsl" value="SSLCOMMERZ">
+                                    <label class="form-check-label fw-semibold" for="pmSsl">
+                                        SSLCommerz (Demo)
+                                    </label>
+                                    <div class="text-muted small mt-1">
+                                        Pay securely using card / mobile banking (sandbox demo).
+                                    </div>
+                                </div>
+
+                                <div id="sslDetails" class="mt-3" style="display:none;">
+                                    <div class="alert alert-warning py-2 px-3 mb-2">
+                                        <small class="mb-0">
+                                            Demo only: This button will call your backend “Start SSLCommerz Payment” endpoint.
+                                        </small>
+                                    </div>
+
+                                    <button type="button" class="btn btn-outline-success w-100" id="sslPayBtn">
+                                        Pay with SSLCommerz (Demo)
+                                    </button>
+
+                                    <small class="text-muted d-block mt-2">
+                                        You can later replace this with real SSLCommerz integration keys.
+                                    </small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <!-- Confirm Purchase -->
+                        <form method="post" action="/Cart/ConfirmPurchase" id="confirmForm">
+                            @Html.AntiForgeryToken()
+
+                            <!-- store chosen payment method + optional delivery info -->
+                            <input type="hidden" name="paymentMethod" id="paymentMethodField" value="" />
+                            <input type="hidden" name="customerName" id="customerNameField" value="" />
+                            <input type="hidden" name="customerPhone" id="customerPhoneField" value="" />
+                            <input type="hidden" name="customerAddress" id="customerAddressField" value="" />
+
+                            <button type="submit" class="btn btn-success w-100 py-2" id="confirmBtn" disabled>
+                                Confirm Purchase
+                            </button>
+
+                            <a class="btn btn-light w-100 mt-2" href="/Shop">
+                                Browse More Products
+                            </a>
+
+                         
+                        </form>
+                    </div>
+                </div>
+
+                
+            </div>
+
         </div>
-
     }
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const pmCod = document.getElementById("pmCod");
+            const pmSsl = document.getElementById("pmSsl");
+            const codDetails = document.getElementById("codDetails");
+            const sslDetails = document.getElementById("sslDetails");
+
+            const confirmBtn = document.getElementById("confirmBtn");
+            const paymentMethodField = document.getElementById("paymentMethodField");
+
+            const codName = document.getElementById("codName");
+            const codPhone = document.getElementById("codPhone");
+            const codAddress = document.getElementById("codAddress");
+
+            const customerNameField = document.getElementById("customerNameField");
+            const customerPhoneField = document.getElementById("customerPhoneField");
+            const customerAddressField = document.getElementById("customerAddressField");
+
+            // Delivery charge demo (set 0 by default)
+            const deliveryCharge = 0;
+            const subtotal = parseFloat("@Model.Subtotal");
+            document.getElementById("deliveryCharge").innerText = deliveryCharge;
+            document.getElementById("grandTotal").innerText = (subtotal + deliveryCharge);
+
+            function setPayment(method) {
+                paymentMethodField.value = method || "";
+                confirmBtn.disabled = !method;
+            }
+
+            function showCOD(show) {
+                codDetails.style.display = show ? "" : "none";
+            }
+
+            function showSSL(show) {
+                sslDetails.style.display = show ? "" : "none";
+            }
+
+            pmCod?.addEventListener("change", function () {
+                if (pmCod.checked) {
+                    showCOD(true);
+                    showSSL(false);
+                    setPayment("COD");
+                }
+            });
+
+            pmSsl?.addEventListener("change", function () {
+                if (pmSsl.checked) {
+                    showCOD(false);
+                    showSSL(true);
+                    setPayment("SSLCOMMERZ");
+                }
+            });
+
+            // Demo SSLCommerz button
+            document.getElementById("sslPayBtn")?.addEventListener("click", function () {
+                alert("Demo: call backend endpoint like /Payment/StartSSLCommerz then redirect to gateway.");
+            });
+
+            // Before submit: store COD fields into hidden inputs (so backend can save order info)
+            document.getElementById("confirmForm")?.addEventListener("submit", function (e) {
+                const method = paymentMethodField.value;
+
+                if (!method) {
+                    e.preventDefault();
+                    alert("Please select a payment method.");
+                    return;
+                }
+
+                if (method === "COD") {
+                    // optional simple validation
+                    if (!codName.value.trim() || !codPhone.value.trim() || !codAddress.value.trim()) {
+                        e.preventDefault();
+                        alert("Please fill Name, Phone, and Address for Cash on Delivery.");
+                        return;
+                    }
+
+                    customerNameField.value = codName.value.trim();
+                    customerPhoneField.value = codPhone.value.trim();
+                    customerAddressField.value = codAddress.value.trim();
+                }
+            });
+        })();
+    </script>
+}

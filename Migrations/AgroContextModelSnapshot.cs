@@ -57,7 +57,7 @@ namespace AgroManagement.Migrations
                     b.HasIndex("TagNumber")
                         .IsUnique();
 
-                    b.ToTable("Animals");
+                    b.ToTable("Animals", (string)null);
                 });
 
             modelBuilder.Entity("AgroManagement.Models.Employee", b =>
@@ -76,17 +76,12 @@ namespace AgroManagement.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("EmployeeNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("EmployeeCode");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("AgroManagement.Models.EmployeeTask", b =>
@@ -105,6 +100,9 @@ namespace AgroManagement.Migrations
 
                     b.Property<string>("EmployeeCode")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployeeCode1")
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("TaskName")
@@ -116,12 +114,10 @@ namespace AgroManagement.Migrations
 
                     b.HasIndex("AnimalId");
 
-                    b.HasIndex("EmployeeCode");
+                    b.HasIndex("EmployeeCode1");
 
-                    b.ToTable("EmployeeTasks");
+                    b.ToTable("EmployeeTasks", (string)null);
                 });
-
-            
 
             modelBuilder.Entity("AgroManagement.Models.User", b =>
                 {
@@ -157,7 +153,7 @@ namespace AgroManagement.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("AgroManagement.Models.EmployeeTask", b =>
@@ -170,9 +166,7 @@ namespace AgroManagement.Migrations
 
                     b.HasOne("AgroManagement.Models.Employee", "Employee")
                         .WithMany("Tasks")
-                        .HasForeignKey("EmployeeCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeCode1");
 
                     b.Navigation("Animal");
 

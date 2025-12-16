@@ -1,0 +1,46 @@
+[
+  {
+    "Date": "",
+    "AnimalId": 0,
+    "TagNumber": "",
+    "MilkLiters": 0,
+    "HealthChecked": false,
+    "MedicineGiven": false,
+    "MedicineName": null,
+    "Dose": null,
+    "Notes": null
+  },
+  {
+    "Date": "2025-12-16",
+    "AnimalId": 35,
+    "TagNumber": "B01",
+    "MilkLiters": 2,
+    "HealthChecked": true,
+    "MedicineGiven": true,
+    "MedicineName": "Vitamin",
+    "Dose": "1",
+    "Notes": ""
+  },
+  {
+    "Date": "2025-12-16",
+    "AnimalId": 36,
+    "TagNumber": "B02",
+    "MilkLiters": 1,
+    "HealthChecked": true,
+    "MedicineGiven": true,
+    "MedicineName": "Dewormer",
+    "Dose": "1",
+    "Notes": ""
+  },
+  {
+    "Date": "2025-12-16",
+    "AnimalId": 37,
+    "TagNumber": "B03",
+    "MilkLiters": 1,
+    "HealthChecked": true,
+    "MedicineGiven": false,
+    "MedicineName": "None",
+    "Dose": "",
+    "Notes": ""
+  }
+]

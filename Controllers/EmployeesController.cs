@@ -28,6 +28,8 @@ namespace AgroManagement.Controllers
             "Barn Sanitization"
         };
 
+        private static string Norm(string s) => (s ?? "").Trim().ToLower();
+
         // Employee Management (list)
         public async Task<IActionResult> Index()
         {
@@ -50,55 +52,57 @@ namespace AgroManagement.Controllers
             return View(new EmployeeCreateVM());
         }
 
+        // ✅ Returns ONLY tasks not already assigned for this animal (by existing employees)
         [HttpGet]
         public async Task<IActionResult> GetAvailableTasks(int animalId)
         {
+            var empCodesQuery = _context.Employees.Select(e => e.EmployeeCode);
+
+            // EF-safe normalization (no custom Norm inside SQL)
             var assignedNormalized = await _context.EmployeeTasks
-                .Where(t => t.AnimalId == animalId)
+                .Where(t => t.AnimalId == animalId && empCodesQuery.Contains(t.EmployeeCode))
                 .Select(t => t.TaskName.Trim().ToLower())
                 .ToListAsync();
 
+            // keep stable order (MasterTasks order)
             var available = MasterTasks
                 .Where(t => !assignedNormalized.Contains(t.Trim().ToLower()))
                 .ToList();
 
             return Json(available);
         }
+
         // ✅ For Edit page: return master tasks with checked/disabled state
         [HttpGet]
         public async Task<IActionResult> GetTasksForAnimal(int animalId, string employeeCode)
         {
-            string Norm(string s) => s.Trim().ToLower();
+            var empCodesQuery = _context.Employees.Select(e => e.EmployeeCode);
 
-            // all tasks already assigned for this animal (by any employee)
+            // only consider tasks assigned by existing employees
             var assignedRows = await _context.EmployeeTasks
-                .Where(t => t.AnimalId == animalId)
+                .Include(t => t.Animal)
+                .Where(t => t.AnimalId == animalId && empCodesQuery.Contains(t.EmployeeCode))
                 .ToListAsync();
 
             var assignedNormalized = assignedRows
                 .Select(t => Norm(t.TaskName))
                 .ToHashSet();
 
-            // tasks assigned to THIS employee for this animal
             var employeeAssignedNormalized = assignedRows
                 .Where(t => t.EmployeeCode == employeeCode)
                 .Select(t => Norm(t.TaskName))
                 .ToHashSet();
 
-            // build response for UI
             var result = MasterTasks.Select(task => new
             {
                 name = task,
-                // checked if this employee already has it
                 isChecked = employeeAssignedNormalized.Contains(Norm(task)),
-                // disabled if assigned to someone else (not this employee)
                 isDisabled = assignedNormalized.Contains(Norm(task))
                              && !employeeAssignedNormalized.Contains(Norm(task))
             });
 
             return Json(result);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -128,20 +132,24 @@ namespace AgroManagement.Controllers
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
 
-            // ✅ TASK ASSIGNMENT (final bug-free logic)
+            // ✅ TASK ASSIGNMENT
             if (vm.SelectedAnimalId.HasValue &&
                 vm.SelectedTaskNames != null &&
                 vm.SelectedTaskNames.Any())
             {
                 int animalId = vm.SelectedAnimalId.Value;
 
-                // 🔥 PUT YOUR NORMALIZATION CODE HERE
+                // only consider tasks assigned by existing employees
+                var empCodesQuery = _context.Employees.Select(e => e.EmployeeCode);
+
                 var alreadyAssignedNormalized = await _context.EmployeeTasks
-                    .Where(t => t.AnimalId == animalId)
+                    .Where(t => t.AnimalId == animalId && empCodesQuery.Contains(t.EmployeeCode))
                     .Select(t => t.TaskName.Trim().ToLower())
                     .ToListAsync();
 
                 var newTasks = vm.SelectedTaskNames
+                    .Select(t => t?.Trim() ?? "")
+                    .Where(t => !string.IsNullOrWhiteSpace(t))
                     .Where(t => !alreadyAssignedNormalized.Contains(t.Trim().ToLower()))
                     .DistinctBy(t => t.Trim().ToLower())
                     .ToList();
@@ -152,7 +160,7 @@ namespace AgroManagement.Controllers
                     {
                         EmployeeCode = employee.EmployeeCode,
                         AnimalId = animalId,
-                        TaskName = taskName.Trim()   // ✅ save clean text
+                        TaskName = taskName.Trim()
                     });
                 }
 
@@ -162,7 +170,6 @@ namespace AgroManagement.Controllers
             TempData["success"] = "Employee added successfully!";
             return RedirectToAction(nameof(Index));
         }
-
 
         // EDIT EMPLOYEE
         public async Task<IActionResult> Edit(string id)
@@ -179,7 +186,6 @@ namespace AgroManagement.Controllers
                 .OrderBy(a => a.Breed)
                 .ToListAsync();
 
-            // preselect an animal if employee already has tasks
             var firstAnimalId = employee.Tasks.FirstOrDefault()?.AnimalId;
 
             var vm = new EmployeeCreateVM
@@ -194,7 +200,6 @@ namespace AgroManagement.Controllers
 
             return View(vm);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -227,10 +232,8 @@ namespace AgroManagement.Controllers
             {
                 int animalId = vm.SelectedAnimalId.Value;
 
-                string Norm(string s) => s.Trim().ToLower();
-
                 var selectedNormalized = (vm.SelectedTaskNames ?? new List<string>())
-                    .Select(Norm)
+                    .Select(t => Norm(t))
                     .ToHashSet();
 
                 // tasks this employee already has for this animal
@@ -242,18 +245,17 @@ namespace AgroManagement.Controllers
                     .Select(t => Norm(t.TaskName))
                     .ToHashSet();
 
-                // tasks assigned to other employees for this animal
-        
-                var assignedByOthers = (await _context.EmployeeTasks
-                        .Where(t => t.AnimalId == animalId && t.EmployeeCode != id)
-                        .Select(t => t.TaskName)     
-                        .ToListAsync())
-                    .Select(Norm)                    // ✅ normalize in memory
-                    .ToList();
+                // ✅ tasks assigned to other EXISTING employees for this animal
+                var empCodesQuery = _context.Employees.Select(e => e.EmployeeCode);
+
+                var assignedByOthers = await _context.EmployeeTasks
+                    .Where(t => t.AnimalId == animalId
+                                && t.EmployeeCode != id
+                                && empCodesQuery.Contains(t.EmployeeCode))
+                    .Select(t => t.TaskName.Trim().ToLower())
+                    .ToListAsync();
 
                 var assignedByOthersSet = assignedByOthers.ToHashSet();
-
-
 
                 // remove unchecked tasks
                 var toRemove = existingRows
@@ -271,7 +273,6 @@ namespace AgroManagement.Controllers
 
                 foreach (var taskNorm in toAdd)
                 {
-                    // find original text from master list
                     var displayTask = MasterTasks.First(x => Norm(x) == taskNorm);
 
                     _context.EmployeeTasks.Add(new EmployeeTask
@@ -289,7 +290,6 @@ namespace AgroManagement.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
         // DELETE EMPLOYEE
         public async Task<IActionResult> Delete(string id)
         {
@@ -303,6 +303,31 @@ namespace AgroManagement.Controllers
             return View(employee);
         }
 
+        // ✅ ONE-TIME TOOL: Remove tasks whose employee doesn't exist
+        // Call: /Employees/CleanupOrphanTasks (Admin only), then you can delete this method
+        public async Task<IActionResult> CleanupOrphanTasks()
+        {
+            var userType = HttpContext.Session.GetString("UserType");
+            if (userType != "Admin") return RedirectToAction("Login", "Auth");
+
+            var empCodes = await _context.Employees
+                .Select(e => e.EmployeeCode)
+                .ToListAsync();
+
+            var orphan = await _context.EmployeeTasks
+                .Where(t => !empCodes.Contains(t.EmployeeCode))
+                .ToListAsync();
+
+            if (orphan.Any())
+            {
+                _context.EmployeeTasks.RemoveRange(orphan);
+                await _context.SaveChangesAsync();
+            }
+
+            TempData["success"] = $"Removed {orphan.Count} orphan tasks.";
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -312,7 +337,16 @@ namespace AgroManagement.Controllers
 
             if (employee == null) return NotFound();
 
+            // ✅ remove tasks first (prevents orphan tasks)
+            var tasks = await _context.EmployeeTasks
+                .Where(t => t.EmployeeCode == id)
+                .ToListAsync();
+
+            if (tasks.Any())
+                _context.EmployeeTasks.RemoveRange(tasks);
+
             _context.Employees.Remove(employee);
+
             await _context.SaveChangesAsync();
 
             TempData["success"] = "Employee deleted successfully!";

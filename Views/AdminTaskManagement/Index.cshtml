@@ -1,0 +1,66 @@
+﻿@model List<AgroManagement.Models.ViewModels.AdminEmployeeTaskManagementVM>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Task Management</h2>
+    </div>
+
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-success">@TempData["success"]</div>
+    }
+
+    <table class="table table-bordered table-striped shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Employee ID</th>
+                <th>Status</th>
+                <th>Tasks</th>
+                <th style="width:160px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in Model)
+            {
+                <tr>
+                    <td>@e.EmployeeName</td>
+                    <td>@e.EmployeeCode</td>
+
+                    <td>
+                        @if (e.IsDone)
+                        {
+                            <span class="badge bg-success">Done</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">Not Done</span>
+                        }
+                    </td>
+
+                    <td>@e.TaskCount</td>
+
+                    <td class="text-center">
+                        @if (!e.IsDone)
+                        {
+                            <form asp-action="MarkDone" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="employeeCode" value="@e.EmployeeCode" />
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    Mark Done
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">—</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

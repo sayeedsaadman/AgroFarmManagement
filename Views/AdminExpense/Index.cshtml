@@ -1,0 +1,113 @@
+﻿@model AgroManagement.Models.ViewModels.ExpenseReportVM
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Expense Report</h2>
+
+        <div class="d-flex gap-2">
+            <form method="get" class="d-flex gap-2">
+                <input type="number" name="year" class="form-control" value="@Model.Year" min="2000" max="2100" />
+                <input type="number" name="month" class="form-control" value="@Model.Month" min="1" max="12" />
+                <button class="btn btn-dark">Load</button>
+            </form>
+
+            <a class="btn btn-danger"
+               asp-action="ExportMonthlyExpensePdf"
+               asp-route-year="@Model.Year"
+               asp-route-month="@Model.Month">
+                Download PDF
+            </a>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <div class="text-muted">Total Animal Expense</div>
+                    <h3>@Model.TotalAnimalExpense</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <div class="text-muted">Total Salary Expense</div>
+                    <h3>@Model.TotalSalaryExpense</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center border-success">
+                <div class="card-body">
+                    <div class="text-muted">Grand Total Expense</div>
+                    <h3 class="text-success">@Model.GrandTotalExpense</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANIMAL EXPENSE -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="mb-3">Animal Expenses</h5>
+
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Animal Tag</th>
+                        <th>Food</th>
+                        <th>Maintenance</th>
+                        <th>Medical</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var a in Model.AnimalExpenses)
+                    {
+                        <tr>
+                            <td>@a.TagNumber</td>
+                            <td>@a.FoodExpense</td>
+                            <td>@a.MaintenanceExpense</td>
+                            <td>@a.MedicalExpense</td>
+                            <td><strong>@a.TotalExpense</strong></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- EMPLOYEE SALARY -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="mb-3">Employee Salaries</h5>
+
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Employee</th>
+                        <th>Salary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in Model.EmployeeSalaries)
+                    {
+                        <tr>
+                            <td>@e.EmployeeName</td>
+                            <td>@e.Salary</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using AgroManagement.Models;
+using AgroManagement.Models.ViewModels;
 
 namespace AgroManagement.Helper
 {
@@ -32,11 +33,26 @@ namespace AgroManagement.Helper
             {
                 Directory.CreateDirectory(GetDataFolder(contentRootPath));
                 var f = GetSalesFile(contentRootPath);
-
                 if (!File.Exists(f))
-                {
                     File.WriteAllText(f, "[]");
-                }
+            }
+        }
+
+        // ✅ SINGLE SOURCE OF TRUTH (NO DUPLICATE METHODS)
+        public static List<SaleRecord> GetAllSales(string root)
+        {
+            lock (_lock)
+            {
+                EnsureInitialized(root);
+
+                var f = GetSalesFile(root);
+                if (!File.Exists(f)) return new List<SaleRecord>();
+
+                var json = File.ReadAllText(f);
+                if (string.IsNullOrWhiteSpace(json)) return new List<SaleRecord>();
+
+                var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                return JsonSerializer.Deserialize<List<SaleRecord>>(json, opts) ?? new List<SaleRecord>();
             }
         }
 
@@ -48,12 +64,13 @@ namespace AgroManagement.Helper
             {
                 EnsureInitialized(contentRootPath);
 
-                var sales = ReadAll(contentRootPath);
+                var sales = GetAllSales(contentRootPath);
 
                 var total = items.Sum(i => i.Price * i.Quantity);
 
                 sales.Add(new SaleRecord
                 {
+                    OrderId = "INV-" + DateTime.UtcNow.ToString("yyyyMMddHHmmss"),
                     Username = username ?? "",
                     Items = items.Select(i => new CartItem
                     {
@@ -67,52 +84,55 @@ namespace AgroManagement.Helper
                     OrderDateUtc = DateTime.UtcNow
                 });
 
-                WriteAll(contentRootPath, sales);
+                var f = GetSalesFile(contentRootPath);
+                File.WriteAllText(f, JsonSerializer.Serialize(sales, new JsonSerializerOptions { WriteIndented = true }));
             }
         }
 
-        public static decimal GetTotalIncome(string contentRootPath)
+        // ✅ Dashboard: ALL-TIME income
+        public static decimal GetTotalIncome(string root)
         {
-            lock (_lock)
-            {
-                EnsureInitialized(contentRootPath);
-                return ReadAll(contentRootPath).Sum(s => s.TotalAmount);
-            }
+            return GetAllSales(root).Sum(s => s.TotalAmount);
         }
 
-        public static List<SaleRecord> GetRecentSales(string contentRootPath, int take = 10)
+        // ✅ Dashboard: MONTHLY income (resets automatically each month)
+        public static decimal GetMonthIncome(string root, int year, int month)
         {
-            lock (_lock)
-            {
-                EnsureInitialized(contentRootPath);
-                return ReadAll(contentRootPath)
-                    .OrderByDescending(x => x.OrderDateUtc)
-                    .Take(take)
-                    .ToList();
-            }
+            return GetAllSales(root)
+                .Where(s => s.OrderDateUtc.Year == year && s.OrderDateUtc.Month == month)
+                .Sum(s => s.TotalAmount);
         }
 
-        private static List<SaleRecord> ReadAll(string contentRootPath)
+        // ✅ Analytics for your Sales Report page
+        public static SalesAnalyticsVM GetSalesAnalytics(string root)
         {
-            var f = GetSalesFile(contentRootPath);
-            if (!File.Exists(f)) return new List<SaleRecord>();
+            var sales = GetAllSales(root);
 
-            var json = File.ReadAllText(f);
-            if (string.IsNullOrWhiteSpace(json)) return new List<SaleRecord>();
+            var now = DateTime.UtcNow;
 
-            return JsonSerializer.Deserialize<List<SaleRecord>>(json) ?? new List<SaleRecord>();
-        }
+            var today = sales.Where(s => s.OrderDateUtc.Date == now.Date).ToList();
+            var week = sales.Where(s => s.OrderDateUtc >= now.AddDays(-7)).ToList();
+            var month = sales.Where(s => s.OrderDateUtc.Year == now.Year && s.OrderDateUtc.Month == now.Month).ToList();
 
-        private static void WriteAll(string contentRootPath, List<SaleRecord> sales)
-        {
-            var f = GetSalesFile(contentRootPath);
-
-            var json = JsonSerializer.Serialize(sales, new JsonSerializerOptions
+            return new SalesAnalyticsVM
             {
-                WriteIndented = true
-            });
+                TodayTotal = today.Sum(s => s.TotalAmount),
+                WeekTotal = week.Sum(s => s.TotalAmount),
+                MonthTotal = month.Sum(s => s.TotalAmount),
 
-            File.WriteAllText(f, json);
+                TopProducts = sales
+    .SelectMany(s => s.Items)
+    .GroupBy(i => i.Name)
+    .Select(g => new ProductSalesVM
+    {
+        ProductName = g.Key,
+        Quantity = g.Sum(x => x.Quantity),
+        Revenue = g.Sum(x => x.Quantity * x.Price)
+    })
+    .OrderByDescending(x => x.Quantity)
+    .ToList()
+
+            };
         }
     }
 }

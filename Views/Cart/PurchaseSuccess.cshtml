@@ -1,0 +1,174 @@
+﻿@{
+    ViewData["Title"] = "Order Completed";
+    var invoiceNo = (string)ViewBag.InvoiceNo;
+}
+
+<style>
+    /* ===== Success Theme (matches your green/glass style) ===== */
+    .succ-hero {
+        background: linear-gradient(180deg, rgba(236,253,245,.92) 0%, rgba(255,255,255,.98) 60%), #f0fff4;
+        border: 1px solid rgba(16,185,129,.18);
+        border-radius: 18px;
+        padding: 18px 18px;
+        box-shadow: 0 10px 30px rgba(2,44,26,.10);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .succ-hero::before {
+            content: "";
+            position: absolute;
+            inset: -90px -140px auto auto;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(25,135,84,.22) 0%, rgba(25,135,84,0) 62%);
+            transform: rotate(10deg);
+            pointer-events: none;
+        }
+
+    .succ-card {
+        background: rgba(255,255,255,.92);
+        border: 1px solid rgba(16,185,129,.18);
+        border-radius: 18px;
+        box-shadow: 0 10px 28px rgba(2,44,26,.08);
+        overflow: hidden;
+    }
+
+    .succ-title {
+        color: #062e1a;
+        font-weight: 950;
+        letter-spacing: .2px;
+        margin: 0;
+    }
+
+    .succ-sub {
+        margin: .25rem 0 0 0;
+        color: rgba(6,46,26,.72);
+        font-weight: 800;
+    }
+
+    .succ-icon {
+        width: 92px;
+        height: 92px;
+        border-radius: 26px;
+        margin: 0 auto 14px auto;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, rgba(25,135,84,.14), rgba(255,255,255,.92));
+        border: 1px solid rgba(16,185,129,.18);
+        box-shadow: 0 14px 30px rgba(2,44,26,.08);
+        font-size: 44px;
+    }
+
+    .succ-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        padding: .32rem .7rem;
+        border-radius: 999px;
+        border: 1px solid rgba(16,185,129,.18);
+        background: rgba(236,253,245,.7);
+        color: #0f5132;
+        font-weight: 900;
+        font-size: .86rem;
+        white-space: nowrap;
+    }
+
+    .btn-soft {
+        border-radius: 999px;
+        font-weight: 900;
+        padding: .62rem 1rem;
+    }
+
+    .btn-green {
+        background: linear-gradient(90deg, #0f5132, #198754);
+        border: none;
+        color: #fff !important;
+        box-shadow: 0 12px 26px rgba(25,135,84,.22);
+    }
+
+        .btn-green:hover {
+            filter: brightness(1.02);
+            transform: translateY(-1px);
+        }
+
+    .btn-outline-green {
+        border-radius: 999px;
+        border: 1px solid rgba(15,81,50,.35);
+        color: #0f5132;
+        font-weight: 900;
+        background: rgba(255,255,255,.85);
+    }
+
+        .btn-outline-green:hover {
+            background: rgba(236,253,245,.9);
+            color: #0f5132;
+        }
+
+    .btn-ghost {
+        border-radius: 999px;
+        border: 1px solid rgba(6,46,26,.14);
+        background: rgba(255,255,255,.85);
+        font-weight: 900;
+        color: #062e1a;
+    }
+
+        .btn-ghost:hover {
+            background: rgba(236,253,245,.8);
+        }
+
+    .hint {
+        color: rgba(6,46,26,.65);
+        font-weight: 800;
+        font-size: .92rem;
+        margin-top: .35rem;
+    }
+
+    @@media (max-width: 575.98px) {
+        .succ-hero {
+            padding: 16px;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+
+    <div class="succ-hero mb-3">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+                <h2 class="succ-title">Order Completed</h2>
+                <p class="succ-sub">Thanks! Your invoice will download automatically.</p>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(invoiceNo))
+            {
+                <span class="succ-pill">Invoice: <span style="font-weight:950;">@invoiceNo</span></span>
+            }
+        </div>
+    </div>
+
+    <div class="succ-card">
+        <div class="p-4 text-center">
+            <div class="succ-icon">✅</div>
+
+            <h3 class="succ-title" style="font-size:1.6rem;">Order Completed!</h3>
+            <div class="hint">If the download doesn’t start, use the button below.</div>
+
+            <div class="d-flex justify-content-center gap-2 flex-wrap mt-4">
+                <a class="btn btn-soft btn-outline-green" href="/Shop">Continue Shopping</a>
+                <a class="btn btn-soft btn-green" href="/Cart/Invoice">Download Invoice Again</a>
+            </div>
+
+            <div class="mt-4">
+                <a class="btn btn-soft btn-ghost" href="/Cart">Back to Cart</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // auto download invoice
+    window.onload = function () {
+        window.location.href = "/Cart/Invoice";
+    };
+</script>

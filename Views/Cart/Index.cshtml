@@ -2,63 +2,417 @@
 
 @{
     ViewData["Title"] = "Cart";
+
+    // ProductKey -> (image, alt). (Based on Shop page)
+    var imgMap = new Dictionary<string, (string Img, string Alt)>(StringComparer.OrdinalIgnoreCase)
+    {
+        ["milk_raw_milk"] = ("Images/milk.png", "Raw Milk"),
+        ["milk_pasteurized"] = ("Images/pasteroized-milk.png", "Pasteurized Milk"),
+        ["milk_uht"] = ("Images/uht-milk.png", "UHT Milk"),
+        ["milk_almond"] = ("Images/almond-milk.png", "Almond Milk"),
+        ["milk_zero_fat"] = ("Images/zero-fat-milk.png", "Zero Fat Milk"),
+        ["milk_mango"] = ("Images/mango-milk.png", "Mango Milk"),
+
+        ["yogurt_organic"] = ("Images/yogurt.png", "Organic Yogurt"),
+        ["yogurt_sweet_curd"] = ("Images/sweet-curd.png", "Sweet Curd"),
+        ["yogurt_greek"] = ("Images/greek-yogurt.png", "Greek Yogurt"),
+        ["yogurt_mango"] = ("Images/mango-yogurt.png", "Mango Yogurt"),
+        ["yogurt_baked"] = ("Images/baked-yogurt.png", "Baked Yogurt"),
+        ["yogurt_no_sugar_lassi"] = ("Images/lassi.png", "No Sugar Lassi"),
+
+        ["cheese_paneer"] = ("Images/paneer.png", "Paneer"),
+        ["cheese_mozarella"] = ("Images/mozarella.png", "Mozarella"),
+        ["cheese_cheddar"] = ("Images/cheese.png", "Cheddar Cheese"),
+        ["cheese_cottage"] = ("Images/cottage.png", "Cottage Cheese"),
+        ["cheese_parmigiano"] = ("Images/Parmen.png", "Parmigiano"),
+        ["cheese_roquefort"] = ("Images/Roquefort.png", "Roquefort Cheese"),
+
+        ["meat_raw_boneless"] = ("Images/Bmeat.png", "Raw Meat Boneless"),
+        ["meat_beef_steak"] = ("Images/steak.png", "Beef Steak"),
+        ["meat_beef_sausage"] = ("Images/sausage.png", "Beef Sausage"),
+
+        ["other_milk_powder"] = ("Images/milk-powder.png", "Milk Powder"),
+        ["other_casein"] = ("Images/casein.png", "Casein"),
+        ["other_string_cheese"] = ("Images/string-cheese.png", "String Cheese"),
+    };
+
+    string Money(decimal a) => a.ToString("0");
 }
 
+<style>
+    /* ===== Cart Theme (matches navbar green + soft glass) ===== */
+    .cart-hero {
+        background: linear-gradient(180deg, rgba(236,253,245,.92) 0%, rgba(255,255,255,.98) 55%), #f0fff4;
+        border: 1px solid rgba(16,185,129,.18);
+        border-radius: 18px;
+        padding: 18px 18px;
+        box-shadow: 0 10px 30px rgba(2,44,26,.10);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .cart-hero::before {
+            content: "";
+            position: absolute;
+            inset: -80px -120px auto auto;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(25,135,84,.22) 0%, rgba(25,135,84,0) 60%);
+            transform: rotate(12deg);
+            pointer-events: none;
+        }
+
+    .cart-title {
+        color: #062e1a;
+        font-weight: 900;
+        letter-spacing: .2px;
+        margin: 0;
+    }
+
+    .cart-subtitle {
+        margin: .25rem 0 0 0;
+        color: #134e35;
+        font-weight: 600;
+        opacity: .95;
+    }
+
+    .cart-shell {
+        margin-top: 18px;
+    }
+
+    .cart-card {
+        background: rgba(255,255,255,.92);
+        border: 1px solid rgba(16,185,129,.18);
+        border-radius: 18px;
+        box-shadow: 0 10px 28px rgba(2,44,26,.08);
+    }
+
+    .cart-item {
+        border-bottom: 1px dashed rgba(16,185,129,.18);
+        padding: 14px 14px;
+    }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+    .cart-img {
+        width: 64px;
+        height: 64px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(25,135,84,.10), rgba(255,255,255,.85));
+        border: 1px solid rgba(16,185,129,.18);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        flex: 0 0 auto;
+    }
+
+        .cart-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .cart-name {
+        font-weight: 900;
+        color: #062e1a;
+        margin-bottom: 2px;
+        line-height: 1.15;
+    }
+
+    .cart-meta {
+        color: rgba(6,46,26,.75);
+        font-weight: 700;
+        font-size: .92rem;
+    }
+
+    .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: .35rem;
+        padding: .28rem .6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(16,185,129,.18);
+        background: rgba(236,253,245,.7);
+        color: #0f5132;
+        font-weight: 800;
+        font-size: .86rem;
+        white-space: nowrap;
+    }
+
+    .qty-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(16,185,129,.18);
+        background: rgba(255,255,255,.9);
+    }
+
+    .qty-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        border: 1px solid rgba(6,46,26,.15);
+        background: rgba(15,81,50,.08);
+        color: #0f5132;
+        font-weight: 900;
+        display: grid;
+        place-items: center;
+        text-decoration: none;
+        transition: transform .08s ease, background .15s ease;
+    }
+
+        .qty-btn:hover {
+            background: rgba(25,135,84,.18);
+            transform: translateY(-1px);
+            color: #0f5132;
+        }
+
+    .qty-count {
+        min-width: 28px;
+        text-align: center;
+        font-weight: 900;
+        color: #062e1a;
+    }
+
+    .money {
+        font-weight: 900;
+        color: #062e1a;
+        white-space: nowrap;
+    }
+
+    .remove-btn {
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .summary-sticky {
+        position: sticky;
+        top: 92px; /* navbar height-ish */
+    }
+
+    .summary-title {
+        font-weight: 900;
+        color: #062e1a;
+        margin: 0 0 6px 0;
+    }
+
+    .summary-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px dashed rgba(16,185,129,.18);
+        color: rgba(6,46,26,.85);
+        font-weight: 800;
+    }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+    .summary-total {
+        font-size: 1.12rem;
+        color: #062e1a;
+        font-weight: 950;
+    }
+
+    .btn-soft {
+        border-radius: 999px;
+        font-weight: 900;
+        padding: .6rem 1rem;
+    }
+
+    .btn-green {
+        background: linear-gradient(90deg, #0f5132, #198754);
+        border: none;
+        color: #fff !important;
+        box-shadow: 0 12px 26px rgba(25,135,84,.22);
+    }
+
+        .btn-green:hover {
+            filter: brightness(1.02);
+            transform: translateY(-1px);
+        }
+
+    .btn-outline-green {
+        border-radius: 999px;
+        border: 1px solid rgba(15,81,50,.35);
+        color: #0f5132;
+        font-weight: 900;
+        background: rgba(255,255,255,.85);
+    }
+
+        .btn-outline-green:hover {
+            background: rgba(236,253,245,.9);
+            color: #0f5132;
+        }
+
+    .empty-wrap {
+        text-align: center;
+        padding: 26px 10px;
+    }
+
+    .empty-icon {
+        width: 92px;
+        height: 92px;
+        border-radius: 26px;
+        margin: 0 auto 14px auto;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, rgba(25,135,84,.14), rgba(255,255,255,.92));
+        border: 1px solid rgba(16,185,129,.18);
+        box-shadow: 0 14px 30px rgba(2,44,26,.08);
+        font-size: 40px;
+    }
+
+    @@media (max-width: 575.98px) {
+        .cart-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+        }
+
+        .qty-box {
+            gap: 6px;
+            padding: 6px 8px;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+        }
+    }
+</style>
+
 <div class="container mt-4">
-    <h2>Your Cart</h2>
 
-    @if (ViewBag.Msg != null)
-    {
-        <div class="alert alert-warning">@ViewBag.Msg</div>
-    }
-
-    @if (!Model.Items.Any())
-    {
-        <div class="alert alert-info">Cart is empty.</div>
-        <a class="btn btn-primary" href="/Shop">Browse Products</a>
-    }
-    else
-    {
-        <table class="table table-bordered align-middle">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Unit</th>
-                    <th>Price</th>
-                    <th style="width:180px;">Qty</th>
-                    <th>Line Total</th>
-                    <th style="width:120px;">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.UnitLabel</td>
-                        <td>৳ @item.Price</td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                <a class="btn btn-sm btn-secondary" href="/Cart/Decrease?key=@item.ProductKey">-</a>
-                                <span class="pt-1">@item.Quantity</span>
-                                <a class="btn btn-sm btn-secondary" href="/Cart/Increase?key=@item.ProductKey">+</a>
-                            </div>
-                        </td>
-                        <td>৳ @(item.Price* item.Quantity)</td>
-                        <td>
-                            <a class="btn btn-sm btn-danger" href="/Cart/Remove?key=@item.ProductKey">Remove</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <div class="d-flex justify-content-between">
-            <a class="btn btn-outline-primary" href="/Shop">Browse more products</a>
+    <div class="cart-hero">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
             <div>
-                <h5 class="d-inline me-3">Subtotal: ৳ @Model.Subtotal</h5>
-                <a class="btn btn-success" href="/Cart/Checkout">Checkout</a>
+                <h2 class="cart-title">Your Cart</h2>
+                <p class="cart-subtitle">Review items, adjust quantities, then checkout.</p>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <span class="pill">
+                    Items: @Model.Items.Sum(i => i.Quantity)
+                </span>
+                <span class="pill" style="background: rgba(255,193,7,.18); border-color: rgba(255,193,7,.28); color:#3b2a00;">
+                    Subtotal: ৳ @Money(Model.Subtotal)
+                </span>
             </div>
         </div>
-    }
+    </div>
+
+    <div class="cart-shell">
+        @if (ViewBag.Msg != null)
+        {
+            <div class="alert alert-warning mt-3 mb-0">@ViewBag.Msg</div>
+        }
+
+        @if (!Model.Items.Any())
+        {
+            <div class="cart-card mt-3">
+                <div class="empty-wrap">
+                    <div class="empty-icon">🛒</div>
+                    <h4 class="summary-title">Your cart is empty</h4>
+                    <p class="cart-meta mb-3">Add something from the shop — fresh dairy & meat are waiting.</p>
+                    <a class="btn btn-soft btn-green" href="/Shop">Browse Products</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row g-3 mt-1">
+                <!-- LEFT: Items -->
+                <div class="col-12 col-lg-8">
+                    <div class="cart-card">
+                        @foreach (var item in Model.Items)
+                        {
+                            var p = imgMap.TryGetValue(item.ProductKey, out var found) ? found : ("Images/cheese.png", item.Name);
+                            var imgSrc = Url.Content("~/" + p.Item1);
+                            var lineTotal = item.Price * item.Quantity;
+
+                            <div class="cart-item">
+                                <div class="d-flex flex-wrap align-items-center gap-3">
+                                    <div class="cart-img">
+                                        <img src="@imgSrc" alt="@p.Item2" />
+                                    </div>
+
+                                    <div class="flex-grow-1" style="min-width: 200px;">
+                                        <div class="cart-name">@item.Name</div>
+                                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                                            <span class="pill">@item.UnitLabel</span>
+                                            <span class="pill">৳ @Money(item.Price) / @item.UnitLabel</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex flex-column align-items-end gap-2 ms-auto">
+                                        <div class="qty-box">
+                                            <a class="qty-btn" href="/Cart/Decrease?key=@item.ProductKey" aria-label="Decrease quantity">−</a>
+                                            <div class="qty-count">@item.Quantity</div>
+                                            <a class="qty-btn" href="/Cart/Increase?key=@item.ProductKey" aria-label="Increase quantity">+</a>
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="money">৳ @Money(lineTotal)</div>
+                                            <a class="btn btn-sm btn-danger remove-btn px-3"
+                                               href="/Cart/Remove?key=@item.ProductKey">
+                                                Remove
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3">
+                        <a class="btn btn-outline-green btn-soft" href="/Shop">← Continue Shopping</a>
+                        <small class="text-muted fw-semibold">
+                            Tip: quantities update instantly using + / −
+                        </small>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Summary -->
+                <div class="col-12 col-lg-4">
+                    <div class="cart-card p-3 summary-sticky">
+                        <h5 class="summary-title">Order Summary</h5>
+
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span class="money">৳ @Money(Model.Subtotal)</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span class="money">৳ 0</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span class="summary-total">Total</span>
+                            <span class="summary-total">৳ @Money(Model.Subtotal)</span>
+                        </div>
+
+                        <div class="mt-3 d-grid gap-2">
+                            <a class="btn btn-soft btn-green" href="/Cart/Checkout">Proceed to Checkout</a>
+                            <a class="btn btn-soft btn-outline-green" href="/Shop">Browse more products</a>
+                        </div>
+
+                        <div class="mt-3">
+                            <div class="pill" style="width:100%; justify-content:center;">
+                                Secure checkout • Fresh delivery
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
 </div>

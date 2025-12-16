@@ -86,10 +86,53 @@
                 </a>
             </div>
 
-            <!-- Toggler (stays visible on small screens) -->
-            <button class="navbar-toggler border-0 nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+
+            <!-- MOBILE RIGHT COLUMN: Hamburger + Auth (stacked) -->
+            <div class="ms-auto d-lg-none d-flex flex-column align-items-end">
+
+                <!-- Toggler (top) -->
+                <button class="navbar-toggler border-0 nav-toggle" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Mobile Auth (under hamburger) -->
+                <div class="mt-2 d-flex flex-column align-items-end gap-2">
+                    @if (userType == null)
+                    {
+                        <a asp-controller="Auth" asp-action="Login"
+                           class="btn btn-light btn-sm px-3 fw-semibold w-100 text-center">Login</a>
+
+                        <a asp-controller="Auth" asp-action="Register"
+                           class="btn btn-warning btn-sm px-3 fw-semibold w-100 text-center">Register</a>
+                    }
+                    else if (userType == "Customer")
+                    {
+                        <a asp-controller="Customer" asp-action="Dashboard"
+                           class="btn btn-outline-light btn-sm px-3 fw-semibold w-100 text-center">Dashboard</a>
+
+                        <a asp-controller="Auth" asp-action="Logout"
+                           class="btn btn-danger btn-sm px-3 fw-semibold w-100 text-center">Logout</a>
+                    }
+                    else if (userType == "Admin")
+                    {
+                        <a asp-controller="Admin" asp-action="Dashboard"
+                           class="btn btn-outline-light btn-sm px-3 fw-semibold w-100 text-center">Dashboard</a>
+
+                        <a asp-controller="Admin" asp-action="Products"
+                           class="btn btn-outline-warning btn-sm px-3 fw-semibold w-100 text-center">Products</a>
+
+                        <a asp-controller="Auth" asp-action="Logout"
+                           class="btn btn-danger btn-sm px-3 fw-semibold w-100 text-center">Logout</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Auth" asp-action="Logout"
+                           class="btn btn-danger btn-sm px-3 fw-semibold w-100 text-center">Logout</a>
+                    }
+                </div>
+            </div>
+
 
             <!-- CENTER: Links -->
             <div id="mainNav" class="collapse navbar-collapse justify-content-center nav-center">
@@ -120,7 +163,7 @@
             </div>
 
             <!-- RIGHT: Auth/User -->
-            <div class="collapse navbar-collapse justify-content-end mt-3 mt-lg-0 nav-right">
+            <div class="nav-right ms-lg-auto mt-3 mt-lg-0 d-none d-lg-flex">
                 @if (userType == null)
                 {
                     <div class="d-flex gap-2">
@@ -171,6 +214,7 @@
                     <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger btn-sm px-3 fw-semibold">Logout</a>
                 }
             </div>
+
 
         </div>
     </nav>
@@ -270,21 +314,33 @@
             overflow: visible;
         }
 
-            .nav-shop-glow::before {
-                content: "";
-                position: absolute;
-                inset: -2px;
-                border-radius: 999px;
-                padding: 2px;
-                background: conic-gradient( from 0deg, transparent 0deg, transparent 320deg, rgba(255,255,255,0.1) 330deg, rgba(255,255,255,1) 345deg, rgba(255,255,255,0.1) 360deg );
-                -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-                -webkit-mask-composite: xor;
-                mask-composite: exclude;
-                animation: shopTrace 2.0s linear infinite;
-                filter: blur(0.6px) drop-shadow(0 0 6px rgba(255,255,255,0.95));
-                pointer-events: none;
-                z-index: 2;
+        /* Keep the glow wrapped around "Shop" in the collapsed (mobile) navbar */
+        @@media (max-width: 991.98px) {
+            .navbar-nav .nav-shop-glow {
+                display: inline-flex !important;
+                width: max-content !important; /* shrink to fit content */
+                align-self: center; /* keep it centered in the dropdown */
+                margin-left: auto;
+                margin-right: auto;
             }
+        }
+
+
+        .nav-shop-glow::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: 999px;
+            padding: 2px;
+            background: conic-gradient( from 0deg, transparent 0deg, transparent 320deg, rgba(255,255,255,0.1) 330deg, rgba(255,255,255,1) 345deg, rgba(255,255,255,0.1) 360deg );
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: shopTrace 2.0s linear infinite;
+            filter: blur(0.6px) drop-shadow(0 0 6px rgba(255,255,255,0.95));
+            pointer-events: none;
+            z-index: 2;
+        }
 
         @@keyframes shopTrace {
             to {

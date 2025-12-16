@@ -2,6 +2,46 @@
     ViewData["Title"] = "Home";
     var isLoggedIn = Context.Session.GetString("UserType") != null;
 }
+<style>
+    .tp-media {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .buy-btn-overlay {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) translateY(10px);
+        padding: 12px 26px;
+        background: #16a34a;
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.25s ease;
+    }
+
+    .tp-card:hover .buy-btn-overlay {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateY(0);
+    }
+
+    .buy-btn-overlay:hover {
+        background: #15803d;
+    }
+
+
+    /* optional: show always on mobile (no hover) */
+    @@media (max-width: 768px) {
+        .buy-btn-overlay {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+</style>
 <!-- Hello World -->
 <!-- Hello World -->
 <!-- HERO SECTION -->
@@ -23,7 +63,7 @@
             A smarter, sustainable approach to modern farming — manage and grow your agro business effortlessly.
         </p>
 
-        <a href="/Auth/Login"
+        <a href="/Shop"
            class="btn btn-success btn-lg shadow-lg animate__animated animate__fadeInUp animate__delay-1s">
             Get Started
         </a>
@@ -82,7 +122,10 @@
                 <article class="tp-card card h-100 border-0" data-price="360">
                     <div class="tp-media">
                         <img src="~/Images/milk.png" alt="Raw Milk" />
-                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+                        <button class="buy-btn-overlay"
+                                onclick="location.href='/Cart/Add?key=milk_raw_milk'">
+                            Buy Now
+                        </button>
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Raw Milk</h5>
@@ -96,7 +139,10 @@
                 <article class="tp-card card h-100 border-0" data-price="215">
                     <div class="tp-media">
                         <img src="~/Images/pasteroized-milk.png" alt="Pasteurized Milk" />
-                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+                        <button class="buy-btn-overlay"
+                                onclick="location.href='/Cart/Add?key=milk_pasteurized'">
+                            Buy Now
+                        </button>
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Pasteurized Milk</h5>
@@ -110,7 +156,10 @@
                 <article class="tp-card card h-100 border-0" data-price="419">
                     <div class="tp-media">
                         <img src="~/Images/uht-milk.png" alt="UHT Milk" />
-                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+                        <button class="buy-btn-overlay"
+                                onclick="location.href='/Cart/Add?key=milk_uht'">
+                            Buy Now
+                        </button>
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">UHT Milk</h5>
@@ -124,7 +173,10 @@
                 <article class="tp-card card h-100 border-0" data-price="360">
                     <div class="tp-media">
                         <img src="~/Images/yogurt.png" alt="Organic Yogurt" />
-                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+                        <button class="buy-btn-overlay"
+                                onclick="location.href='/Cart/Add?key=yogurt_organic'">
+                            Buy Now
+                        </button>
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Organic Yogurt</h5>
@@ -138,7 +190,10 @@
                 <article class="tp-card card h-100 border-0" data-price="360">
                     <div class="tp-media">
                         <img src="~/Images/paneer.png" alt="Paneer" />
-                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+                        <button class="buy-btn-overlay"
+                                onclick="location.href='/Cart/Add?key=cheese_paneer'">
+                            Buy Now
+                        </button>
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Paneer</h5>
@@ -152,7 +207,10 @@
                 <article class="tp-card card h-100 border-0" data-price="360">
                     <div class="tp-media">
                         <img src="~/Images/Bmeat.png" alt="Raw Meat Boneless" />
-                        <button class="tp-add" onclick="handleBuyNow(event)">Buy Now</button>
+                        <button class="buy-btn-overlay"
+                                onclick="location.href='/Cart/Add?key=meat_raw_boneless'">
+                            Buy Now
+                        </button>
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title mb-1">Raw Meat (Boneless)</h5>
