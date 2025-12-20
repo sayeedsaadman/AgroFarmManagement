@@ -1,0 +1,223 @@
+﻿@model AgroManagement.Helper.CatalogProduct
+
+@{
+    ViewData["Title"] = "Small Calf Details";
+}
+
+<style>
+    /* Professional Refinements - White Theme */
+    .hero-image-container {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid #eee;
+        text-align: center;
+    }
+
+    .stat-box {
+        background: #ffffff;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 15px;
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+
+        .stat-box:hover {
+            border-color: #198754;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+    .btn-contact {
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-success-custom {
+        background-color: #198754;
+        color: white !important;
+    }
+
+    .btn-outline-custom {
+        border: 2px solid #198754;
+        color: #198754;
+    }
+
+    .btn-contact:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(25, 135, 84, 0.2);
+    }
+
+    .featured-card {
+        background: #ffffff;
+        border: 1px solid #f0f0f0 !important;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+        .featured-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+        }
+
+    .card-img-wrapper {
+        background: #ffffff;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .calf-img-sm {
+        max-width: 60%;
+        height: auto;
+    }
+</style>
+
+<div class="container py-5 bg-white">
+    <div class="row align-items-center mb-5 g-5">
+        <div class="col-lg-5">
+            <div class="hero-image-container shadow-sm">
+                <img src="~/Images/calf.png" class="img-fluid" alt="@Model.Name" />
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item text-success fw-bold text-uppercase small" style="letter-spacing: 1px;">Premium Calf Profile</li>
+                </ol>
+            </nav>
+
+            <h1 class="display-5 fw-bold mb-2">Cross Breed </h1>
+
+            <div class="d-flex align-items-center mb-3">
+                <p class="text-muted mb-0 me-3">Category: <span class="fw-bold text-dark">Calf</span></p>
+                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Growth Phase</span>
+            </div>
+
+            <h3 class="fw-bold text-success mb-4">95k BDT</h3>
+
+            <p class="lead text-muted mb-4">
+                Young, healthy calf with strong growth potential and good temperament. Ideal for future dairy or meat production depending on your farm plan.
+            </p>
+
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-4">
+                    <div class="stat-box shadow-sm">
+                        <div class="small text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Approx. Age</div>
+                        <div class="fw-bold fs-5">6–8 Months</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="stat-box shadow-sm">
+                        <div class="small text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Current Weight</div>
+                        <div class="fw-bold fs-5">90–110 Kg</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="stat-box shadow-sm">
+                        <div class="small text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Gender</div>
+                        <div class="fw-bold fs-5 text-truncate">Bull Calf</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="stat-box shadow-sm">
+                        <div class="small text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Feeding</div>
+                        <div class="fw-bold fs-6">Milk + Starter</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="stat-box shadow-sm">
+                        <div class="small text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Health</div>
+                        <div class="fw-bold fs-6 text-success">Vaccinated</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                <a href="tel:+8801XXXXXXXXX" class="btn-contact btn-success-custom">
+                    Contact Agro
+                </a>
+                <a href="mailto:info@agro.com" class="btn-contact btn-outline-custom">
+                    Send Enquiry
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-4">
+        <div class="col-12">
+            <h3 class="fw-bold mb-0">Best Small Calves From Our Farm</h3>
+            <hr class="mt-2" style="width: 50px; border: 2px solid #198754; opacity: 1;">
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card h-100 featured-card shadow-sm">
+                <div class="card-img-wrapper position-relative">
+                    <img src="~/Images/calf3.png" class="calf-img-sm" alt="Brahman" />
+                    <span class="badge bg-success position-absolute top-0 start-0 m-3 shadow-sm">Foreign Bloodline</span>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <h5 class="fw-bold mb-1">Brahman</h5>
+                    <div class="text-muted small mb-3">Age: 7 Months • 105 Kg</div>
+                    <ul class="list-unstyled small mb-4 text-start">
+                        <li><i class="bi bi-check-circle-fill text-success me-1"></i> Strong genetic potential</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-1"></i> Ideal for breeding</li>
+                    </ul>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+                        <span class="fw-semibold text-dark small">Contact Agro</span>
+                        <a href="tel:+8801XXXXXXXXX" class="btn btn-sm btn-success rounded-pill px-3">Call Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card h-100 featured-card shadow-sm">
+                <div class="card-img-wrapper position-relative">
+                    <img src="~/Images/calf2.png" class="calf-img-sm" alt="Jersey" />
+                    <span class="badge bg-primary position-absolute top-0 start-0 m-3 shadow-sm">Hardy Local</span>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <h5 class="fw-bold mb-1">Jersey</h5>
+                    <div class="text-muted small mb-3">Age: 8 Months • 115 Kg</div>
+                    <ul class="list-unstyled small mb-4 text-start">
+                        <li><i class="bi bi-check-circle-fill text-success me-1"></i> Climate adapted</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-1"></i> Low maintenance</li>
+                    </ul>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+                        <span class="fw-semibold text-dark small">Contact Agro</span>
+                        <a href="tel:+8801XXXXXXXXX" class="btn btn-sm btn-success rounded-pill px-3">Call Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card h-100 featured-card shadow-sm">
+                <div class="card-img-wrapper position-relative">
+                    <img src="~/Images/calf1.png" class="calf-img-sm" alt="Crossbred" />
+                    <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-3 shadow-sm">Crossbred</span>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <h5 class="fw-bold mb-1">Crossbred</h5>
+                    <div class="text-muted small mb-3">Age: 6 Months • 95 Kg</div>
+                    <ul class="list-unstyled small mb-4 text-start">
+                        <li><i class="bi bi-check-circle-fill text-success me-1"></i> Balanced growth</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-1"></i> Weight gain potential</li>
+                    </ul>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+                        <span class="fw-semibold text-dark small">Contact Agro</span>
+                        <a href="tel:+8801XXXXXXXXX" class="btn btn-sm btn-success rounded-pill px-3">Call Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,6 +14,9 @@ namespace AgroManagement.Helper
     {
         public static IReadOnlyList<CatalogProduct> All => new List<CatalogProduct>
         {
+            new("healthy_bull", "Meat", "Raw Milk", "KG", 360m),
+new("cow_milk", "Meat", "Pasteurized Milk", "Litre", 215m),
+new("small_calf", "Meat", "UHT Milk", "200 gm", 419m),
             // Milk
             new("milk_raw_milk", "Milk", "Raw Milk", "KG", 360m),
             new("milk_pasteurized", "Milk", "Pasteurized Milk", "Litre", 215m),

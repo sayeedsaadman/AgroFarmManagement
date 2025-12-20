@@ -25,6 +25,7 @@
         cursor: pointer;
         opacity: 0;
         transition: all 0.25s ease;
+
     }
 
     .tp-card:hover .buy-btn-overlay {
@@ -338,6 +339,71 @@
 
         <!-- RIGHT CONTENT -->
         <div class="col-12 col-lg-9">
+
+            <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Milk">
+                <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+                <h1 class="section-intro mx-auto text-center mb-4">Top Quality Cow</h1>
+
+                <div class="row g-4">
+                    <!-- Healthy Bull -->
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0" data-category="Meat" data-price="360">
+                            <div class="tp-media">
+                                <img src="~/Images/bull.png" alt="healthy Bull" />
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='@Url.Action("BullDetails", "Shop", new { key = "healthy_bull" })'">
+                                    More Details
+                                </button>
+
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Healthy Bull</h5>
+                                <div class="tp-price mb-3">Contact Agro</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Milky Cow -->
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0" data-category="Milk" data-price="360">
+                            <div class="tp-media">
+                                <img src="~/Images/milky.png" alt="Milky Cow" />
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='@Url.Action("MilkyCow", "Shop", new { key = "cow_milk" })'">
+                                    More Details
+                                </button>
+
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Holstein Friesian</h5>
+                                <div class="tp-price mb-3">Contact Agro</div>
+                            </div>
+                        </article>
+                    </div>
+
+
+                    <!-- Foreign Bloodline Calf -->
+                    <div class="col-12 col-sm-6 col-lg-4 shop-item">
+                        <article class="tp-card card h-100 border-0" data-category="Milk" data-price="419">
+                            <div class="tp-media">
+                                <img src="~/Images/calf.png" alt="UHT Milk" />
+
+                                <button class="buy-btn-overlay"
+                                        onclick="location.href='@Url.Action("SmallCalf", "Shop", new { key = "small_calf" })'">
+                                    More Details
+                                </button>
+
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Foreign Bloodline Calf</h5>
+                                <div class="tp-price mb-3">Contact Agro</div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
 
             <!-- ================= MILK ================= -->
             <section id="shop-grid" class="px-0 py-4 shop-section" data-section="Milk">
@@ -813,101 +879,101 @@
             </section>
 
 
-<script>
-    function handleBuyNow(e) {
-        e.preventDefault();
-        const loggedIn = @isLoggedIn.ToString().ToLower();
+            <script>
+                function handleBuyNow(e) {
+                    e.preventDefault();
+                    const loggedIn = @isLoggedIn.ToString().ToLower();
 
-        if (!loggedIn) {
-            const returnUrl = encodeURIComponent(window.location.pathname);
-            window.location.href = "/Auth/Login?returnUrl=" + returnUrl;
-            return;
-        }
+                    if (!loggedIn) {
+                        const returnUrl = encodeURIComponent(window.location.pathname);
+                        window.location.href = "/Auth/Login?returnUrl=" + returnUrl;
+                        return;
+                    }
 
-        alert("Added! (you can wire cart later)");
-    }
-</script>
+                    alert("Added! (you can wire cart later)");
+                }
+            </script>
 
-<script>
-    /* ------- FILTERING (CLIENT SIDE) ------- */
+            <script>
+                /* ------- FILTERING (CLIENT SIDE) ------- */
 
-    const form = document.getElementById("shop-filters");
-    const categorySelect = document.getElementById("categorySelect");
+                const form = document.getElementById("shop-filters");
+                const categorySelect = document.getElementById("categorySelect");
 
-    const priceMin = document.getElementById('priceMin');
-    const priceMax = document.getElementById('priceMax');
-    const priceFrom = document.getElementById('priceFrom');
-    const priceTo   = document.getElementById('priceTo');
-    const pMinOut   = document.getElementById('f-price-min');
-    const pMaxOut   = document.getElementById('f-price-max');
+                const priceMin = document.getElementById('priceMin');
+                const priceMax = document.getElementById('priceMax');
+                const priceFrom = document.getElementById('priceFrom');
+                const priceTo   = document.getElementById('priceTo');
+                const pMinOut   = document.getElementById('f-price-min');
+                const pMaxOut   = document.getElementById('f-price-max');
 
-    const allItems = Array.from(document.querySelectorAll(".shop-item"));
-    const allSections = Array.from(document.querySelectorAll(".shop-section"));
+                const allItems = Array.from(document.querySelectorAll(".shop-item"));
+                const allSections = Array.from(document.querySelectorAll(".shop-section"));
 
-    function fmt(n){ return Number(n).toLocaleString(); }
+                function fmt(n){ return Number(n).toLocaleString(); }
 
-    function syncPriceFromRanges(){
-        if(+priceMin.value > +priceMax.value){ priceMin.value = priceMax.value; }
-        priceFrom.value = priceMin.value;
-        priceTo.value   = priceMax.value;
-        pMinOut.textContent = '৳ ' + fmt(priceMin.value);
-        pMaxOut.textContent = '৳ ' + fmt(priceMax.value);
-    }
-    function syncPriceFromInputs(){
-        if(+priceFrom.value > +priceTo.value){ priceFrom.value = priceTo.value; }
-        priceMin.value = priceFrom.value;
-        priceMax.value = priceTo.value;
-        pMinOut.textContent = '৳ ' + fmt(priceFrom.value);
-        pMaxOut.textContent = '৳ ' + fmt(priceTo.value);
-    }
+                function syncPriceFromRanges(){
+                    if(+priceMin.value > +priceMax.value){ priceMin.value = priceMax.value; }
+                    priceFrom.value = priceMin.value;
+                    priceTo.value   = priceMax.value;
+                    pMinOut.textContent = '৳ ' + fmt(priceMin.value);
+                    pMaxOut.textContent = '৳ ' + fmt(priceMax.value);
+                }
+                function syncPriceFromInputs(){
+                    if(+priceFrom.value > +priceTo.value){ priceFrom.value = priceTo.value; }
+                    priceMin.value = priceFrom.value;
+                    priceMax.value = priceTo.value;
+                    pMinOut.textContent = '৳ ' + fmt(priceFrom.value);
+                    pMaxOut.textContent = '৳ ' + fmt(priceTo.value);
+                }
 
-    function applyFilters(){
-        const cat  = categorySelect.value;
-        const minP = +priceMin.value;
-        const maxP = +priceMax.value;
+                function applyFilters(){
+                    const cat  = categorySelect.value;
+                    const minP = +priceMin.value;
+                    const maxP = +priceMax.value;
 
-        allItems.forEach(item=>{
-            const card = item.querySelector("article");
-            const price = +card.dataset.price;
-            const category = card.dataset.category;
+                    allItems.forEach(item=>{
+                        const card = item.querySelector("article");
+                        const price = +card.dataset.price;
+                        const category = card.dataset.category;
 
-            const matchCategory = (cat === "all") || (category === cat);
-            const matchPrice    = price >= minP && price <= maxP;
+                        const matchCategory = (cat === "all") || (category === cat);
+                        const matchPrice    = price >= minP && price <= maxP;
 
-            item.style.display = (matchCategory && matchPrice) ? "" : "none";
-        });
+                        item.style.display = (matchCategory && matchPrice) ? "" : "none";
+                    });
 
-        allSections.forEach(sec=>{
-            const visibleAny = [...sec.querySelectorAll(".shop-item")].some(x => x.style.display !== "none");
-            sec.style.display = visibleAny ? "" : "none";
-        });
-    }
+                    allSections.forEach(sec=>{
+                        const visibleAny = [...sec.querySelectorAll(".shop-item")].some(x => x.style.display !== "none");
+                        sec.style.display = visibleAny ? "" : "none";
+                    });
+                }
 
-    priceMin?.addEventListener('input', ()=>{ syncPriceFromRanges(); applyFilters(); });
-    priceMax?.addEventListener('input', ()=>{ syncPriceFromRanges(); applyFilters(); });
-    priceFrom?.addEventListener('input', ()=>{ syncPriceFromInputs(); applyFilters(); });
-    priceTo?.addEventListener('input', ()=>{ syncPriceFromInputs(); applyFilters(); });
+                priceMin?.addEventListener('input', ()=>{ syncPriceFromRanges(); applyFilters(); });
+                priceMax?.addEventListener('input', ()=>{ syncPriceFromRanges(); applyFilters(); });
+                priceFrom?.addEventListener('input', ()=>{ syncPriceFromInputs(); applyFilters(); });
+                priceTo?.addEventListener('input', ()=>{ syncPriceFromInputs(); applyFilters(); });
 
-    categorySelect?.addEventListener("change", applyFilters);
+                categorySelect?.addEventListener("change", applyFilters);
 
-    form?.addEventListener("submit", function(e){
-        e.preventDefault();
-        applyFilters();
-    });
+                form?.addEventListener("submit", function(e){
+                    e.preventDefault();
+                    applyFilters();
+                });
 
-    document.getElementById('resetFilters')?.addEventListener('click', () => {
-        setTimeout(()=>{
-            categorySelect.value = "all";
+                document.getElementById('resetFilters')?.addEventListener('click', () => {
+                    setTimeout(()=>{
+                        categorySelect.value = "all";
 
-            priceMin.value=0;
-            priceMax.value=5000;
-            syncPriceFromRanges();
+                        priceMin.value=0;
+                        priceMax.value=5000;
+                        syncPriceFromRanges();
 
-            applyFilters();
-        },0);
-    });
+                        applyFilters();
+                    },0);
+                });
 
-    // init
-    syncPriceFromRanges();
-    applyFilters();
-</script>
+                // init
+                syncPriceFromRanges();
+                applyFilters();
+            </script>

@@ -1,0 +1,191 @@
+﻿@model AgroManagement.Helper.CatalogProduct
+
+@{
+    ViewData["Title"] = "Bull Details";
+}
+
+<style>
+    /* Professional Refinements - White Theme */
+    .hero-image-container {
+        background: #ffffff; /* Changed to Full White */
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid #eee; /* Light border to define shape */
+        text-align: center;
+    }
+
+    .stat-box {
+        background: #ffffff; /* Changed to Full White */
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 15px;
+        height: 100%;
+    }
+
+    .btn-contact {
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-success-custom {
+        background-color: #198754;
+        color: white !important;
+    }
+
+    .btn-outline-custom {
+        border: 2px solid #198754;
+        color: #198754;
+    }
+
+    .btn-contact:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(25, 135, 84, 0.2);
+    }
+
+    /* Card styling with white backgrounds */
+    .featured-card {
+        background: #ffffff;
+        border: 1px solid #f0f0f0 !important;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+        .featured-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+        }
+
+    .card-img-wrapper {
+        background: #ffffff; /* Removed gray bg from image wrapper */
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .bull-img-sm {
+        max-width: 60%;
+        height: auto;
+    }
+</style>
+
+<div class="container py-5 bg-white">
+    <div class="row align-items-center mb-5 g-5">
+        <div class="col-lg-5">
+            <div class="hero-image-container shadow-sm">
+                <img src="~/Images/bull.png" class="img-fluid" alt="@Model.Name" />
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill mb-3">
+                Premium Bull Profile
+            </span>
+
+            <h1 class="display-5 fw-bold mb-2">Angus</h1>
+
+            <p class="text-muted mb-3">
+                Category: <span class="fw-bold text-dark">Meat</span>
+            </p>
+
+            <h3 class="fw-bold text-success mb-4">465k BDT</h3>
+
+            <p class="lead text-muted mb-4">
+                Excellent meat quality & marbling - Fast growth, good feed efficiency - Very popular worldwide.
+            </p>
+
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-4">
+                    <div class="stat-box shadow-sm">
+                        <div class="small text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Age</div>
+                        <div class="fw-bold fs-5">3.5 Years</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="stat-box shadow-sm">
+                        <div class="small text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Weight</div>
+                        <div class="fw-bold fs-5">550–600 Kg</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="stat-box shadow-sm">
+                        <div class="small text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Bloodline</div>
+                        <div class="fw-bold fs-5 text-truncate">Foreign Cross</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                <a href="tel:+8801XXXXXXXXX" class="btn-contact btn-success-custom">
+                    Contact Agro
+                </a>
+                <a href="mailto:info@agro.com" class="btn-contact btn-outline-custom">
+                    Send Enquiry
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-4">
+        <div class="col-12">
+            <h3 class="fw-bold mb-0">Featured Bulls From Our Farm</h3>
+            <hr class="mt-2" style="width: 50px; border: 2px solid #198754; opacity: 1;">
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card h-100 featured-card shadow-sm">
+                <div class="card-img-wrapper position-relative">
+                    <img src="~/Images/brah.png" class="bull-img-sm" alt="Brahman" />
+                    <span class="badge bg-success position-absolute top-0 start-0 m-3 shadow-sm">High Yield</span>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <h5 class="fw-bold mb-1">Brahman</h5>
+                    <div class="text-muted small mb-3">Age: 3 Years • 580 Kg</div>
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                        <span class="fw-semibold text-dark small">Contact Agro</span>
+                        <a href="tel:+8801XXXXXXXXX" class="btn btn-sm btn-success rounded-pill px-3">Call Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card h-100 featured-card shadow-sm">
+                <div class="card-img-wrapper position-relative">
+                    <img src="~/Images/Hereford.png" class="bull-img-sm" alt="Sindhi" />
+                    <span class="badge bg-primary position-absolute top-0 start-0 m-3 shadow-sm">Foreign Cross</span>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <h5 class="fw-bold mb-1">Sindhi</h5>
+                    <div class="text-muted small mb-3">Age: 4 Years • 620 Kg</div>
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                        <span class="fw-semibold text-dark small">Contact Agro</span>
+                        <a href="tel:+8801XXXXXXXXX" class="btn btn-sm btn-success rounded-pill px-3">Call Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card h-100 featured-card shadow-sm">
+                <div class="card-img-wrapper position-relative">
+                    <img src="~/Images/charolais.png" class="bull-img-sm" alt="Sahiwal" />
+                    <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-3 shadow-sm">Abroad Elite</span>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <h5 class="fw-bold mb-1">Sahiwal</h5>
+                    <div class="text-muted small mb-3">Age: 3.5 Years • 540 Kg</div>
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                        <span class="fw-semibold text-dark small">Contact Agro</span>
+                        <a href="tel:+8801XXXXXXXXX" class="btn btn-sm btn-success rounded-pill px-3">Call Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

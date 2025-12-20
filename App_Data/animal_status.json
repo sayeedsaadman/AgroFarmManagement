@@ -1,0 +1,30 @@
+[
+  {
+    "AnimalId": 35,
+    "TagNumber": "B01",
+    "Status": "Active",
+    "Notes": "still on farm",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 36,
+    "TagNumber": "B02",
+    "Status": "Active",
+    "Notes": "still on farm",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 37,
+    "TagNumber": "B03",
+    "Status": "Active",
+    "Notes": "still on farm",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 38,
+    "TagNumber": "B04",
+    "Status": "Active",
+    "Notes": "still on farm",
+    "UpdatedOn": "2025-12-21"
+  }
+]

@@ -8,16 +8,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Admin Panel - SPESH AGRO</title>
-    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator.min.css" />
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons (ONLY ONE) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Tabulator -->
+    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator.min.css">
+
+    <!-- Your site css -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
     <style>
         body {
@@ -26,6 +28,7 @@
             background: #f5f5f5;
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 250px;
             height: 100vh;
@@ -34,31 +37,42 @@
             position: fixed;
             left: 0;
             top: 0;
-            padding-top: 30px;
-            overflow-y: auto; /* scroll sidebar */
+            padding-top: 20px;
+            overflow-y: auto;
             overflow-x: hidden;
         }
 
+            .sidebar h4 {
+                margin-bottom: 15px;
+            }
+
             .sidebar a {
-                display: block;
+                display: flex; /* ✅ helps icon + text */
+                align-items: center;
+                gap: 10px; /* ✅ spacing */
                 padding: 12px 20px;
-                font-size: 17px;
+                font-size: 16px;
                 color: white;
                 text-decoration: none;
-                transition: 0.3s;
+                transition: 0.25s;
             }
 
                 .sidebar a:hover {
                     background: #145f3b;
                 }
 
-            /* optional: make scrollbar not shift layout */
-            .sidebar::-webkit-scrollbar {
-                width: 10px;
+                /* ✅ icon alignment (important!) */
+                .sidebar a i {
+                    width: 22px;
+                    text-align: center;
+                    font-size: 18px;
+                    flex-shrink: 0;
+                }
+
+            .sidebar hr {
+                border-color: rgba(255,255,255,0.3);
+                margin: 14px 0;
             }
-
-
-
 
         /* RIGHT CONTENT */
         .admin-content {
@@ -66,93 +80,107 @@
             padding: 30px;
         }
 
-        /* Dashboard image center */
-        .dashboard-center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh;
+        /* Optional: scrollbar */
+        .sidebar::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.25);
+            border-radius: 10px;
         }
     </style>
 </head>
+
 <body>
 
+    <!-- SIDEBAR -->
     <div class="sidebar">
-
         <h4 class="text-center fw-bold">Admin Panel</h4>
 
-        <a href="/Admin/Dashboard"><i class="bi bi-grid-fill me-2"></i> Dashboard</a>
+        <a href="/Admin/Dashboard">
+            <i class="bi bi-grid-fill"></i> Dashboard
+        </a>
+
+        <hr />
 
         <!-- Animals -->
-        <a href="/Animals/Index"><i class="bi bi-list-ul me-2"></i> Manage Animals</a>
+        <a href="/Animals/Index">
+            <i class="bi bi-list-ul"></i> Manage Animals
+        </a>
 
         <a href="@Url.Action("Index", "Animals", new { open = "create" })">
-            <i class="bi bi-plus-circle me-2"></i> Add New Animal
+            <i class="bi bi-plus-circle"></i> Add New Animal
         </a>
 
         <a asp-controller="AdminHealth" asp-action="HealthTracker">
-            Animal Health Tracker
+            <i class="bi bi-clipboard2-pulse"></i> Animal Health Tracker
         </a>
 
         <a asp-controller="AdminHealth" asp-action="HealthDashboard">
-            Health Dashboard
+            <i class="bi bi-heart-pulse"></i> Health Dashboard
         </a>
+
+        <a asp-controller="AdminAnimalLifecycle" asp-action="Index">
+            <i class="bi bi-arrow-repeat"></i> Animal Lifecycle
+        </a>
+
+        <hr />
 
         <!-- Users -->
         <a asp-controller="Admin" asp-action="ManageUsers">
-            <i class="bi bi-people-fill me-2"></i> Manage Users
+            <i class="bi bi-people-fill"></i> Manage Users
         </a>
 
         <!-- Products -->
-        <a href="/Admin/Products">Manage Products</a>
+        <a href="/Admin/Products">
+            <i class="bi bi-box-seam"></i> Manage Products
+        </a>
 
         <hr />
 
         <!-- Employees -->
         <a asp-controller="Employees" asp-action="Index">
-            <i class="bi bi-person-badge-fill me-2"></i> Employee Management
+            <i class="bi bi-person-badge-fill"></i> Employee Management
         </a>
 
         <a asp-controller="AdminTaskManagement" asp-action="Index">
-            Task Management
+            <i class="bi bi-list-check"></i> Task Management
         </a>
 
         <a asp-controller="Employees" asp-action="Create">
-            <i class="bi bi-person-plus-fill me-2"></i> Add Employee
+            <i class="bi bi-person-plus-fill"></i> Add Employee
         </a>
 
+        <hr />
+
+        <!-- Reports -->
         <a asp-controller="AdminSales" asp-action="Index">
-            Sales Report
+            <i class="bi bi-graph-up-arrow"></i> Sales Report
         </a>
 
         <a asp-controller="AdminExpense" asp-action="Index">
-            Expense Report
+            <i class="bi bi-cash-coin"></i> Expense Report
         </a>
+
+        <hr />
 
         <a href="/Auth/Logout">
-            <i class="bi bi-box-arrow-right me-2"></i> Logout
+            <i class="bi bi-box-arrow-right"></i> Logout
         </a>
-
     </div>
-
-
-
 
     <!-- MAIN CONTENT -->
     <div class="admin-content">
         @RenderBody()
     </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
-    <script src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
-
 
     @RenderSection("Scripts", required: false)
 

@@ -13,5 +13,7 @@ namespace AgroManagement.Models.ViewModels
 
         public List<(string TagNumber, decimal TotalMilk)> MilkByAnimal { get; set; } = new();
         public List<HealthLogEntry> MedicineEntries { get; set; } = new();
+        public List<WeightAlertRowVM> WeightAlerts { get; set; } = new();
+
     }
 }

@@ -2,6 +2,10 @@
     var appName = "SPESH AGRO";
     var userType = Context.Session.GetString("UserType");
     var userName = Context.Session.GetString("UserName");
+
+    // ✅ support both names used in your project
+    var isUser = userType == "User" || userType == "Customer";
+    var isAdmin = userType == "Admin";
 }
 
 <!DOCTYPE html>
@@ -27,6 +31,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
     <!-- AOS Animation Library -->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
@@ -34,10 +39,8 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-
-
-
 </head>
+
 <!-- AOS Animation Script -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
@@ -71,6 +74,7 @@
             /* hide toggler on lg+ */
         }
     </style>
+
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top nav-glass shadow-sm">
         <div class="container py-1 nav-grid">
@@ -79,13 +83,11 @@
             <div class="nav-left">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="@Url.Action("Index", "Home")">
                     <span class="brand-logo">
-                        <img src="~/Images/Spesh.png"
-                             alt="Logo" />
+                        <img src="~/Images/Spesh.png" alt="Logo" />
                     </span>
                     <span class="brand-text">@appName</span>
                 </a>
             </div>
-
 
             <!-- MOBILE RIGHT COLUMN: Hamburger + Auth (stacked) -->
             <div class="ms-auto d-lg-none d-flex flex-column align-items-end">
@@ -106,15 +108,17 @@
                         <a asp-controller="Auth" asp-action="Register"
                            class="btn btn-warning btn-sm px-3 fw-semibold w-100 text-center">Register</a>
                     }
-                    else if (userType == "Customer")
+                    else if (isUser)
                     {
-                        <a asp-controller="Customer" asp-action="Dashboard"
-                           class="btn btn-outline-light btn-sm px-3 fw-semibold w-100 text-center">Dashboard</a>
+                        <a asp-controller="Profile" asp-action="Index"
+                           class="btn btn-outline-light btn-sm px-3 fw-semibold w-100 text-center">
+                            Edit Profile
+                        </a>
 
                         <a asp-controller="Auth" asp-action="Logout"
                            class="btn btn-danger btn-sm px-3 fw-semibold w-100 text-center">Logout</a>
                     }
-                    else if (userType == "Admin")
+                    else if (isAdmin)
                     {
                         <a asp-controller="Admin" asp-action="Dashboard"
                            class="btn btn-outline-light btn-sm px-3 fw-semibold w-100 text-center">Dashboard</a>
@@ -133,7 +137,6 @@
                 </div>
             </div>
 
-
             <!-- CENTER: Links -->
             <div id="mainNav" class="collapse navbar-collapse justify-content-center nav-center">
                 <ul class="navbar-nav nav-pills gap-lg-2 gap-1 mt-3 mt-lg-0">
@@ -150,19 +153,18 @@
                             Shop
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link nav-link-pill" href="/About">About</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link nav-link-pill" href="#site-footer">Contact</a>
                     </li>
 
+                    
                 </ul>
             </div>
 
-            <!-- RIGHT: Auth/User -->
+            <!-- RIGHT: Auth/User (Desktop only) -->
             <div class="nav-right ms-lg-auto mt-3 mt-lg-0 d-none d-lg-flex">
                 @if (userType == null)
                 {
@@ -171,22 +173,24 @@
                         <a asp-controller="Auth" asp-action="Register" class="btn btn-warning btn-sm px-3 fw-semibold">Register</a>
                     </div>
                 }
-                else if (userType == "Customer")
+                else if (isUser)
                 {
                     <ul class="navbar-nav me-2">
                         <li class="nav-item">
-                            <a class="nav-link nav-link-pill" asp-controller="Customer" asp-action="Dashboard">Dashboard</a>
+                            <a class="nav-link nav-link-pill" asp-controller="Profile" asp-action="Index">
+                                Edit Profile
+                            </a>
                         </li>
                     </ul>
 
                     <div class="user-chip me-2">
                         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User" />
-                        <span>@userName</span>
+                        <span>@userName (@userType)</span>
                     </div>
 
                     <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger btn-sm px-3 fw-semibold">Logout</a>
                 }
-                else if (userType == "Admin")
+                else if (isAdmin)
                 {
                     <ul class="navbar-nav me-2">
                         <li class="nav-item">
@@ -215,38 +219,8 @@
                 }
             </div>
 
-
         </div>
     </nav>
-
-    <style>
-        /* 3 equal sections on lg+ */
-        @@media (min-width: 992px) {
-            .nav-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr; /* equal space */
-                align-items: center;
-            }
-
-            .nav-left {
-                justify-self: start;
-            }
-
-            .nav-center {
-                justify-self: center;
-            }
-
-            .nav-right {
-                justify-self: end;
-            }
-
-            .nav-toggle {
-                display: none;
-            }
-            /* hide toggler on lg+ */
-        }
-    </style>
-
 
     <style>
         /* ===== Navbar Base ===== */
@@ -276,7 +250,6 @@
             }
 
         .brand-text {
-            letter-spacing: .5px;
             font-family: "Poppins", "Segoe UI", sans-serif;
             font-weight: 800;
             letter-spacing: .8px;
@@ -314,17 +287,15 @@
             overflow: visible;
         }
 
-        /* Keep the glow wrapped around "Shop" in the collapsed (mobile) navbar */
         @@media (max-width: 991.98px) {
             .navbar-nav .nav-shop-glow {
                 display: inline-flex !important;
-                width: max-content !important; /* shrink to fit content */
-                align-self: center; /* keep it centered in the dropdown */
+                width: max-content !important;
+                align-self: center;
                 margin-left: auto;
                 margin-right: auto;
             }
         }
-
 
         .nav-shop-glow::before {
             content: "";
@@ -332,7 +303,7 @@
             inset: -2px;
             border-radius: 999px;
             padding: 2px;
-            background: conic-gradient( from 0deg, transparent 0deg, transparent 320deg, rgba(255,255,255,0.1) 330deg, rgba(255,255,255,1) 345deg, rgba(255,255,255,0.1) 360deg );
+            background: conic-gradient(from 0deg, transparent 0deg, transparent 320deg, rgba(255,255,255,0.1) 330deg, rgba(255,255,255,1) 345deg, rgba(255,255,255,0.1) 360deg);
             -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
@@ -373,9 +344,6 @@
             }
     </style>
 
-
-
-
     <!-- MAIN CONTENT -->
     <main class="flex-grow-1">
         @RenderBody()
@@ -386,7 +354,6 @@
         html {
             scroll-behavior: smooth;
         }
-        /* smooth jump to footer */
 
         #site-footer {
             position: relative;
@@ -416,7 +383,6 @@
                     text-decoration: underline;
                 }
 
-            /* contact badges */
             #site-footer .ct-pill {
                 display: inline-flex;
                 align-items: center;
@@ -429,7 +395,6 @@
                 font-weight: 600;
             }
 
-            /* newsletter */
             #site-footer .nl-wrap {
                 display: flex;
                 gap: .5rem;
@@ -462,7 +427,6 @@
                     filter: saturate(1.08);
                 }
 
-            /* social */
             #site-footer .social a {
                 width: 38px;
                 height: 38px;
@@ -479,7 +443,6 @@
                     background: rgba(16,185,129,.18);
                 }
 
-            /* bottom bar */
             #site-footer .foot-bottom {
                 border-top: 1px solid rgba(16,185,129,.18);
                 color: #0f5132;
@@ -489,14 +452,12 @@
     <footer id="site-footer" class="mt-5">
         <div class="container py-5">
             <div class="row g-4">
-                <!-- Brand / short blurb -->
                 <div class="col-12 col-lg-4">
                     <h5 class="footer-title">SPESH AGRO</h5>
                     <p class="mb-3" style="max-width: 420px;">
                         Fresh, lab-tested dairy & meat — delivered with care. Sustainably produced, transparently priced.
                     </p>
 
-                    <!-- quick contact pills -->
                     <div class="d-flex flex-wrap gap-2 mb-2">
                         <span class="ct-pill"><i class="bi bi-telephone"></i> +880 1XXX-XXXXXX</span>
                         <span class="ct-pill"><i class="bi bi-envelope"></i> hello@speshagro.com</span>
@@ -507,7 +468,6 @@
                     </div>
                 </div>
 
-                <!-- Quick links -->
                 <div class="col-6 col-lg-2">
                     <h6 class="footer-title">Shop</h6>
                     <ul class="list-unstyled mb-0">
@@ -519,7 +479,6 @@
                     </ul>
                 </div>
 
-                <!-- Support -->
                 <div class="col-6 col-lg-3">
                     <h6 class="footer-title">Support</h6>
                     <ul class="list-unstyled mb-0">
@@ -531,7 +490,6 @@
                     </ul>
                 </div>
 
-                <!-- Newsletter -->
                 <div class="col-12 col-lg-3">
                     <h6 class="footer-title">Newsletter</h6>
                     <p class="mb-2">Get fresh deals & new arrivals.</p>
@@ -556,18 +514,16 @@
             </div>
         </div>
 
-        <!-- bottom bar -->
         <style>
-            /* Use existing Montserrat */
             .foot-bottom .human-link {
                 text-decoration: none !important;
             }
 
             .foot-bottom .human {
                 font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-                font-weight: 800; /* bold */
-                color: #0ea5a4; /* teal */
-                font-size: 1.15rem; /* bigger on mobile */
+                font-weight: 800;
+                color: #0ea5a4;
+                font-size: 1.15rem;
                 letter-spacing: .2px;
             }
 
@@ -578,14 +534,12 @@
             }
         </style>
 
-
         <div class="foot-bottom py-3">
             <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start">
                 <small class="copy m-0">
                     © @DateTime.Now.Year SPESH AGRO. All rights reserved.
                 </small>
 
-                <!-- Made by Human — teal, bold, Rockybilly, linked, NO underline -->
                 <small class="m-0">
                     Made by
                     <a class="human-link" href="/About" aria-label="About SPESH AGRO">
@@ -594,19 +548,11 @@
                 </small>
             </div>
         </div>
-
     </footer>
 
-
-    <!-- OPTIONAL: add anchors on Shop page section titles so footer quick links work -->
-    <!-- Example in your Shop view: <h1 id="Milk" class="section-intro ...">Milk</h1> etc. -->
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Tabulator -->
     <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
-
-    <!-- XLSX Support -->
     <script src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
 
     @RenderSection("Scripts", required: false)
@@ -618,7 +564,7 @@
         // Function to animate the numbers
         const countUp = (element, target) => {
             let start = 0;
-            const duration = 2000; // Duration of animation in ms
+            const duration = 2000;
             const stepTime = Math.abs(Math.floor(duration / target));
             const interval = setInterval(() => {
                 start += 1;
@@ -627,27 +573,26 @@
             }, stepTime);
         };
 
-        // Trigger number animation on scroll
         document.addEventListener('DOMContentLoaded', function () {
             const animals = document.getElementById('animals');
             const milk = document.getElementById('milk');
             const experience = document.getElementById('experience');
             const customers = document.getElementById('customers');
 
-            // When the statistics section comes into view, animate the numbers
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        countUp(animals, 50); // 50+ Healthy Animals
-                        countUp(milk, 150); // 150L+ Milk Produced Daily
-                        countUp(experience, 20); // 20+ Years of Farming Experience
-                        countUp(customers, 300); // 300+ Satisfied Customers
-                        observer.disconnect(); // Stop watching after animation
+                        if (animals) countUp(animals, 50);
+                        if (milk) countUp(milk, 150);
+                        if (experience) countUp(experience, 20);
+                        if (customers) countUp(customers, 300);
+                        observer.disconnect();
                     }
                 });
             }, { threshold: 0.5 });
 
-            observer.observe(document.querySelector('#stats'));
+            const stats = document.querySelector('#stats');
+            if (stats) observer.observe(stats);
         });
     </script>
 

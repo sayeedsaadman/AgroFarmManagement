@@ -7,6 +7,7 @@
 
         public int AnimalId { get; set; }
         public string TagNumber { get; set; } = "";
+        public decimal WeightKg { get; set; }
 
         public decimal MilkLiters { get; set; }
 
