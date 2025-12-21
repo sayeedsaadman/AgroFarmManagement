@@ -26,5 +26,89 @@
     "Status": "Active",
     "Notes": "still on farm",
     "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 39,
+    "TagNumber": "B12 ",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 40,
+    "TagNumber": "B13",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 41,
+    "TagNumber": "B14",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 42,
+    "TagNumber": "B15",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 43,
+    "TagNumber": "B20",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 44,
+    "TagNumber": "B21",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 45,
+    "TagNumber": "B22",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 46,
+    "TagNumber": "B23",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 47,
+    "TagNumber": "B30",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 48,
+    "TagNumber": "B31",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 49,
+    "TagNumber": "B32",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
+  },
+  {
+    "AnimalId": 50,
+    "TagNumber": "B33",
+    "Status": "On Sell",
+    "Notes": "on sale",
+    "UpdatedOn": "2025-12-21"
   }
 ]

@@ -45,30 +45,206 @@
 <!-- Hello World -->
 <!-- Hello World -->
 <!-- HERO SECTION -->
-<section class="position-relative text-center text-white"
-         style="height: 90vh; background: url('https://media.sciencephoto.com/image/c0125488/800wm') center/cover no-repeat;">
+<section class="tp-hero position-relative overflow-hidden text-white"
+         style="min-height: 90vh; background: url('/Images/hero.jpg') center/cover no-repeat;"
 
-    <!-- Dark Overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100"
-         style="background: rgba(0, 0, 0, 0.55);">
+    <!-- Overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 tp-hero-overlay"></div>
+
+    <!-- Soft accent blobs (theme friendly) -->
+    <div class="position-absolute tp-blob tp-blob-1"></div>
+    <div class="position-absolute tp-blob tp-blob-2"></div>
+
+    <div class="container position-relative h-100">
+        <div class="row h-100 align-items-center">
+            <!-- Left content -->
+            <div class="col-lg-7 text-lg-start text-center py-5">
+                <span class="badge bg-success rounded-pill px-3 py-2 mb-3">
+                    Healthy Farming • Dairy • Livestock
+                </span>
+
+                <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">
+                    Welcome to <span class="tp-text-accent">SPESH AGRO</span>
+                </h1>
+
+                <p class="lead mb-4 opacity-75 animate__animated animate__fadeInUp">
+                    Buy healthy cows, bulls , calves and dairy products directly from SPESH AGRO — trusted farm care , verified health , BSTI certified
+    and easy contact for pricing and delivery.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 justify-content-lg-start justify-content-center">
+                    <a href="/Shop"
+                       class="btn btn-success btn-lg shadow-lg px-4 animate__animated animate__fadeInUp animate__delay-1s">
+                        Get Started
+                    </a>
+
+                    <a href="/About"
+                       class="btn btn-outline-light btn-lg px-4 animate__animated animate__fadeInUp animate__delay-1s">
+                        Learn More
+                    </a>
+                </div>
+
+                <!-- quick stats -->
+                <div class="row g-3 mt-4 justify-content-lg-start justify-content-center">
+                    <div class="col-6 col-md-4">
+                        <div class="tp-mini-card">
+                            <div class="tp-mini-title">Raw Meat</div>
+                            <div class="tp-mini-value">100<span class="text-danger">%</span> Halal and Fresh</div>
+
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="tp-mini-card">
+                            <div class="tp-mini-title">Milk Focus</div>
+                            <div class="tp-mini-value">Top Yield</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="tp-mini-card">
+                            <div class="tp-mini-title">Support</div>
+                            <div class="tp-mini-value">24/7 Help</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right feature card -->
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="tp-card card border-0 shadow-lg tp-glass">
+                    <div class="card-body p-4">
+    <h4 class="fw-bold mb-3">Why Buy From SPESH AGRO</h4>
+
+    <ul class="list-unstyled mb-0">
+        <li class="d-flex gap-3 align-items-start mb-3">
+            <span class="tp-icon-badge">✓</span>
+            <div>
+                <div class="fw-semibold">Healthy Animals From Our Farm</div>
+                <div class="small opacity-75">Cows , bulls & calves raised with proper care</div>
+            </div>
+        </li>
+
+        <li class="d-flex gap-3 align-items-start mb-3">
+            <span class="tp-icon-badge">✓</span>
+            <div>
+                <div class="fw-semibold">Best Quality Dairy Products</div>
+                <div class="small opacity-75">All kind of milk related prodcuts with best quality</div>
+            </div>
+        </li>
+
+        <li class="d-flex gap-3 align-items-start">
+            <span class="tp-icon-badge">✓</span>
+            <div>
+                <div class="fw-semibold">Easy Ordering & After Sales Support</div>
+                <div class="small opacity-75">Call us 24/7 for price , booking & delivery</div>
+            </div>
+        </li>
+    </ul>
+
+    <hr class="my-4 opacity-25" />
+
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <div class="small opacity-75">Browse our shop</div>
+            <div class="fw-semibold">Available Items</div>
+        </div>
+        <a href="/Shop" class="btn btn-success px-4">Shop Now</a>
     </div>
+</div>
 
-    <!-- Hero Content -->
-    <div class="position-relative d-flex flex-column justify-content-center align-items-center h-100">
-        <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">
-            Welcome to SPESH AGRO
-        </h1>
+                </div>
+            </div>
 
-        <p class="lead mb-4 animate__animated animate__fadeInUp">
-            A smarter, sustainable approach to modern farming — manage and grow your agro business effortlessly.
-        </p>
-
-        <a href="/Shop"
-           class="btn btn-success btn-lg shadow-lg animate__animated animate__fadeInUp animate__delay-1s">
-            Get Started
-        </a>
+        </div>
     </div>
 </section>
+
+<style>
+    /* Hero overlay */
+    .tp-hero-overlay {
+        background: linear-gradient(120deg, rgba(0, 0, 0, 0.70), rgba(0, 0, 0, 0.35));
+    }
+
+    /* Accent text */
+    .tp-text-accent {
+        color: #7CFFB2; /* soft green accent - can be changed to your exact theme green */
+    }
+
+    /* Decorative blobs */
+    .tp-blob {
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        filter: blur(40px);
+        opacity: 0.22;
+        pointer-events: none;
+    }
+
+    .tp-blob-1 {
+        top: -120px;
+        left: -120px;
+        background: #28a745; /* bootstrap success green */
+    }
+
+    .tp-blob-2 {
+        bottom: -140px;
+        right: -140px;
+        background: #20c997; /* green-teal accent */
+    }
+
+    /* Glass card on right */
+    .tp-glass {
+        background: rgba(255, 255, 255, 0.10);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 18px;
+        color: #fff;
+    }
+
+    /* Mini stat cards */
+    .tp-mini-card {
+        background: rgba(255, 255, 255, 0.10);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 14px;
+        padding: 12px 14px;
+        backdrop-filter: blur(8px);
+    }
+
+    .tp-mini-title {
+        font-size: 12px;
+        opacity: 0.75;
+        margin-bottom: 2px;
+    }
+
+    .tp-mini-value {
+        font-weight: 700;
+        letter-spacing: 0.2px;
+    }
+
+    /* Check icon badge */
+    .tp-icon-badge {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(40, 167, 69, 0.20);
+        border: 1px solid rgba(40, 167, 69, 0.35);
+        color: #fff;
+        flex: 0 0 30px;
+    }
+
+    /* Mobile spacing tweaks */
+    @@media (max-width: 991px) {
+        .tp-hero
+
+    {
+        min-height: 85vh;
+    }
+
+    }
+</style>
+
 
 <!-- EVERYTHING WE OFFER SECTION -->
 <section class="py-5 text-center">

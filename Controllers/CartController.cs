@@ -108,10 +108,8 @@ namespace AgroManagement.Controllers
             if (items.Count == 0)
                 return RedirectToAction(nameof(Index), new { msg = "Invoice items missing. Please purchase again." });
 
-            // ✅ Build the viewmodel for PDF
             var vm = new CartVM { Items = items };
 
-            // ✅ Use invoice time (optional: store it in session too)
             var pdfBytes = InvoicePdfHelper.BuildInvoicePdf(
                 invoiceNo,
                 username,
@@ -123,7 +121,7 @@ namespace AgroManagement.Controllers
         }
 
 
-        // Qty -
+        
         public IActionResult Decrease(string key)
         {
             var cart = CartSessionHelper.GetCart(HttpContext.Session);
@@ -171,26 +169,20 @@ namespace AgroManagement.Controllers
             if (!StockHelper.TryDecreaseStockBulk(contentRoot, req, out var error))
                 return RedirectToAction(nameof(Index), new { msg = error });
 
-            // ✅ make invoice number
             var invoiceNo = "INV-" + DateTime.UtcNow.ToString("yyyyMMddHHmmss");
 
-            // ✅ record sale (we will also store invoiceNo in Session for now)
             SalesHelper.RecordSale(contentRoot, username, cart);
 
-            // ✅ store invoice no temporarily
             HttpContext.Session.SetString("LastInvoiceNo", invoiceNo);
             HttpContext.Session.SetString("LastInvoiceDateUtc", DateTime.UtcNow.ToString("o"));
 
-            // ✅ Save items for invoice BEFORE clearing cart
             HttpContext.Session.SetString(
                 "LastInvoiceItems",
                 System.Text.Json.JsonSerializer.Serialize(cart)
             );
 
-            // Clear cart AFTER saving invoice items
             CartSessionHelper.ClearCart(HttpContext.Session);
 
-            // redirect to success page (or wherever you go)
             return RedirectToAction("PurchaseSuccess");
 
         }
