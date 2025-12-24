@@ -1,0 +1,32 @@
+﻿@model AgroManagement.Models.Employee
+@{
+    Layout = null;
+}
+
+<div class="p-2">
+    <div class="mb-2"><strong>Name:</strong> @Model.EmployeeName</div>
+    <div class="mb-2"><strong>Employee ID:</strong> @Model.EmployeeCode</div>
+    <div class="mb-2"><strong>Number:</strong> @Model.EmployeeNumber</div>
+    <div class="mb-2"><strong>Salary:</strong> @Model.Salary</div>
+    <div class="mb-2"><strong>Address:</strong> @Model.Address</div>
+
+    <hr />
+
+    <h6 class="fw-bold">Assigned Tasks</h6>
+    @if (Model.Tasks != null && Model.Tasks.Any())
+    {
+        <ul class="mb-0">
+            @foreach (var t in Model.Tasks)
+            {
+                <li>
+                    <strong>@t.TaskName</strong>
+                    on <em>@t.Animal?.Breed</em> (Tag: @t.Animal?.TagNumber)
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="text-muted">No tasks assigned</div>
+    }
+</div>

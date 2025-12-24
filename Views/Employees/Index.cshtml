@@ -1,12 +1,13 @@
-﻿@model List<AgroManagement.Models.Employee>
-@{
+﻿@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Employee Management";
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Employee Management</h2>
-        <a class="btn btn-success" asp-controller="Employees" asp-action="Create">
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h1 class="fw-bold text-success mb-0">Employee Management</h1>
+
+        <a class="btn btn-success" href="/Employees/Index?open=create">
             + Add Employee
         </a>
     </div>
@@ -16,65 +17,158 @@
         <div class="alert alert-success">@TempData["success"]</div>
     }
 
-    <table class="table table-bordered table-striped shadow-sm">
-        <thead class="table-dark">
-            <tr>
-                <th>Name</th>
-                <th>Employee ID</th>
-                <th>Employee Number</th>
-                <th>Salary</th>
-                <th>Address</th>
-                <th>Assigned Tasks</th>
-                <th style="width:160px;">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var e in Model)
-            {
-                <tr>
-                    <td>@e.EmployeeName</td>
-                    <td>@e.EmployeeCode</td>
-                    <td>@e.EmployeeNumber</td>
-                    <td>@e.Salary</td>
-                    <td>@e.Address</td>
-
-                    <td>
-                        @if (e.Tasks.Any())
-                        {
-                            <ul class="mb-0">
-                                @foreach (var t in e.Tasks)
-                                {
-                                    <li>
-                                        <strong>@t.TaskName</strong>
-                                        on <em>@t.Animal?.Breed</em>
-                                        (Tag: @t.Animal?.TagNumber)
-                                    </li>
-                                }
-                            </ul>
-                        }
-                        else
-                        {
-                            <span class="text-muted">No tasks assigned</span>
-                        }
-                    </td>
-
-                    <td class="text-center">
-                        <a asp-controller="Employees"
-                           asp-action="Edit"
-                           asp-route-id="@e.EmployeeCode"
-                           class="btn btn-sm btn-primary me-1">
-                            Edit
-                        </a>
-
-                        <a asp-controller="Employees"
-                           asp-action="Delete"
-                           asp-route-id="@e.EmployeeCode"
-                           class="btn btn-sm btn-danger">
-                            Delete
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div id="employeetable"></div>
+        </div>
+    </div>
 </div>
+
+<!-- Right Drawer (Offcanvas) -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="employeeDrawer" aria-labelledby="employeeDrawerLabel" style="width: 540px;">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="employeeDrawerLabel">Details</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" id="drawerBody">
+        <!-- Partial content will be loaded here -->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        //-------------------------------------------------------
+        // Tabulator Columns
+        //-------------------------------------------------------
+        var columns = [
+            { title: "Name", field: "employeeName", minWidth: 170, headerFilter: "input" },
+            { title: "Employee ID", field: "employeeCode", minWidth: 140, headerFilter: "input" },
+            { title: "Employee Number", field: "employeeNumber", minWidth: 160, headerFilter: "input" },
+            { title: "Salary", field: "salary", minWidth: 110, headerFilter: "input" },
+            { title: "Address", field: "address", minWidth: 190, headerFilter: "input" },
+            { title: "Tasks", field: "tasksCount", minWidth: 85, hozAlign: "center" },
+            { title: "Task Summary", field: "tasksSummary", minWidth: 260 },
+
+            {
+                title: "Actions",
+                field: "employeeCode",
+                hozAlign: "center",
+                frozen: true,
+                minWidth: 220,
+                formatter: function (cell) {
+                    let id = cell.getRow().getData().employeeCode;
+                    let html = "";
+                    html += '<button class="btn btn-sm btn-primary view-btn me-1" data-id="' + id + '">View</button>';
+                    html += '<button class="btn btn-sm btn-warning edit-btn me-1" data-id="' + id + '">Edit</button>';
+                    html += '<button class="btn btn-sm btn-danger delete-btn" data-id="' + id + '">Delete</button>';
+                    return html;
+                },
+                cellClick: function (e, cell) {
+                    var id = cell.getRow().getData().employeeCode;
+                    if (e.target.classList.contains("view-btn")) { viewEmp(id); }
+                    if (e.target.classList.contains("edit-btn")) { editEmp(id); }
+                    if (e.target.classList.contains("delete-btn")) { deleteEmp(id); }
+                }
+            }
+        ];
+
+        //-------------------------------------------------------
+        // Tabulator Setup (REMOTE)
+        //-------------------------------------------------------
+        var table = new Tabulator("#employeetable", {
+            minHeight: 300,
+            rowHeight: 40,
+            selectableRows: 1,
+            pagination: true,
+            paginationMode: "remote",
+            filterMode: "remote",
+            sortMode: "remote",
+            layout: "fitColumns",
+            paginationSize: 10,
+            paginationInitialPage: 1,
+            paginationSizeSelector: [5, 10, 25, 50, 100],
+            paginationCounter: "rows",
+
+            ajaxURL: '@Url.Action("GetEmployeeList", "Employees")',
+            ajaxConfig: "get",
+            ajaxContentType: "json",
+
+            ajaxResponse: function (url, params, response) {
+                return {
+                    data: response.data,
+                    last_page: response.last_page,
+                    page: response.current_page,
+                    totalRecords: response.recordsTotal
+                };
+            },
+
+            columns: columns,
+
+            ajaxURLGenerator: function (url, config, params) {
+                let param = encodeURIComponent(JSON.stringify(params));
+                return url + "?searchquery=" + param;
+            },
+        });
+
+        function reloadTable() {
+            if (table && table.setData) { table.setData(); }
+        }
+
+        //-------------------------------------------------------
+        // Drawer open helper
+        //-------------------------------------------------------
+        function openDrawer(url, title) {
+            $("#employeeDrawerLabel").text(title || "Details");
+            $("#drawerBody").load(url, function () {
+                if (window.jQuery && $.validator && $.validator.unobtrusive) {
+                    $.validator.unobtrusive.parse("#drawerBody");
+                }
+                var drawer = new bootstrap.Offcanvas(document.getElementById('employeeDrawer'));
+                drawer.show();
+            });
+        }
+
+        function viewEmp(id) { openDrawer(`/Employees/DetailsModal/${id}`, "Employee Details"); }
+        function editEmp(id) { openDrawer(`/Employees/EditModal/${id}`, "Edit Employee"); }
+        function deleteEmp(id) { openDrawer(`/Employees/DeleteModal/${id}`, "Delete Employee"); }
+
+        // Handle drawer form submit via AJAX (same as Animals)
+        $(document).on("submit", "#drawerBody form", function (e) {
+            e.preventDefault();
+            var $form = $(this);
+            var $btn = $form.find("#submitBtn");
+            var $spinner = $btn.find(".spinner-border");
+
+            if ($btn.length) { $btn.prop("disabled", true); $spinner.removeClass("d-none"); }
+
+            $.ajax({
+                url: $form.attr("action"),
+                type: $form.attr("method"),
+                data: $form.serialize()
+            }).done(function (res) {
+                if (typeof res === "object" && res.ok) {
+                    reloadTable();
+                    bootstrap.Offcanvas.getInstance(document.getElementById('employeeDrawer')).hide();
+                } else {
+                    $("#drawerBody").html(res);
+                    if (window.jQuery && $.validator && $.validator.unobtrusive) {
+                        $.validator.unobtrusive.parse("#drawerBody");
+                    }
+                }
+            }).always(function () {
+                if ($btn.length) { $btn.prop("disabled", false); $spinner.addClass("d-none"); }
+            });
+        });
+
+        // Auto open create drawer: /Employees/Index?open=create
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            if (params.get("open") === "create") {
+                openDrawer('/Employees/CreateModal', 'Create New Employee');
+                params.delete("open");
+                const newUrl = window.location.pathname + (params.toString() ? ("?" + params.toString()) : "");
+                window.history.replaceState({}, "", newUrl);
+            }
+        })();
+    </script>
+}

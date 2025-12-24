@@ -1,0 +1,26 @@
+﻿@model AgroManagement.Models.Employee
+@{
+    Layout = null;
+}
+
+<form asp-action="DeleteModalConfirmed" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.EmployeeCode" />
+
+    <div class="alert alert-danger">
+        Are you sure you want to delete <strong>@Model.EmployeeName</strong>?
+        <br />
+        This will also remove all tasks assigned to this employee.
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
+            Cancel
+        </button>
+
+        <button type="submit" class="btn btn-danger" id="submitBtn">
+            Delete
+            <span class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
+        </button>
+    </div>
+</form>

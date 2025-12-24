@@ -1,0 +1,212 @@
+﻿@model AgroManagement.Models.ViewModels.EmployeeCreateVM
+@{
+    Layout = null;
+    var isEdit = !string.IsNullOrWhiteSpace(Model?.EmployeeCode);
+    var animals = ViewBag.Animals as List<AgroManagement.Models.Animal>;
+    var action = isEdit ? "EditModal" : "CreateModal";
+}
+
+<form asp-action="@action" method="post" id="employeeForm">
+    @Html.AntiForgeryToken()
+
+    @if (isEdit)
+    {
+        <input type="hidden" asp-for="EmployeeCode" />
+    }
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 d-none" id="valSummary"></div>
+
+    <div class="p-3 border rounded-3 bg-light-subtle">
+        <div class="row g-3">
+
+            <div class="col-12">
+                <label class="form-label fw-medium">Employee Name</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input asp-for="EmployeeName" class="form-control" />
+                </div>
+                <span asp-validation-for="EmployeeName" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-medium">Employee ID</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                    <input asp-for="EmployeeCode" class="form-control" readonly="@(isEdit ? "readonly" : null)" />
+                </div>
+                <span asp-validation-for="EmployeeCode" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-medium">Employee Number</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                    <input asp-for="EmployeeNumber" class="form-control" />
+                </div>
+                <span asp-validation-for="EmployeeNumber" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-medium">Salary</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-cash-coin"></i></span>
+                    <input asp-for="Salary" class="form-control" />
+                </div>
+                <span asp-validation-for="Salary" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-medium">Address</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                    <input asp-for="Address" class="form-control" />
+                </div>
+                <span asp-validation-for="Address" class="text-danger small"></span>
+            </div>
+
+        </div>
+
+        <hr class="my-3" />
+
+        <h6 class="fw-bold mb-2">Assign Tasks to Animal</h6>
+
+        <div class="mb-2">
+            <label class="form-label">Select Animal</label>
+            <select asp-for="SelectedAnimalId" class="form-select" id="animalSelect">
+                <option value="">-- Select Animal --</option>
+                @if (animals != null)
+                {
+                    foreach (var a in animals)
+                    {
+                        <option value="@a.Id">@a.Breed (Tag: @a.TagNumber)</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div id="taskArea" style="display:none;">
+            <div id="taskAssignedBanner" class="alert alert-success py-2" style="display:none;">
+                Tasks Selected ✅
+            </div>
+
+            <label class="form-label">Choose Tasks</label>
+            <div id="tasksContainer" class="row g-2"></div>
+
+            <div id="noTasksMsg" class="text-muted mt-2" style="display:none;">
+                All tasks are already assigned for this animal.
+            </div>
+        </div>
+
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
+            <i class="bi bi-x-lg"></i> Cancel
+        </button>
+
+        <button type="submit" class="btn btn-success px-4" id="submitBtn">
+            <span class="btn-text">@((isEdit) ? "Save" : "Create")</span>
+            <span class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+        </button>
+    </div>
+</form>
+
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+    (function () {
+        const sum = document.getElementById("valSummary");
+        const hasErrors = document.querySelectorAll(".text-danger:not(:empty)").length > 0;
+        if (sum && hasErrors) {
+            sum.classList.remove("d-none");
+            sum.innerHTML = "<strong>Please fix the errors below.</strong>";
+        }
+
+        const isEdit = @((!string.IsNullOrWhiteSpace(Model?.EmployeeCode)).ToString().ToLower());
+        const employeeCode = "@(Model?.EmployeeCode ?? "")";
+
+        const animalSelect = document.getElementById("animalSelect");
+        const taskArea = document.getElementById("taskArea");
+        const banner = document.getElementById("taskAssignedBanner");
+        const tasksContainer = document.getElementById("tasksContainer");
+        const noTasksMsg = document.getElementById("noTasksMsg");
+
+        async function loadTasks(animalId) {
+            banner.style.display = "none";
+            tasksContainer.innerHTML = "";
+            noTasksMsg.style.display = "none";
+
+            if (!animalId) {
+                taskArea.style.display = "none";
+                return;
+            }
+
+            taskArea.style.display = "block";
+
+            // Create mode => available tasks only
+            if (!isEdit) {
+                const res = await fetch(`/Employees/GetAvailableTasks?animalId=${animalId}`);
+                const tasks = await res.json();
+
+                if (!tasks.length) {
+                    noTasksMsg.style.display = "block";
+                    return;
+                }
+
+                tasks.forEach(task => {
+                    const col = document.createElement("div");
+                    col.className = "col-md-6";
+                    col.innerHTML = `
+                        <label class="border rounded p-2 w-100 d-flex align-items-center gap-2">
+                            <input type="checkbox" name="SelectedTaskNames" value="${task}" class="taskCheck" />
+                            <span>${task}</span>
+                        </label>
+                    `;
+                    tasksContainer.appendChild(col);
+                });
+                return;
+            }
+
+            // Edit mode => include checked/disabled
+            const res = await fetch(`/Employees/GetTasksForAnimal?animalId=${animalId}&employeeCode=${encodeURIComponent(employeeCode)}`);
+            const tasks = await res.json();
+
+            if (!tasks.length) {
+                noTasksMsg.style.display = "block";
+                return;
+            }
+
+            tasks.forEach(t => {
+                const col = document.createElement("div");
+                col.className = "col-md-6";
+                col.innerHTML = `
+                    <label class="border rounded p-2 w-100 d-flex align-items-center gap-2 ${t.isDisabled ? "opacity-75" : ""}">
+                        <input type="checkbox" name="SelectedTaskNames" value="${t.name}" class="taskCheck"
+                               ${t.isChecked ? "checked" : ""} ${t.isDisabled ? "disabled" : ""} />
+                        <span>${t.name}</span>
+                    </label>
+                `;
+                tasksContainer.appendChild(col);
+            });
+
+            const anyChecked = [...document.querySelectorAll(".taskCheck")].some(c => c.checked);
+            banner.style.display = anyChecked ? "block" : "none";
+        }
+
+        animalSelect?.addEventListener("change", function () {
+            loadTasks(this.value);
+        });
+
+        document.addEventListener("change", function (e) {
+            if (e.target.classList.contains("taskCheck")) {
+                const anyChecked = [...document.querySelectorAll(".taskCheck")].some(c => c.checked);
+                banner.style.display = anyChecked ? "block" : "none";
+            }
+        });
+
+        // Auto-load tasks if edit already has SelectedAnimalId
+        if (animalSelect && animalSelect.value) {
+            loadTasks(animalSelect.value);
+        }
+    })();
+</script>
