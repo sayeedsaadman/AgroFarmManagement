@@ -310,5 +310,41 @@
     "MedicineName": "Vitamin",
     "Dose": "",
     "Notes": ""
+  },
+  {
+    "Date": "2025-12-22",
+    "AnimalId": 35,
+    "TagNumber": "B01",
+    "WeightKg": 225,
+    "MilkLiters": 1,
+    "HealthChecked": false,
+    "MedicineGiven": false,
+    "MedicineName": "None",
+    "Dose": "",
+    "Notes": ""
+  },
+  {
+    "Date": "2025-12-22",
+    "AnimalId": 36,
+    "TagNumber": "B02",
+    "WeightKg": 103,
+    "MilkLiters": 1,
+    "HealthChecked": false,
+    "MedicineGiven": false,
+    "MedicineName": "None",
+    "Dose": "",
+    "Notes": ""
+  },
+  {
+    "Date": "2025-12-22",
+    "AnimalId": 38,
+    "TagNumber": "B04",
+    "WeightKg": 666,
+    "MilkLiters": 2,
+    "HealthChecked": false,
+    "MedicineGiven": false,
+    "MedicineName": "None",
+    "Dose": "",
+    "Notes": ""
   }
 ]
