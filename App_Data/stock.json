@@ -1,5 +1,5 @@
 {
-  "milk_raw_milk": 142,
+  "milk_raw_milk": 139,
   "milk_pasteurized": 4,
   "milk_uht": 20,
   "milk_almond": 9,
@@ -13,7 +13,7 @@
   "yogurt_no_sugar_lassi": 9,
   "cheese_paneer": 10,
   "cheese_mozarella": 7,
-  "cheese_cheddar": 20,
+  "cheese_cheddar": 0,
   "cheese_cottage": 10,
   "cheese_parmigiano": 10,
   "cheese_roquefort": 90,
